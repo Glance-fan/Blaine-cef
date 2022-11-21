@@ -1,0 +1,266 @@
+.top-rect {
+    width: 300px;
+    height: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.rect-inside {
+    height: 110px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rect-inside p {
+    font-weight: 600;
+    font-size: 14px;
+    color: #BBBBBB;
+    text-align: center;
+}
+
+.changeable {
+    transition: 0.5s;
+}
+
+.changeable:hover {
+    transform: rotate(360deg);
+}
+
+.shop-selection {
+    display: flex;
+    flex-direction: row;
+}
+
+.shop-containers {
+    margin-right: 15px;
+    border-radius: 3px;
+    width: 300px;
+    height: 525px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.shop-containers::-webkit-scrollbar {
+    width: 4px;
+    background: #2F2F2F;
+    border-radius: 16px;
+}
+
+.shop-containers::-webkit-scrollbar-thumb {
+    background: linear-gradient(225.72deg, #C81212 0%, #851717 100%);
+    border-radius: 16px;
+}
+
+
+.blur-gray {
+    background: linear-gradient(268.24deg, rgba(34, 34, 34, 0.8) 0.37%, rgba(41, 41, 41, 0.8) 53.3%, rgba(34, 34, 34, 0.8) 100%);
+}
+
+.dark-gray {
+    background: linear-gradient(250.85deg, #303030 5.14%, #414141 52.26%, #303030 92.13%) 0% 0% / 300% 100%;
+}
+
+.dark-gray:hover {
+    animation: 5s ease 0s infinite normal none running selected;
+}
+
+.shop-left-side {
+    height: 870px;
+    position: absolute;
+    left: 20px;
+    top: calc(50% - 435px);
+}
+
+.shop-right-side {
+    position: absolute;
+    right: 20px;
+    top: calc(50% - 435px);
+}
+
+.shop-menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    width: 300px;
+}
+
+.shop-menu-left div {
+    color: white;
+    width: 180px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.shop-menu-left p {
+    margin-top: 10px;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.shop-menu-left div:first-child {
+    margin-bottom: 10px
+}
+
+.shop-menu-right button {
+    border: 0;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+}
+
+#shop-cash,
+#shop-bank,
+#shop-quit {
+    border-radius: 3px;
+}
+
+.shop-help {
+    position: absolute;
+    bottom: 0;
+    white-space: nowrap;
+    font-weight: 600;
+    font-size: 14px;
+    color: white;
+}
+
+#shop-quit:active {
+    background: linear-gradient(225.72deg, #303030 0%, #303030 100%);
+}
+
+.shop-containers>div>div {
+    display: none;
+    height: 525px;
+}
+
+.shop-nav-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.shop-nav-elem {
+    width: 75px;
+    height: 75px;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 15px 15px 0;
+}
+
+.shop-choice {
+    width: 300px;
+    height: 39px;
+    color: #BBBBBB;
+    font-weight: 600;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.shop-choice:hover {
+    color: #DDDDDD;
+}
+
+.shop-search-block {
+    display: none;
+    align-items: center;
+    width: 300px;
+    height: 40px;
+}
+
+.shop-search-block svg {
+    margin: 0 15px;
+}
+
+.shop-search-block input {
+    height: 100%;
+    width: 100%;
+    outline: none;
+    border: none;
+    background: none;
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.shop-search-block input::placeholder {
+    font-weight: 600;
+    font-size: 12px;
+    color: #BBBBBB;
+}
+
+.shop-veh-rect {
+    width: 300px;
+    height: 400px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #BBBBBB;
+    text-align: center;
+}
+
+.shop-colorpicker {
+    visibility: hidden;
+    width: 300px;
+    height: 260px;
+}
+
+.shop-colorpicker>div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.shop-colorpicker span{
+    padding: 20px 0 30px 0;
+}
+
+.shop-colorpicker>div:last-child span{
+    padding: 30px 0;
+}
+
+.shop-colorpicker input {
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+}
+
+.shop-colorpicker input::-webkit-color-swatch{
+    border-radius: 50%;
+    border: 3px solid #373737;
+}
+
+.shop-selected {
+    background: linear-gradient(225.72deg, #C81212 0%, #851717 100%) 0% 0% / 300% 100%;
+    animation: 5s ease 0s infinite normal none running selected;
+}
+
+.shop-veh-rect svg {
+    width: 30px;
+    height: 30px;
+}
+
+.shop-veh-rect div:first-child {
+    padding: 10px 0;
+}
+
+.shop-veh-rect div {
+    padding: 5px 0;
+}

@@ -1,0 +1,70 @@
+.notification-container {
+  position: absolute;
+  bottom: 34px;
+  left: calc(50% - 200px);
+  z-index: 9999;
+}
+
+.notification {
+  color: white;
+  width: 400px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  background: rgba(22, 22, 22, 0.75);
+  opacity: 0;
+  transition: .7s;
+}
+
+.notification>div:first-child {
+  margin-top: 15px;
+}
+
+
+.notification:not(:last-child) {
+  margin-bottom: 0.75rem;
+}
+
+.notification-message {
+  max-width: 335px;
+  margin: 10px 15px 10px 0;
+}
+
+.notific-gray-text {
+  font-size: 14px;
+  font-weight: 400;
+  color: #C6C6C6;
+}
+
+.notific-icon {
+  margin: 0 10px 0 10px;
+}
+
+.notific-choice {
+  display: flex;
+  justify-content: center;
+}
+
+.notific-choice-wrapper {
+  display: flex;
+  width: 260px;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.notific-choice-wrapper>div {
+  display: flex;
+  align-items: center;
+}
+
+.notific-choice-btn {
+  color: #222222;
+  font-weight: 700;
+  width: 25px;
+  height: 25px;
+  background: #FFFFFF;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

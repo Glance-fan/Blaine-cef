@@ -1,0 +1,94 @@
+#passengers-interaction {
+    z-index: 100;
+    width: 600px;
+    height: 460px;
+    position: relative;
+}
+
+#passengers-interaction>div:first-child {
+    background: linear-gradient(268.24deg, #222222 0.37%, #292929 53.3%, #222222 100%);
+    box-shadow: 10.3472px 11.4969px 72.4307px rgba(0, 0, 0, 0.24);
+    border-radius: 30px;
+    height: 120px;
+    width: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#passengers-interaction>div:last-child {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(268.24deg, rgba(34, 34, 34, 0.98) 0.37%, rgba(41, 41, 41, 0.98) 53.3%, rgba(34, 34, 34, 0.98) 100%);
+    box-shadow: 10.3472px 11.4969px 72.4307px rgba(0, 0, 0, 0.24);
+    border-radius: 0px 0px 30px 30px;
+    height: 400px;
+    width: inherit;
+    position: absolute;
+    bottom: 0;
+    z-index: -1;
+}
+
+.passengers-wrapper {
+    width: 425px;
+    position: absolute;
+    top: calc(50% - 120px);
+    left: calc(50% - 212.5px);
+}
+
+#passengers-container {
+    height: 200px;
+    width: inherit;
+    border-radius: 5px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+#passengers-container > div{
+    background: linear-gradient(265.48deg, #282828 2.73%, rgba(44, 44, 44, 0.515625) 48.56%, #282828 97.34%);
+}
+
+#passengers-container::-webkit-scrollbar {
+    width: 10px;
+    background: #2F2F2F;
+    border-radius: 16px;
+}
+
+#passengers-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(225.72deg, #C81212 0%, #851717 100%);
+    border-radius: 16px;
+}
+
+.passengers-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 35px;
+}
+
+.passengers-buttons button {
+    width: 125px;
+    height: 35px;
+    font-weight: 500;
+    font-size: 12px;
+    border-radius: 3px;
+}
+
+.passengers-elem {
+    border-radius: 5px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 14px;
+    text-align: center;
+    color: #FFFFFF;
+    background: linear-gradient(250.85deg, #303030 5.14%, #414141 52.26%, #303030 92.13%) 0% 0% / 300% 100%; 
+}
+
+.passengers-elem:hover {
+    animation: 5s ease 0s infinite normal none running selected;
+}
+
+.passengers-selected{
+    background: linear-gradient(225.72deg, #C81212 0%, #851717 100%) 0% 0% / 300% 100%;
+    animation: 5s ease 0s infinite normal none running selected;
+}

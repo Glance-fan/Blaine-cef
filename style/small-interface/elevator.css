@@ -1,0 +1,108 @@
+#elevator {
+    width: 600px;
+    height: 460px;
+    position: relative;
+    color: white;
+    top: calc(50% - 230px);
+    left: calc(50% - 300px);
+}
+
+#elevator>div:first-child {
+    background: linear-gradient(268.24deg, #222222 0.37%, #292929 53.3%, #222222 100%);
+    box-shadow: 10.3472px 11.4969px 72.4307px rgba(0, 0, 0, 0.24);
+    border-radius: 30px;
+    width: 600px;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 18px;
+    position: absolute;
+    z-index: 1;
+}
+
+#elevator>div:first-child svg {
+    width: 35px;
+    height: 35px;
+}
+
+#elevator>div:last-child {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(268.24deg, rgba(34, 34, 34, 0.98) 0.37%, rgba(41, 41, 41, 0.98) 53.3%, rgba(34, 34, 34, 0.98) 100%);
+    box-shadow: 10.3472px 11.4969px 72.4307px rgba(0, 0, 0, 0.24);
+    border-radius: 0px 0px 30px 30px;
+    width: 600px;
+    height: 400px;
+    position: absolute;
+    bottom: 0;
+    z-index: 0;
+}
+
+#elevator-wrapper {
+    height: 300px;
+    width: 200px;
+    position: absolute;
+    left: calc(50% - 100px);
+    top: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#elevator-wrapper>div:first-child {
+    height: 40px;
+    font-weight: 800;
+    font-size: 32px;
+}
+
+#elevator-container {
+    height: 200px;
+    width: 200px;
+    background: linear-gradient(265.48deg, #282828 2.73%, rgba(44, 44, 44, 0.515625) 48.56%, #282828 97.34%);
+    border-radius: 10px;
+}
+
+.elevator-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.elevator-row>div {
+    width: 50px;
+    height: 50px;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.elevator-row>div:hover{
+    background: linear-gradient(225.72deg, #C81212 0%, #851717 100%) 0% 0% / 300% 100%;
+    animation: 5s ease 0s infinite normal none running selected;
+    
+}
+
+.elevator-row>div:active {
+    background: linear-gradient(225.72deg, #7d0d0d 0%, #7d0d0d 100%);
+}
+
+.elevator-row svg {
+    height: 25px;
+    width: 25px;
+    /* margin-right: 10px; */
+}
+
+#elevator button {
+    width: 100px;
+    height: 35px;
+    font-weight: 500;
+    font-size: 12px;
+    border-radius: 3px;
+    visibility: hidden;
+}

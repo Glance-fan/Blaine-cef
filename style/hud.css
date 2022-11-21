@@ -1,0 +1,400 @@
+/*top*/
+#hud-top {
+    color: white;
+    position: absolute;
+    right: 25px;
+    top: 15px;
+}
+
+.hud-logo-block {
+    width: 110px;
+    height: 115px;
+    text-align: center;
+}
+
+
+.hud-logo-block img {
+    width: 104px;
+    height: 80px;
+}
+
+.logo-text-block {
+    font-family: 'Roboto';
+    font-weight: 400;
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.left-ltb {
+    text-align: left;
+}
+
+.right-ltb {
+    text-align: right;
+}
+
+.player-online {
+    display: flex;
+    align-items: center;
+}
+
+#hud-time {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/*quest*/
+#hud-quest {
+    width: 160px;
+    height: 105px;
+    display: flex;
+    position: absolute;
+    right: 0;
+}
+
+.hud-quest-content {
+    font-family: 'Montserrat';
+    font-style: normal;
+    color: white;
+    width: 155px;
+    background: rgba(22, 22, 22, 0.7);
+    border-radius: 10px 0px 0px 10px;
+}
+
+.hud-quest-line {
+    height: inherit;
+    width: 5px;
+    background: linear-gradient(225deg, #C81212 0%, #851717 100%) 0% 0% / 100% 300%;
+    animation: 5s ease 0s infinite normal none running selected-reverse;
+}
+
+@keyframes selected-reverse{
+    0% {
+        background-position: 0 100%;
+    }
+
+    50% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 0 100%;
+    }
+}
+
+.hud-quest-top {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    margin-top: 5px;
+}
+
+.hud-quest-text {
+    font-weight: 500;
+    font-size: 12px;
+}
+
+.hud-quest-extra-text {
+    font-weight: 400;
+    font-size: 10px;
+}
+
+.hud-quest-headline {
+    font-weight: 300;
+    font-size: 12px;
+}
+
+.hud-quest-middle {
+    text-align: left;
+    margin-top: 5px;
+    margin-left: 10px;
+    height: 30px;
+}
+
+.hud-quest-bottom {
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.hud-quest-bottom svg {
+    opacity: 0.7;
+}
+
+.hud-quest-bottom svg:hover {
+    opacity: 1;
+}
+
+/*help*/
+#hud-help {
+    position: absolute;
+    top: calc(50% - 155px);
+    right: 25px;
+    font-family: Montserrat;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.hud-help-row {
+    width: 80px;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 5px;
+}
+
+.hud-help-img-block {
+    width: 53px;
+    height: 40px;
+    background: #222222;
+    border-radius: 9px 0px 0px 9px;
+    display: flex;
+    align-items: center;
+}
+
+.hud-help-img-wrapper {
+    width: 40px;
+    text-align: center;
+}
+
+.hud-help-text-block {
+    position: absolute;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(225deg, #C81212 0%, #851717 100%) 0% 0% / 300% 100%;
+    animation: 10s ease 0s infinite normal none running selected;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+}
+
+/*Speedometer*/
+#speedometer {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+#spd-canvas {
+    position: absolute;
+}
+
+.speed-vars-wrapper {
+    width: 225px;
+    height: 225px;
+    background: rgba(34, 34, 34, 0.7);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.speed-vars {
+    width: 95px;
+}
+
+.speed p {
+    font-family: Roboto;
+    font-style: italic;
+    font-weight: 300;
+}
+
+.speed-conditions {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.speed-conditions svg {
+    opacity: 0.4;
+}
+
+.spd-fuel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    justify-content: center;
+    height: 18px;
+    font-family: 'Roboto';
+    font-style: italic;
+}
+
+.spd-fuel span {
+    font-size: 15px;
+    color: white;
+    padding-left: 5px;
+}
+
+.mileage {
+    white-space: nowrap;
+    font-size: 14px;
+    max-height: 30px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#speed-first,
+#speed-second,
+#speed-third {
+    font-size: 50px;
+    color: #595959;
+}
+
+/*left*/
+#hud-left {
+    font-weight: 500;
+    font-size: 14px;
+    color: white;
+    position: absolute;
+}
+
+.hud-left-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.hud-states-wrapper svg {
+    margin-right: 10px;
+    display: none;
+}
+
+.hl-money {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 155px;
+    height: 70px;
+    background: rgba(22, 22, 22, 0.7);
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.hl-money svg{
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.hl-money>div {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.hl-location {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 155px;
+    height: 45px;
+    background: rgba(22, 22, 22, 0.7);
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.hl-location>div {
+    margin-left: 10px;
+    font-size: 12px;
+
+}
+
+#hud-street {
+    font-weight: 600;
+}
+
+#hud-city {
+    font-weight: 500;
+    font-size: 10px;
+    color: #D5D4D4;
+}
+
+.hl-ammo {
+    display: none;
+    align-items: center;
+    width: 70px;
+    height: 45px;
+    background: rgba(22, 22, 22, 0.7);
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+#hud-ammo {
+    width: 20px;
+    text-align: center;
+}
+
+/*interact*/
+#hud-interact {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    font-weight: 600;
+    font-size: 16px;
+    color: white;
+    white-space: nowrap;
+}
+
+.hud-interact-btn {
+    color: black;
+    width: 25px;
+    height: 25px;
+    background: #FFFFFF;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+
+/*menu*/
+#hud-menu {
+    position: absolute;
+    width: fit-content;
+    background: rgba(22, 22, 22, 0.7);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 10px;
+    user-select: none;
+}
+
+#hud-menu span {
+    pointer-events: all;
+    font-weight: 500;
+    font-size: 14px;
+    color: #fff;
+    width: 100%;
+    text-align: center;
+    padding: 5px 10px;
+}
+
+#hud-menu span:hover {
+    background: rgba(22, 22, 22, 0.35);
+}
+
+#hud-menu span:first-child {
+    padding-top: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#hud-menu span:last-child {
+    padding-bottom: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}

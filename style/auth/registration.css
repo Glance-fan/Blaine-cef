@@ -1,0 +1,118 @@
+.registration-block {
+    width: 480px;
+    height: 610px;
+    position: absolute;
+    left: calc(50% - 240px);
+    top: calc(50% - 305px);
+}
+
+.confirm {
+    opacity: 0.3;
+    width: 409px;
+    position: absolute;
+    left: 35px;
+    bottom: 99px;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.confirm p {
+    max-width: 306px;
+}
+
+.confirm svg {
+    position: absolute;
+    right: 0px;
+    outline: none;
+}
+
+.reg-panel {
+    z-index: 1;
+    width: 480px;
+    height: 610px;
+    background: linear-gradient(268.24deg, #222222 0.37%, #292929 53.3%, #222222 100%);
+    border-radius: 11px;
+}
+
+.rules-block {
+    z-index: 0;
+    display: none;
+    position: absolute;
+    right: 0px;
+    width: 640px;
+    height: 610px;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(268.24deg, #222222 0.37%, #292929 53.3%, #222222 100%);
+    border-radius: 5px;
+}
+
+.rules-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: absolute;
+    top: 10px;
+    left: 40px;
+    width: 585px;
+}
+
+.rules-bottom {
+    position: absolute;
+    bottom: 45px;
+    right: 18px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.rules-bottom label {
+    font-weight: 500;
+    font-size: 12px;
+    margin-right: 10px;
+}
+
+.auth-checked {
+    transition: 0.5s;
+    fill: #851717;
+}
+
+.rules-text {
+    line-height: 134.4%;
+    position: absolute;
+    top: 80px;
+    left: 40px;
+    height: 450px;
+    width: 570px;
+    overflow-y: scroll;
+    padding-right: 10px;
+}
+
+.rules-text::-webkit-scrollbar {
+    width: 4px;
+    background: #2B2B2B;
+    border-radius: 14px;
+}
+
+.rules-text::-webkit-scrollbar-thumb {
+    background: linear-gradient(225.72deg, #C81212 0%, #851717 100%);
+    border-radius: 14px;
+}
+
+.rules-text h1 {
+    font-weight: 500;
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.rules-text p {
+    font-weight: 300;
+    font-size: 12px;
+    margin: 0;
+}

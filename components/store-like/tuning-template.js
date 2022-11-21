@@ -1,0 +1,24 @@
+vue_app.component('tuning-template', {
+    mounted: async function () {
+        await include_source(scripts.tuning);
+        tuning_tmpl = document.querySelector('#tuning');
+        // resizeBigger(blips_tmpl);
+        onRenderFinished('tuning');
+    },
+    unmounted: function () {
+        remove_source(scripts.tuning);
+        tuning_tmpl = null;
+        switchTemplate(false, 'tuning')
+    },
+    template: /*html*/ `
+    <div id="tuning">
+        <div id="tuning-left-side">
+            <div class="tuning-bg"></div>
+            <div id="tuning-left-scrollable">
+                <div class="tuning-bg"></div>
+            </div>
+            <div class="tuning-bg"></div>
+        </div>
+        <div></div>    
+    </div>`
+})

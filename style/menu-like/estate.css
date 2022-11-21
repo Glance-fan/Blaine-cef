@@ -1,0 +1,203 @@
+#estate {
+    width: 600px;
+    height: 460px;
+    position: relative;
+    color: white;
+    top: calc(50% - 230px);
+    left: calc(50% - 300px);
+}
+
+#estate>div:first-child {
+    background: linear-gradient(268.24deg, #222222 0.37%, #292929 53.3%, #222222 100%);
+    box-shadow: 10.3472px 11.4969px 72.4307px rgba(0, 0, 0, 0.24);
+    border-radius: 30px;
+    width: 600px;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 18px;
+    position: absolute;
+    z-index: 1;
+}
+
+#estate>div:first-child svg {
+    width: 35px;
+    height: 35px;
+}
+
+#estate>div:last-child {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(268.24deg, rgba(34, 34, 34, 0.98) 0.37%, rgba(41, 41, 41, 0.98) 53.3%, rgba(34, 34, 34, 0.98) 100%);
+    box-shadow: 10.3472px 11.4969px 72.4307px rgba(0, 0, 0, 0.24);
+    border-radius: 0px 0px 30px 30px;
+    width: 600px;
+    height: 400px;
+    position: absolute;
+    bottom: 0;
+    z-index: 0;
+}
+
+#estate-wrapper {
+    width: 425px;
+    height: 290px;
+    position: absolute;
+    left: calc(50% - 212.5px);
+    top: 85px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    line-height: 17px;
+}
+
+#estate-wrapper-top {
+    font-weight: 500;
+    height: 50px;
+    text-align: center;
+}
+
+#estate-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    background: linear-gradient(265.48deg, #282828 2.73%, rgba(44, 44, 44, 0.515625) 48.56%, #282828 97.34%);
+    border-radius: 5px;
+    overflow-y: hidden;
+}
+
+#estate-container::-webkit-scrollbar {
+    height: 10px;
+    background: #2F2F2F;
+    border-radius: 16px;
+}
+
+#estate-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(225.72deg, #C81212 0%, #851717 100%);
+    border-radius: 16px;
+}
+
+#estate-container>div:first-child {
+    margin-left: 20px;
+}
+
+#estate-container>div:last-child {
+    margin-right: 20px;
+    align-items: flex-end;
+}
+
+#estate-container>div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+
+}
+
+#estate-buttons {
+    width: 100%;
+    margin-top: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+#estate button {
+    width: 100px;
+    height: 35px;
+    font-weight: 500;
+    font-size: 12px;
+    border-radius: 3px;
+}
+
+#estate-price-input {
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    visibility: hidden;
+}
+
+#estate-price-input>div {
+    width: 117px;
+    height: 17px;
+    border-radius: 3px;
+    padding: 4px;
+    font-weight: 600;
+    display: flex;
+    background: linear-gradient(250.85deg, #303030 5.14%, #414141 52.26%, #303030 92.13%) 0% 0% / 300% 100%;
+}
+
+#estate-price-input input {
+    font-family: 'Montserrat';
+    font-weight: 600;
+    background: none;
+    outline: none;
+    border: none;
+    color: white;
+    padding-left: 4px;
+    font-size: 14px;
+    width: 100px;
+}
+
+#estate-container>h1:first-child {
+    margin-left: 30px;
+}
+
+#estate-container>h1:last-child {
+    margin-right: 30px;
+}
+
+.estate-sell-elem {
+    width: 160px;
+    height: 95px;
+    padding: 5px 0;
+    border-radius: 5px;
+    min-width: 160px;
+    margin-right: 45px;
+    background: linear-gradient(250.85deg, #303030 5.14%, #414141 52.26%, #303030 92.13%) 0% 0% / 300% 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.estate-sell-elem:hover {
+    animation: 5s ease 0s infinite normal none running selected
+}
+
+.estate-sell-elem svg {
+    width: 20px;
+    height: 20px;
+    padding: 0 10px;
+}
+
+.estate-sell-elem>div {
+    display: flex;
+    align-items: center;
+    line-height: 12px;
+}
+
+.sellelem-text-1 {
+    font-weight: 500;
+    font-size: 12px;
+}
+
+.sellelem-text-2 {
+    font-weight: 300;
+    font-size: 12px;
+    color: #D5D4D4;
+}
+
+.sellelem-text-1 span {
+    padding-left:5px
+}
+
+.estate-selected{
+    background: linear-gradient(225.72deg, #C81212 0%, #851717 100%) 0% 0% / 300% 100%;
+    animation: 5s ease 0s infinite normal none running selected;
+}
+

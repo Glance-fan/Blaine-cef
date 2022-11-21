@@ -1,0 +1,327 @@
+.inventory-wrapper {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), linear-gradient(266.47deg, rgba(34, 34, 34, 0.4) 0%, rgba(41, 41, 41, 0.4) 0.01%, rgba(200, 18, 18, 0.22) 100%);
+    box-shadow: 10.3472px 11.4969px 72.4307px rgba(0, 0, 0, 0.24);
+    user-select: none;
+}
+
+.inventory-wrapper p {
+    margin: 0;
+}
+
+.inventory-wrapper h1 {
+    margin: 0;
+    padding: 0;
+    font-weight: 800;
+    width: fit-content;
+}
+
+.weight {
+    font-weight: 800;
+    width: 500px;
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.actual-weight {
+    padding-right: 5px;
+    font-size: 18px;
+}
+
+.max-weight {
+    font-size: 14px;
+    color: #A5A5A5;
+}
+
+.h1-text {
+    font-size: 18px;
+    text-transform: uppercase;
+}
+
+.underline {
+    margin-bottom: 10px;
+    height: 2px;
+    background: rgba(200, 18, 18, 0.9);
+    transition: .5s;
+}
+
+.inv-help {
+    position: absolute;
+    left: 50px;
+    bottom: 50px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #EDEDED;
+}
+
+.inv-part {
+    color: white;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+}
+
+.upper-inventory {
+    height: 434px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.lower-inventory {
+    height: 236px;
+    width: 1015px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+#inv-weapon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.inv-bag,
+.crate-bag {
+    width: 505px;
+}
+
+.inv-bag>*,
+.crate-bag>* {
+    display: none;
+}
+
+
+.player-slots {
+    display: flex;
+    flex-direction: column;
+    margin-right: 50px;
+}
+
+#crate-crate-container {
+    height: 403px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#crate-crate-container::-webkit-scrollbar {
+    width: 10px;
+    background: #2F2F2F;
+    border-radius: 16px;
+}
+
+#crate-crate-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(225.72deg, #B71F1F 0%, #851717 100%);
+    border-radius: 16px;
+}
+
+.trade {
+    flex-direction: row;
+}
+
+.trade h1 {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+}
+
+
+.trade input {
+    background: rgba(34, 34, 34, 0.9);
+    border-radius: 0px 5px 5px 0px;
+    width: 80px;
+    padding: 0;
+    outline: none;
+    color: white;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    border: 0;
+}
+
+.snip1135 a {
+    position: relative;
+    text-decoration: none;
+}
+
+.snip1135 a:before,
+.snip1135 a:after {
+    position: absolute;
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease;
+}
+
+.snip1135 a:before {
+    bottom: -2px;
+    left: 0;
+    display: block;
+    height: 2px;
+    width: 0%;
+    content: "";
+    background: linear-gradient(225.72deg, #C81212 0%, #9c1010 100%);
+}
+
+.snip1135 a:after {
+    left: 0;
+    top: 0;
+    padding: 0.5em 0;
+    position: absolute;
+    color: #ffffff;
+    white-space: nowrap;
+    max-width: 0%;
+    overflow: hidden;
+}
+
+.snip1135 a:hover:before,
+.snip1135 .current a:before {
+    opacity: 1;
+    width: 100%;
+}
+
+.snip1135 a:hover:after,
+.snip1135 .current a:after {
+    max-width: 100%;
+}
+
+.tradeable {
+    display: flex;
+    flex-direction: column;
+}
+
+.trade-money {
+    display: flex;
+    height: 30px;
+    width: 94px;
+    border: 1px solid rgba(101, 101, 101, 0.9);
+    border-radius: 5px;
+    transition: .3s;
+}
+
+.trade-usd {
+    border-radius: 5px 0px 0px 5px;
+    background: rgba(34, 34, 34, 0.9);
+    font-family: 'Montserrat';
+    font-weight: 600;
+    font-size: 12px;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding-left: 6px;
+}
+
+
+#trade-property-container {
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: rgba(34, 34, 34, 0.9);
+    border: 1px solid rgba(101, 101, 101, 0.9);
+    border-radius: 5px;
+    display: none;
+    width: 498px;
+    height: 398px;
+}
+
+#trade-property-container::-webkit-scrollbar {
+    width: 10px;
+    background: #2F2F2F;
+    border-radius: 16px;
+}
+
+#trade-property-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(225.72deg, #B71F1F 0%, #851717 100%);
+    border-radius: 16px;
+}
+
+.trade-property-elem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-weight: 700;
+    font-size: 12px;
+    color: white;
+    margin: 20px 0 0 20px;
+}
+
+.trade-property-elem:last-child {
+    margin-bottom: 20px;
+}
+
+.tradeable-property-wrapper {
+    padding-left: 10px;
+    height: 100%;
+    overflow: auto;
+    pointer-events: all;
+}
+
+.tradeable-property-wrapper p {
+    margin: 3px 0;
+    font-size: 12px;
+    font-weight: 600;
+    height: 15px;
+}
+
+.tradeable-property-wrapper::-webkit-scrollbar {
+    width: 10px;
+    background: #2F2F2F;
+    border-radius: 16px;
+}
+
+.tradeable-property-wrapper::-webkit-scrollbar-thumb {
+    background: linear-gradient(225.72deg, #B71F1F 0%, #851717 100%);
+    border-radius: 16px;
+}
+
+.trade-checkbox {
+    width: 16px;
+    height: 16px;
+    border: 1px solid rgba(101, 101, 101, 0.9);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.trade-big-checkbox {
+    background: rgba(34, 34, 34, 0.9);
+    margin-right: 10px;
+    width: 24px;
+    height: 24px;
+}
+
+.trade-checkbox-selected {
+    background: linear-gradient(225.72deg, #C81212 0%, #851717 100%) 0% 0% / 300% 100%;
+    animation: 5s ease 0s infinite normal none running selected;
+    border: 1px solid rgba(255, 255, 255, 0.9);
+}
+
+#trade-ready {
+    color: white;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#trade-agree {
+    display: flex;
+    align-items: center;
+}
+
+#trade-btn {
+    width: 200px;
+    height: 50px;
+    font-weight: 600;
+    font-size: 16px;
+    border-radius: 4px;
+    opacity: 0;
+    transition: .3s;
+}

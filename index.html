@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="libs/fonts/Montserrat.css">
+    <link rel="stylesheet" href="libs/fonts/Roboto.css">
+    <link rel="stylesheet" href="libs/fonts/Sofia.css">
+    <script src="libs/frameworks/vue.js"></script>
+    <script src="libs/frameworks/vue-color.js"></script>
+    <script src="libs/frameworks/keycodes.js"></script>
+    <script src="libs/frameworks/chart.js"></script>
+    <script src="libs/js-database/general.js"></script>
+    <script src="libs/svgs/hud.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.3.3/math.min.js" integrity="sha512-AZlpUxTyDgo/Ne1TyeXv345mwyAKh646DnZSsEt0GAF7aSFWu94UjCBcgm+yqKyH/6g9boKAzIEMO+wEGc6mJQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><script src='https://cdn.plot.ly/plotly-2.16.1.min.js'></script> -->
+</head>
+
+<!-- oncontextmenu="return false" -->
+
+<body onload="resizeAll()" onresize="resizeAll()">
+    <!-- <script src="test.js"></script> -->
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            background: url('bg.jpg');
+            margin: 0;
+            user-select: none;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        a {
+            outline: none
+        }
+
+        #vue_app {
+            font-family: 'Montserrat';
+            height: 100%;
+        }
+
+        button {
+            font-family: 'Montserrat';
+            border: 0;
+            outline: none;
+            color: white;
+        }
+
+        .red-button {
+            background: linear-gradient(225.72deg, #C81212 0%, #851717 100%) 0% 0% / 300% 100%;
+            animation: 5s ease 0s infinite normal none running selected;
+        }
+
+        .red-button:hover {
+            box-shadow: inset 0 0 20px rgb(133 23 23 / 80%);
+        }
+
+        .red-button:active {
+            background: linear-gradient(225.72deg, #7d0d0d 0%, #7d0d0d 100%);
+        }
+
+        .grey-button {
+            background: linear-gradient(250.85deg, #303030 5.14%, #414141 52.26%, #303030 92.13%) 0% 0% / 300% 100%;
+        }
+
+        .grey-button:hover {
+            animation: 5s ease 0s infinite normal none running selected;
+        }
+
+        .grey-button:active {
+            background: linear-gradient(225.72deg, #2a2a2a 0%, #2a2a2a 100%);
+        }
+
+        .close-template {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .close-template svg {
+            width: 25px;
+            height: 25px;
+        }
+
+        .colorpicker {
+            border: 3px solid #373737;
+            background: #FFFFFF;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+        }
+
+        @keyframes selected {
+            0% {
+                background-position: 100% 0;
+            }
+
+            50% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 100% 0;
+            }
+        }
+    </style>
+    <div id="vue_app">
+        <colorpicker-template v-if="render.colorpicker"></colorpicker-template>
+        <chat-template v-show="show.chat" v-if="render.chat"></chat-template>
+        <notifications-template v-show="show.notifications" v-if="render.notifications"></notifications-template>
+        <login-template v-show="show.login" v-if="render.login"></login-template>
+        <reg-template v-show="show.reg" v-if="render.reg"></reg-template>
+        <char-select-template v-show="show.char_selection" v-if="render.char_selection"></char-select-template>
+        <start-place-template v-show="show.start_place" v-if="render.start_place"></start-place-template>
+        <creation-template v-show="show.char_creation" v-if="render.char_creation"></creation-template>
+        <div v-if="render.hud">
+            <hud-top-template v-show="show.hud_top"></hud-top-template>
+            <hud-quest-template v-show="show.hud_quest"></hud-quest-template>
+            <hud-help-template v-show="show.hud_help"></hud-help-template>
+            <speedometer-template v-show="show.hud_spd"></speedometer-template>
+            <hud-interact-template v-show="show.hud_interact"></hud-interact-template>
+            <hud-menu-template v-show="show.hud_menu"></hud-menu-template>
+            <hud-left-template v-show="show.hud_left"></hud-left-template>
+        </div>
+        <interaction-template
+            v-show="show.char_interaction || show.ov_interaction || show.iv_interaction || show.pass_interaction"
+            v-if="render.interaction"></interaction-template>
+        <menu-template v-show="show.menu" v-if="render.menu"></menu-template>
+        <menu-bank-template v-show="show.menu_bank" v-if="render.menu_bank"></menu-bank-template>
+        <menu-biz-template v-show="show.menu_biz" v-if="render.menu_biz"></menu-biz-template>
+        <menu-garage-template v-show="show.menu_gar" v-if="render.menu_gar"></menu-garage-template>
+        <menu-home-template v-show="show.menu_home" v-if="render.menu_home"></menu-home-template>
+        <actionbox-template v-show="show.actionbox" v-if="render.actionbox"></actionbox-template>
+        <inventory-template v-show="show.inventory || show.crates_inventory || show.trade" v-if="render.full_inventory">
+        </inventory-template>
+        <shop-template v-show="show.shop" v-if="render.shop"></shop-template>
+        <retail-template v-show="show.retail" v-if="render.retail"></retail-template>
+        <death-template v-show="show.death" v-if="render.death"></death-template>
+        <documents-template v-show="show.docs" v-if="render.docs"></documents-template>
+        <npc-template v-show="show.npc" v-if="render.npc"></npc-template>
+        <animations-template v-show="show.anims" v-if="render.anims"></animations-template>
+        <estate-template v-show="show.estate" v-if="render.estate"></estate-template>
+        <estate-agency-template v-show="show.est_agency" v-if="render.est_agency"></estate-agency-template>
+        <elevator-template v-show="show.elevator" v-if="render.elevator"></elevator-template>
+        <car-maintenance-template v-show="show.car_maint" v-if="render.car_maint"></car-maintenance-template>
+        <blips-template v-show="show.blips" v-if="render.blips"></blips-template>
+        <tuning-template v-show="show.tuning" v-if="render.tuning"></tuning-template>
+        <atm-template v-show="show.atm" v-if="render.atm"></atm-template>
+    </div>
+
+    <!-- Import App -->
+    <script src="./main.js"></script>
+
+    <!-- Import Components -->
+    <!-- AUTH -->
+    <script src="./components/auth/login-template.js"></script>
+    <script src="./components/auth/reg-template.js"></script>
+    <script src="./components/auth/char-selection-template.js"></script>
+    <script src="./components/auth/start-place-template.js"></script>
+    <!-- HUD -->
+    <script src="./components/hud/hud-top-template.js"></script>
+    <script src="./components/hud/hud-quest-template.js"></script>
+    <script src="./components/hud/hud-help-template.js"></script>
+    <script src="./components/hud/speedometer-template.js"></script>
+    <script src="./components/hud/hud-interact-template.js"></script>
+    <script src="./components/hud/hud-menu-template.js"></script>
+    <script src="./components/hud/hud-left-template.js"></script>
+    <!-- MENU-LIKE -->
+    <script src="./components/menu-like/animations-template.js"></script>
+    <script src="./components/menu-like/blips-template.js"></script>
+    <script src="./components/menu-like/car-maintenance-template.js"></script>
+    <script src="./components/menu-like/estate-agency-template.js"></script>
+    <script src="./components/menu-like/estate-template.js"></script>
+    <script src="./components/menu-like/menu-bank-template.js"></script>
+    <script src="./components/menu-like/menu-biz-template.js"></script>
+    <script src="./components/menu-like/menu-garage-template.js"></script>
+    <script src="./components/menu-like/menu-home-template.js"></script>
+    <script src="./components/menu-like/menu-template.js"></script>
+    <!-- SMALL-INTERFACE -->
+    <script src="./components/small-interface/actionbox-template.js"></script>
+    <script src="./components/small-interface/atm-template.js"></script>
+    <script src="./components/small-interface/death-template.js"></script>
+    <script src="./components/small-interface/documents-template.js"></script>
+    <script src="./components/small-interface/elevator-template.js"></script>
+    <script src="./components/small-interface/notifications-template.js"></script>
+    <script src="./components/small-interface/npc-template.js"></script>
+    <script src="./components/colorpicker-template.js"></script>
+    <!-- STORE-LIKE -->
+    <script src="./components/store-like/creation-template.js"></script>
+    <script src="./components/store-like/shop-template.js"></script>
+    <script src="./components/store-like/retail-template.js"></script>
+    <script src="./components/store-like/tuning-template.js"></script>
+    <!-- NO CATEGORY -->
+    <script src="./components/chat-template.js"></script>
+    <script src="./components/interaction-template.js"></script>
+    <script src="./components/inventory-template.js"></script>
+    <script>
+        const mountedApp = vue_app.mount('#vue_app')
+    </script>
+</body>
+
+</html>

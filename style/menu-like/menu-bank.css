@@ -1,0 +1,433 @@
+#menu-bank {
+    position: absolute;
+    top: calc(50% - 325px);
+    left: calc(50% - 555px);
+    height: 650px;
+    width: 1110px;
+    color: white;
+}
+
+#menu-bank button {
+    width: 100px;
+    height: 35px;
+    border-radius: 3px;
+    font-weight: 500;
+    font-size: 12px;
+}
+
+#menu-bank>div:first-child {
+    z-index: 1;
+    position: absolute;
+    left: 0px;
+    width: 235px;
+    height: 650px;
+    background: linear-gradient(268.24deg, #222222 0.37%, #292929 53.3%, #222222 100%);
+    box-shadow: 10.3472px 11.4969px 72.4307px rgba(0, 0, 0, 0.24);
+    border-radius: 30px;
+}
+
+#menu-bank>div:last-child {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(268.24deg, rgba(34, 34, 34, 0.98) 0.37%, rgba(41, 41, 41, 0.98) 53.3%, rgba(34, 34, 34, 0.98) 100%);
+    box-shadow: 10.3472px 11.4969px 72.4307px rgba(0, 0, 0, 0.24);
+    border-radius: 0px 30px 30px 0px;
+    width: 905px;
+    height: 650px;
+    position: absolute;
+    right: 0;
+    z-index: 0;
+}
+
+#menu-bank-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+#menu-bank-title svg {
+    width: 35px;
+    height: 35px;
+    margin: 60px 20px 20px 20px;
+}
+
+.menu-bank-options>div {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.menu-bank-options svg {
+    margin: 20px 20px 20px 45px;
+    width: 20px;
+    height: 20px;
+}
+
+.menu-bank-line a {
+    display: flex;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.7);
+    position: relative;
+    text-decoration: none;
+}
+
+.menu-bank-line a:hover {
+    color: white;
+}
+
+.menu-bank-line a:before,
+.menu-bank-line a:after {
+    position: absolute;
+    -webkit-transition: all 0.35s ease;
+    transition: all 0.35s ease;
+}
+
+.menu-bank-line a:before {
+    display: block;
+    height: 0%;
+    width: 7px;
+    content: "";
+    background: linear-gradient(225.72deg, #C81212 0%, #9c1010 100%);
+}
+
+.menu-bank-line a:after {
+    left: 0;
+    top: 0;
+    padding: 0.5em 0;
+    position: absolute;
+    color: #ffffff;
+    white-space: nowrap;
+    max-width: 0%;
+    overflow: hidden;
+}
+
+.menu-bank-line a:hover:before,
+.menu-bank-line .current a:before {
+    opacity: 1;
+    height: 100%;
+}
+
+.menu-bank-line a:hover:after,
+.menu-bank-line .current a:after {
+    max-height: 45px;
+}
+
+.menu-bank-options>div:not(:first-child) {
+    margin-top: 15px;
+}
+
+#menu-bank>div:last-child>div:not(:first-child) {
+    display: none;
+    margin: 55px 0 0 80px;
+    width: 775px;
+    justify-content: space-between;
+}
+
+.menubank-section {
+    background: linear-gradient(265.48deg, #282828 2.73%, rgba(44, 44, 44, 0.515625) 48.56%, #282828 97.34%);
+    border-radius: 5px;
+}
+
+#menubank-0-content-0,
+#menubank-0-content-0>div:first-child,
+#menubank-debet-info,
+#menubank-0-content-1,
+#menubank-1-content-0,
+#menubank-1-content-0>div:first-child,
+#menubank-savings-info,
+#menubank-1-content-1,
+#menubank-2-content-0,
+#menubank-2-content-1,
+#menubank-tariffs-info,
+#menubank-tariffs-info>div:first-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#menubank-0-content-0 {
+    width: 425px;
+    height: 475px;
+}
+
+#menubank-0-content-0>div:first-child {
+    width: 425px;
+    height: 280px;
+    font-size: 14px;
+}
+
+#menubank-0-content-0>div:last-child,
+#menubank-1-content-0>div:last-child {
+    font-size: 12px;
+    font-weight: 400;
+    color: #868686;
+    text-align: center;
+}
+
+#menubank-debet-info {
+    height: 200px;
+    width: 385px;
+    padding: 25px 20px;
+    font-weight: 500;
+}
+
+#menubank-debet-info>div,
+#menubank-savings-info>div,
+#menubank-tariffs-info>div>div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    font-size: 14px;
+}
+
+#menubank-debet-info span,
+#menubank-savings-info span,
+#menubank-tariffs-info span {
+    font-weight: 700;
+}
+
+#menubank-0-content-1 {
+    height: 575px;
+    font-size: 14px;
+}
+
+#menubank-0-content-1>div:nth-child(even),
+#menubank-1-content-1>div:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#menubank-0-content-1>div:nth-child(2),
+#menubank-1-content-1>div:nth-child(2) {
+    width: 225px;
+    height: 120px;
+    padding: 65px 40px;
+}
+
+#menubank-0-content-1>div:nth-child(4) {
+    width: 125px;
+    height: 190px;
+    padding: 30px 90px;
+}
+
+#menubank-1-content-0 {
+    width: 425px;
+    height: 560px;
+}
+
+#menubank-1-content-0>div:first-child {
+    width: 425px;
+    height: 440px;
+}
+
+#menubank-savings-info {
+    height: 360px;
+    width: 385px;
+    padding: 25px 20px;
+    font-weight: 500;
+}
+
+#menubank-savings-info>div:last-child {
+    text-align: center;
+    color: #868686;
+    font-size: 12px;
+    font-weight: 400;
+    justify-content: center;
+}
+
+#menubank-1-content-1 {
+    width: 305px;
+    height: 280px;
+    font-size: 14px;
+}
+
+#menubank-2-content-0 {
+    height: 510px;
+}
+
+#menubank-tariffs-scrollable {
+    width: 330px;
+    height: 480px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#menubank-tariffs-scrollable::-webkit-scrollbar {
+    width: 10px;
+    background: #2F2F2F;
+    border-radius: 16px;
+}
+
+#menubank-tariffs-scrollable::-webkit-scrollbar-thumb {
+    background: linear-gradient(225.72deg, #C81212 0%, #851717 100%);
+    border-radius: 16px;
+}
+
+#menubank-tariffs-container {
+    width: 250px;
+    padding: 5px 32.5px;
+}
+
+.menubank-tariffs-elem:not(:first-child) {
+    margin-top: 10px;
+}
+
+.menubank-tariffs-elem {
+    width: 210px;
+    height: 130px;
+    border-radius: 10px;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+.menubank-tariffs-elem:hover {
+    animation: 5s ease 0s infinite normal none running selected;
+}
+
+.menubank-tariffs-elem>div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.menubank-tariffs-elem img {
+    width: 64px;
+    height: 40px;
+}
+
+.menubank-tariffs-elem svg {
+    width: 50px;
+    height: 50px;
+}
+
+#menubank-2-content-1 {
+    width: 425px;
+    height: 510px;
+    visibility: hidden;
+}
+
+#menubank-tariffs-info {
+    height: 385px;
+    width: 385px;
+    padding: 25px 20px 70px 20px;
+}
+
+.menubank-buttons-block {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    visibility: hidden;
+}
+
+.menubank-input-block {
+    width: 117px;
+    height: 17px;
+    padding: 4px;
+    font-weight: 600;
+    font-size: 14px;
+    background: linear-gradient(250.85deg, #303030 5.14%, #414141 52.26%, #303030 92.13%) 0% 0% / 300% 100%;
+    display: flex;
+    align-items: center;
+    border-radius: 3px;
+}
+
+.menubank-input-block input {
+    color: white;
+    font-family: 'Montserrat';
+    font-weight: 600;
+    font-size: 14px;
+    padding-left: 6px;
+    width: 105px;
+    border: 0;
+    outline: none;
+    background: none;
+}
+
+.menubank-input-block:hover {
+    animation: 5s ease 0s infinite normal none running selected;
+}
+
+.menubank-checkbox {
+    display: inline-block;
+    height: 17px;
+    line-height: 17px;
+    vertical-align: middle;
+    user-select: none;
+}
+
+.menubank-checkbox .menubank-checkbox-switch {
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    width: 43px;
+    height: 17px;
+    border-radius: 25%/50%;
+    vertical-align: top;
+    background: #303030;
+    transition: .2s;
+}
+
+.menubank-checkbox .menubank-checkbox-switch:before {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: white;
+    transition: .15s;
+}
+
+.menubank-checkbox input[type=checkbox] {
+    display: block;
+    width: 0;
+    height: 0;
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+
+.menubank-checkbox input[type=checkbox]:checked+.menubank-checkbox-switch {
+    background: linear-gradient(86.42deg, #C81212 0%, #851717 100%);
+    background-size: 300% 100%;
+    animation: selected-gradient 5s ease infinite;
+}
+
+.menubank-checkbox input[type=checkbox]:checked+.menubank-checkbox-switch:before {
+    transform: translateX(27px);
+}
+
+.menubank-tariffs-type-0 {
+    background: linear-gradient(250.85deg, #303030 5.14%, #414141 52.26%, #303030 92.13%) 0% 0% / 300% 100%;
+}
+
+.menubank-tariffs-type-1 {
+    background: linear-gradient(250.85deg, #1B2B53 5.14%, #395EBA 50.62%, #3B63C8 92.13%) 0% 0% / 300% 100%;
+}
+
+.menubank-tariffs-type-2 {
+    background: linear-gradient(250.85deg, #9D7E18 5.14%, #C2AC65 50.62%, #D4AF37 92.13%) 0% 0% / 300% 100%;
+}
+
+/* .menubank-tariffs-type-N {
+    background: linear-gradient(X) 0% 0% / 300% 100%;
+}*/
+
+/*ALL TYPES BEFORE THIS*/
+.menubank-tariffs-selected {
+    background: linear-gradient(225.72deg, #C81212 0%, #851717 100%) 0% 0% / 300% 100%;
+    animation: 5s ease 0s infinite normal none running selected;
+}

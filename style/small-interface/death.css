@@ -1,0 +1,41 @@
+.death-container {
+  font-family: 'Montserrat';
+  font-weight: 600;
+  width: 525px;
+  position: absolute;
+  left: calc(50% - 262.5px);
+  display: flex;
+  justify-content: space-between;
+}
+
+.death-container p {
+  margin: 20px;
+}
+
+.death-container div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 20px;
+  color: white;
+}
+
+.death-container button {
+  border-radius: 7px;
+  width: 200px;
+  height: 60px;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.death-container button:last-child {
+  background: linear-gradient(225deg, #3748DF 0%, #1B7D9B 100%)0% 0% / 300% 100%;
+}
+
+.death-container button:last-child:hover {
+  animation: 5s ease 0s infinite normal none running selected;
+}
+
+.death-container button:last-child:active {
+  background: linear-gradient(225.72deg, #3748DF 0%, #3748DF 100%);
+}

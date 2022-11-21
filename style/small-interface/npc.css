@@ -1,0 +1,28 @@
+#NPC-container {
+    width: 515px;
+    font-weight: 700;
+    font-size: 18px;
+    word-wrap: break-word;
+    color: white;
+    background: rgba(22, 22, 22, 0.75);
+    padding: 30px;
+    border-radius: 10px;
+    position: absolute;
+    left: calc(50% - 257.5px);
+    bottom: 34px;
+}
+
+#NPC-container button {
+    white-space: nowrap;
+    padding: 10px;
+    height: 35px;
+    font-weight: 500;
+    font-size: 14px;
+    border-radius: 3px;
+}
+
+.npc-btn-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}

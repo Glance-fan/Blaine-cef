@@ -1,0 +1,260 @@
+#chat-hideable {
+  transition: 1s;
+}
+
+.showChatInput {
+  opacity: 1;
+  user-select: auto;
+}
+
+.hideChatInput {
+  opacity: 0;
+  user-select: none;
+  pointer-events: none;
+}
+
+.chat {
+  position: absolute;
+  top: 11px;
+  left: 24px;
+  width: 493px;
+  height: 422px;
+}
+
+/*Left bottom commands*/
+.commands-wrapper {
+  position: absolute;
+  bottom: 35px;
+  left: -3px;
+  width: 219px;
+  height: 27px;
+}
+
+.command-block {
+  width: 51px;
+  height: 27px;
+  background: rgba(22, 22, 22, 0.7);
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+}
+
+.command-block span {
+  font-style: normal;
+  font-weight: normal;
+  color: white;
+  font-size: 10px;
+  line-height: 12px;
+  width: 100%;
+  text-align: center;
+  user-select: none;
+  pointer-events: none;
+}
+
+/*Right bottom channels*/
+.channel-wrapper {
+  position: absolute;
+  bottom: 0px;
+  right: 3px;
+  width: 153px;
+  height: 60px;
+}
+
+.left-channel {
+  width: 81px;
+  height: 27px;
+  background: rgba(22, 22, 22, 0.7);
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+}
+
+.right-channel {
+  width: 69px;
+  height: 27px;
+  background: rgba(22, 22, 22, 0.7);
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+}
+
+.right-channel span,
+.left-channel span {
+  font-style: normal;
+  font-weight: normal;
+  color: white;
+  font-size: 10px;
+  line-height: 12px;
+  width: 100%;
+  text-align: center;
+  user-select: none;
+}
+
+/*div + input message blocks*/
+#chat-message {
+  position: absolute;
+  bottom: 70px;
+  right: 30px;
+  background: rgba(22, 22, 22, 0.7);
+  border-radius: 0 0px 0px 0;
+  width: 373.4107131958008px;
+  height: 55px;
+  padding-left: 5px;
+  border: 0;
+  outline: none;
+  font-style: normal;
+  font-weight: 400;
+  color: white;
+  font-size: 16px;
+}
+
+#chat-message::placeholder {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  color: #6B7887;
+  font-size: 14px;
+  line-height: 17px;
+  user-select: none;
+}
+
+.chat-type {
+  background: rgba(22, 22, 22, 0.7);
+  border-radius: 5px 0 0 5px;
+  width: fit-content;
+  height: 57px;
+  position: absolute;
+  bottom: 70px;
+  left: 0px;
+  display: flex;
+  align-items: center;
+  text-shadow: 1px 1px 1.5px #000;
+}
+
+.chat-type span {
+  margin-left: 10px;
+  margin-right: 5px;
+  font-style: normal;
+  font-weight: 400;
+  color: white;
+  font-size: 16px;
+  text-align: center;
+  user-select: none;
+}
+
+.send-arrow-wrapper {
+  position: absolute;
+  bottom: 70px;
+  right: 0px;
+  width: 30px;
+  height: 57px;
+  background: rgba(22, 22, 22, 0.7);
+  border-radius: 0 5px 5px 0;
+  display: flex;
+  align-items: center;
+}
+
+/*The actual chat design*/
+.chat-wrapper {
+  height: 276px;
+  display: table-cell;
+  vertical-align: bottom;
+}
+
+.chat-container {
+  max-height: 276px;
+  width: 800px;
+  overflow: auto;
+  overflow-x: hidden;
+  outline: none;
+}
+
+.sent-message {
+  width: 800px;
+  height: fit-content;
+  margin-top: 10px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+
+.sent-message svg:hover{
+  filter: drop-shadow(0px 0px 9px rgba(255, 255, 255, 1));
+}
+
+/*Text desings*/
+.sent-message {
+  font-style: normal;
+  font-size: 14px;
+  font-weight: 600;
+  text-shadow: 1px 1px 1.5px #000;
+}
+
+.normal-text {
+  color: white;
+}
+
+.nonrp-text {
+  color: #CBCBCB;
+}
+
+.action-text {
+  color: #B773D8;
+}
+
+.success-text {
+  color: #71C564;
+  margin-left: 4px;
+}
+
+.defeat-text {
+  color: #C55858;
+  margin-left: 4px;
+}
+
+.fraction-text {
+  color: #1A3BED;
+}
+
+.goverment-text {
+  color: #EED241;
+}
+
+.organisation-text {
+  color: #23E6F2;
+}
+
+.red-text {
+  color: #EE4141;
+}
+
+/*lines designs*/
+.special-line {
+  background: #EE4141;
+  border-radius: 6px;
+  width: 2px;
+  margin-right: 9px;
+}
+
+.ad-line {
+  background: #41EE67;
+  border-radius: 6px;
+  width: 2px;
+  margin-right: 9px;
+}
+
+.gov-line {
+  background: #EED241;
+  border-radius: 6px;
+  width: 2px;
+  margin-right: 9px;
+}
+
+::-webkit-scrollbar {
+  background: rgba(0, 0, 0, 0);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0);
+}

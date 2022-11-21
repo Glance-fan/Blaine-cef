@@ -1,0 +1,50 @@
+.tuning-bg {
+    background: linear-gradient(268.24deg, rgba(34, 34, 34, 0.8) 0.37%, rgba(41, 41, 41, 0.8) 53.3%, rgba(34, 34, 34, 0.8) 100%);
+    border-radius: 3px;
+}
+
+#tuning-left-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 735px;
+    width: 305px;
+    align-items: flex-end;
+}
+
+#tuning-left-side>div:first-child {
+    width: 300px;
+    height: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#tuning-left-scrollable {
+    width: 305px;
+    height: 525px;
+    direction: rtl;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#tuning-left-scrollable>div{
+    width: 300px;
+    height: 100%;
+}
+
+#tuning-left-scrollable::-webkit-scrollbar {
+    width: 4px;
+    background: #2F2F2F;
+    border-radius: 16px;
+}
+
+#tuning-left-scrollable::-webkit-scrollbar-thumb {
+    background: linear-gradient(225.72deg, #C81212 0%, #851717 100%);
+    border-radius: 16px;
+}
+
+#tuning-left-side>div:nth-child(3) {
+    width: 300px;
+    height: 40px;
+}

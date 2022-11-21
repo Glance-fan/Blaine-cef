@@ -1,0 +1,263 @@
+.character-selection {
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    width: 1330px;
+    top: calc(50% - 290px);
+    left: calc(50% - 665px);
+}
+
+.auth-left-panel {
+    height: 580px;
+    width: 950px;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(268.24deg, #222222 0.37%, #292929 53.3%, #222222 100%);
+    border-radius: 11px;
+}
+
+.auth-left-panel-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    width: 870px;
+    height: 60px;
+}
+
+.char-reg-date {
+    font-weight: 400;
+    text-align: right;
+    position: absolute;
+    right: 200px;
+}
+
+.user {
+    position: absolute;
+    right: 0px;
+    background: linear-gradient(250deg, #303030, #414141, #303030, #414141);
+    border-radius: 5px;
+    background-size: 300% 100%;
+    animation: user-gradient 3s ease infinite;
+    height: 60px;
+    width: 180px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+@keyframes user-gradient {
+    0% {
+        background-position: 100% 0;
+    }
+
+    100% {
+        background-position: 0 0;
+    }
+}
+
+.user-text {
+    text-align: right;
+    position: absolute;
+    right: 70px;
+}
+
+.user svg {
+    position: absolute;
+    right: 15px;
+}
+
+.select-option {
+    height: 435px;
+    width: 870px;
+    position: absolute;
+    top: 100px;
+    left: 30px;
+    display: flex;
+    flex-direction: row;
+}
+
+.char-choice {
+    height: 100%;
+    width: 270px;
+    background: #282828;
+    transition: 0.3s;
+}
+
+.char-selected {
+    background: #B71F1F4D;
+}
+
+.char-clicked {
+    background: linear-gradient(250deg, #851717, #C81212, #851717);
+    background-size: 300% 100%;
+    animation: selected 5s ease infinite;
+}
+
+.char-name {
+    display: none;
+    position: absolute;
+    bottom: 15px;
+    margin-left: 20px;
+}
+
+.char-name svg {
+    margin-right: 9px;
+}
+
+.pic-wrapper {
+    position: absolute;
+    margin-left: 39px;
+    top: 10px;
+    height: 360px;
+    width: 200px;
+}
+
+.pic-wrapper img {
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.no-char-wrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.no-char-wrapper svg {
+    margin-bottom: 20px;
+}
+
+.no-char-text {
+    font-weight: 400;
+    font-size: 18px;
+    color: #787878;
+}
+
+.auth-right-panel {
+    position: absolute;
+    right: 0px;
+    width: 400px;
+    height: 580px;
+    background: linear-gradient(268.24deg, #222222 0.37%, #292929 53.3%, #222222 100%);
+    border-radius: 11px;
+}
+
+.auth-right-panel-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: absolute;
+    top: 30px;
+    left: 24px;
+    width: 352px;
+}
+
+.char-line {
+    background: linear-gradient(225.72deg, #C81212 0%, #9c1010 100%);
+    box-shadow: 0px 4px 7px rgba(163, 28, 28, 0.42);
+    width: 3px;
+    margin-right: 3px;
+}
+
+.settings {
+    position: absolute;
+    right: 0px;
+    transition: 1s;
+}
+
+.settings:hover {
+    transform: rotate(180deg);
+}
+
+.full-info {
+    position: absolute;
+    left: 24px;
+    top: 100px;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.char-info {
+    display: none;
+}
+
+.char-info div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.char-info svg {
+    margin-right: 15px;
+    width: 20px;
+}
+
+.headline {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+#alive {
+    font-weight: 500;
+    font-size: 12px;
+    color: #B71F1F;
+}
+
+.CID {
+    font-weight: 700;
+    font-size: 15px;
+    margin-right: 6px;
+}
+
+.auth-play {
+    position: absolute;
+    left: calc(50% - 179px);
+    bottom: 45px;
+    width: 358px;
+    height: 62px;
+}
+
+.create-info {
+    display: none;
+}
+
+.free {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    white-space: nowrap;
+    width: 352px;
+    height: 350px;
+}
+
+.ban-info {
+    display: none;
+    margin-top: 25px;
+}
+
+.ban-top-text {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.ban-bottom-text {
+    display: flex;
+    flex-direction: row;
+    margin-top: 25px;
+}
+
+.ban-bottom-text div {
+    margin-right: 30px;
+}
+
+.ban-bottom-text p {
+    margin-top: 10px;
+}

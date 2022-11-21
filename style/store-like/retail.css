@@ -1,0 +1,322 @@
+#retail {
+    position: absolute;
+    top: calc(50% - 325px);
+    left: calc(50% - 555px);
+    height: 650px;
+    width: 1110px;
+    color: white;
+}
+
+.retail-left-side {
+    z-index: 1;
+    position: absolute;
+    left: 0px;
+    width: 235px;
+    height: 100%;
+    background: linear-gradient(268.24deg, #222222 0.37%, #292929 53.3%, #222222 100%);
+    box-shadow: 10.3472px 11.4969px 72.4307px rgba(0, 0, 0, 0.24);
+    border-radius: 30px;
+}
+
+.retail-left-side svg {
+    margin: 20px;
+}
+
+.retail-name {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.retail-name svg {
+    margin-top: 60px;
+}
+
+.retail-options>div {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.retail-options a:hover {
+    color: white;
+}
+
+.retail-options svg {
+    margin-left: 45px;
+    width: 20px;
+    height: 20px;
+}
+
+.retail-right-side {
+    z-index: 0;
+    position: absolute;
+    right: 0px;
+    width: 905px;
+    height: 100%;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(268.24deg, rgba(34, 34, 34, 0.98) 0.37%, rgba(41, 41, 41, 0.98) 53.3%, rgba(34, 34, 34, 0.98) 100%);
+    box-shadow: 10.3472px 11.4969px 72.4307px rgba(0, 0, 0, 0.24);
+    border-radius: 0px 30px 30px 0px;
+}
+
+.assortment-wrapper h1 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.assortment-wrapper {
+    margin: 55px 0 0 80px;
+    width: 775px;
+    height: 575px;
+}
+
+.current-assortment {
+    display: flex;
+    align-items: center;
+    height: 480px;
+    margin: 15px 0;
+    background: linear-gradient(265.48deg, #282828 2.73%, rgba(44, 44, 44, 0.515625) 48.56%, #282828 97.34%);
+    border-radius: 5px;
+}
+
+.scrollable-assortment {
+    width: 775px;
+    height: 365px;
+    overflow: auto;
+    z-index: 1;
+}
+
+.scrollbar-bg {
+    position: absolute;
+    right: 50px;
+    height: 480px;
+    width: 10px;
+    background: #2F2F2F;
+    border-radius: 16px;
+    z-index: 0;
+}
+
+.scrollable-assortment::-webkit-scrollbar {
+    width: 10px;
+}
+
+.scrollable-assortment::-webkit-scrollbar-thumb {
+    background: linear-gradient(86.42deg, #C81212 0%, #851717 100%);
+    border-radius: 16px;
+}
+
+.scrollable-assortment::-webkit-scrollbar-track {
+    margin-top: -58px;
+    margin-bottom: -58px;
+}
+
+.assortment-row {
+    display: flex;
+}
+
+.assortment-elem {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 160px;
+    height: 105px;
+    margin-left: 25px;
+    background: linear-gradient(250.85deg, #303030 5.14%, #414141 52.26%, #303030 92.13%) 0% 0% / 300% 100%;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.assortment-elem span:first-child {
+    height: 27px;
+    margin-top: 3px;
+}
+
+.assortment-elem span:last-child {
+    display: flex;
+    align-items: flex-end;
+    height: 27px;
+    margin-bottom: 3px;
+}
+
+
+.assortment-elem:hover {
+    animation: 5s ease 0s infinite normal none running selected;
+}
+
+.assortment-elem svg {
+    width: 45px;
+    height: 45px;
+}
+
+
+.bottom-assortment {
+    display: none;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: 14px;
+    height: 50px;
+}
+
+.bottom-assortment input {
+    background: #303030;
+    font-family: 'Montserrat';
+    border-radius: 3px;
+    width: 43px;
+    height: 25px;
+    border: 0;
+    outline: 0;
+    padding: 0;
+    margin: 0 10px;
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+}
+
+.bottom-assortment>div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.retail-btn {
+    width: 80px;
+    height: 30px;
+    border-radius: 3px;
+}
+
+.assortment-clicked {
+    background: linear-gradient(225.72deg, #C81212 0%, #851717 100%) 0% 0% / 300% 100%;
+    animation: 5s ease 0s infinite normal none running selected;
+}
+
+.retail-tooltip {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    backdrop-filter: blur(4px);
+}
+
+.retail-tooltip-block {
+    word-wrap: break-word;
+    line-height: 12px;
+    font-size: 12px;
+    border-radius: 5px;
+    width: 140px;
+    height: fit-content;
+    padding: 10px 15px;
+    background: linear-gradient(264.65deg, rgba(63, 63, 63, 0.5) 12.34%, rgba(44, 44, 44, 0.5) 53.29%, rgba(63, 63, 63, 0.5) 96.87%);
+}
+
+.retail-tooltip-arrow {
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    width: 14px;
+    height: 16px;
+    background-image: linear-gradient(264.65deg, rgba(63, 63, 63, 0.5) 12.34%, rgba(44, 44, 44, 0.5) 53.29%, rgba(63, 63, 63, 0.5) 96.87%);
+    transform: rotate(-90deg);
+}
+
+.retail-line a {
+    display: flex;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.7);
+    position: relative;
+    text-decoration: none;
+}
+
+.retail-line a:before,
+.retail-line a:after {
+    position: absolute;
+    -webkit-transition: all 0.35s ease;
+    transition: all 0.35s ease;
+}
+
+.retail-line a:before {
+    display: block;
+    height: 0%;
+    width: 7px;
+    content: "";
+    background: linear-gradient(225.72deg, #C81212 0%, #9c1010 100%);
+}
+
+.retail-line a:after {
+    left: 0;
+    top: 0;
+    padding: 0.5em 0;
+    position: absolute;
+    color: #ffffff;
+    white-space: nowrap;
+    max-width: 0%;
+    overflow: hidden;
+}
+
+.retail-line a:hover:before,
+.retail-line .current a:before {
+    opacity: 1;
+    height: 90%;
+}
+
+.retail-line a:hover:after,
+.retail-line .current a:after {
+    max-height: 50px;
+}
+
+.retail-wear {
+    width: 90px;
+    height: 30px;
+    font-weight: 700;
+    font-size: 10px;
+    border: 0;
+    padding: 0;
+    outline: none;
+    color: white;
+    border-radius: 3px;
+    background: linear-gradient(250.85deg, #303030 5.14%, #414141 52.26%, #303030 92.13%) 0% 0% / 300% 100%;
+}
+
+.retail-wear:hover {
+    animation: 5s ease 0s infinite normal none running selected;
+}
+
+#retail-personal-cost {
+    width: 108px;
+    margin: 0;
+    text-align: left;
+    padding: 0;
+    border-radius: 0px 3px 3px 0px;
+}
+
+.retail-usd {
+    border-radius: 3px 0px 0px 3px;
+    background: #303030;
+    font-weight: 600;
+    font-size: 14px;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0px 6px;
+}
+
+.personal-accept{
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.personal-accept {
+    width: 120px;
+    height: 30px;
+    font-weight: 600;
+    font-size: 12px;
+    border-radius: 3px;
+}
