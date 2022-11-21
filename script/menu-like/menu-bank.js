@@ -1,18 +1,38 @@
 var MenuBank = class MenuBank {
+    static cur_tarrif = null;
+    //data = [cur_tarrif, debet_bal, savings_bal, savings_toggle]
     static draw(data) {
-        this.drawNavigation();
-        this.drawDebet(data[0]);
-        this.drawSavings(data[1]);
-        this.drawTariffs(data[2])
+        if (data) {
+            this.drawNavigation();
+            this.setTarrif(...data)
+        } else this.drawNavigation(true);
+        this.drawTariffs(this.tariffTypes)
+    }
+
+    static setTarrif(tarrif_idx, debet_bal, savings_bal, savings_toggle) {
+        if (this.cur_tarrif != null) {
+            debet_bal = this.setDebetInfo(1, null, true);
+            savings_bal = this.setSavingsInfo(1, null, true);
+            savings_toggle = menubank_tmpl.querySelector(`input[type="checkbox"]`).checked;
+        }
+        this.drawDebet(tarrif_idx, debet_bal);
+        this.drawSavings(tarrif_idx, savings_bal, savings_toggle);
+        this.cur_tarrif = tarrif_idx;
     }
 
     static selectOption(index) {
         document.getElementById(`menubank-${index}`).click();
     }
 
-    static drawNavigation() {
+    static drawNavigation(no_tariff) {
         document.querySelector('#menu-bank-title').innerHTML = menubank_nav[0][0] + menubank_nav[0][1];
-        for (var index = 1; index < menubank_nav.length; index++) {
+        document.querySelector('.menu-bank-options').innerHTML = '';
+        if (no_tariff) drawOption(menubank_nav.length - 1)
+        else
+            for (var index = 1; index < menubank_nav.length; index++)
+                drawOption(index)
+
+        function drawOption(index) {
             var opt = document.createElement('div');
             opt.innerHTML = /*html*/ `
                 <a id="menubank-${index - 1}" onclick="MenuBank.navigate(this)" href="#">${menubank_nav[index][0]} ${menubank_nav[index][1]}</a>`
@@ -31,12 +51,33 @@ var MenuBank = class MenuBank {
         opt.style.color = 'white';
         document.getElementById(`${opt.id}-container`).style.display = 'flex';
         this.lastNav = opt;
+        if (opt.id == 'menubank-2') this.ontariff(document.querySelector('.menubank-tariffs-elem'))
     }
 
 
+    static tariffTypes = [
+        [ //D - appear on debet tab, S - appear on savings tab, P - appear on purchase tab
+            `menubank-tariffs-type-0`, //P background
+            `standart`, //P name наименование на карточке
+            `Базовый`, //D+S+P name_rus наименование на интерфейсе
+            25000, //P cost стоимость тарифа 
+            1000000, //S+P maxbal макс. баланс сберегательного счета
+            10000, //D+P limit лимит на операцию
+            5, //D+P cashback кэшбек с покупки
+            5000, //D+P maxcashback макс. кэшбек за покупку
+            0.7, //S+P percent текущий баланас + текущий баланс * percent  
+        ],
+        [
+            `menubank-tariffs-type-1`, `standart+`, `Расширенный`, 50000, 2400000, 100000, 10, 10000, 1.5
+        ],
+        [
+            `menubank-tariffs-type-2`, `supreme`, `Продвинутый`, 125000, 500000, 700000, 15, 15000, 3.2
+        ],
+    ]
 
-    //data = ['package', balance, maxbalance, limit, cashback, maxcashback]
-    static drawDebet(data) {
+
+    //require [name, balance, maxbalance, limit, cashback, maxcashback]
+    static drawDebet(index, balance) {
         document.getElementById('menubank-0-container').innerHTML = /*html*/ `
         <div id="menubank-0-content-0">
             <div>
@@ -77,6 +118,7 @@ var MenuBank = class MenuBank {
                 </div>
             </div>
         </div>`;
+        var data = [this.tariffTypes[index][2], balance, this.tariffTypes[index][5], this.tariffTypes[index][6], this.tariffTypes[index][7]];
         this.fillDebetInfo(data);
     }
 
@@ -91,8 +133,9 @@ var MenuBank = class MenuBank {
         this.setMaxCashback(data.at(-1))
     }
 
-    static setDebetInfo(index, value) {
+    static setDebetInfo(index, value, forced) {
         var span = document.getElementById('menubank-debet-info').children[index].querySelector('span');
+        if (forced) return parseInt(span.innerText.replace('$', '').replaceAll(' ', ''));
         switch (index) {
             case 1:
             case 2:
@@ -103,14 +146,15 @@ var MenuBank = class MenuBank {
                 break;
         }
         span.innerText = value;
+        return span;
     }
 
     static setMaxCashback(value) {
         document.getElementById('menubank-maxcashback').innerText = prettyUSD(value);
     }
 
-    //data = ['package', balance, minbal, maxbal, percent, Cash2Debet]
-    static drawSavings(data) {
+    //require [package, balance, maxbal, percent, Cash2Debet]
+    static drawSavings(index, balance, toggle_state) {
         document.getElementById('menubank-1-container').innerHTML = /*html*/ `
         <div id="menubank-1-content-0">
             <div>
@@ -133,6 +177,7 @@ var MenuBank = class MenuBank {
                 </div>
             </div>
         </div>`;
+        var data = [this.tariffTypes[index][2], balance, this.tariffTypes[index][4], this.tariffTypes[index][8], toggle_state];
         this.fillSavingsInfo(data)
     }
 
@@ -146,25 +191,25 @@ var MenuBank = class MenuBank {
         }
         parent.innerHTML += /*html*/ `
         <div>
-            ${static_data[5]}
+            ${static_data[4]}
             <div class="menubank-checkbox" onclick="MenuBank.onCheckBox(this.firstElementChild)">
                 <input type="checkbox" onclick="return false"/>
                 <span class="menubank-checkbox-switch"></span>
             </div>
         </div>
-        <div>${static_data[6]}</div>`
+        <div>${static_data[5]}</div>`
         this.setCash2Debet(data.at(-1))
     }
 
-    static setSavingsInfo(index, value) {
+    static setSavingsInfo(index, value, forced) {
         var span = document.getElementById('menubank-savings-info').children[index].querySelector('span');
+        if (forced) return parseInt(span.innerText.replace('$', '').replaceAll(' ', ''));
         switch (index) {
             case 1:
             case 2:
-            case 3:
                 value = prettyUSD(value);
                 break;
-            case 4:
+            case 3:
                 value = `${value}%`;
                 break;
         }
@@ -189,62 +234,33 @@ var MenuBank = class MenuBank {
             <div id="menubank-tariffs-info" class="menubank-section"></div>
         </div>`;
         var parent = document.getElementById('menubank-tariffs-container')
-        if (data.length < 4) parent.style.height = '470px';
-        else parent.style.height = '';
-        for (var index = 0; index < data.length; index++) {
-            var tariff = data[index];
-            this.newTariff(parent, tariff[0], tariff[1], tariff[2], tariff[3], tariff[4], tariff[5], tariff[6])
-        }
+        for (var index = 0; index < data.length; index++)
+            this.newTariff(parent, index, data[index])
     }
 
-    static newTariff(parent, type, cost, maxbal, limit, cashback, maxcashback, percent) {
-        var tariff_data = this.getTariff(type);
+    // require [bg, name, name_rus cost, maxbal, limit, cashback, maxcashback, percent]
+    static newTariff(parent, type, data) {
         var tariff = document.createElement('div');
-        tariff.classList.add(`menubank-tariffs-elem`, tariff_data.background);
+        tariff.classList.add(`menubank-tariffs-elem`, data[0]);
         parent.append(tariff);
 
         tariff.innerHTML = /*html*/ `
         <div style="justify-content: space-between;">
             <img src="libs/img/logotypes/no-text-logo.png" />
-            <div>${tariff_data.name}</div>
+            <div>${data[1]}</div>
         </div>
         <div style="justify-content: center;">${menubank_svgs.chip}</div>`;
         tariff.setAttribute('onclick', `MenuBank.ontariff(this)`);
         tariff.setAttribute('type', type);
-        tariff.setAttribute('tariff-title', tariff_data.name_rus);
-        tariff.setAttribute('params_0', prettyUSD(cost));
-        tariff.setAttribute('params_1', prettyUSD(maxbal));
-        tariff.setAttribute('params_2', prettyUSD(limit));
-        tariff.setAttribute('params_3', `${cashback}%`);
-        tariff.setAttribute('params_4', prettyUSD(maxcashback));
-        tariff.setAttribute('params_5', `${percent}%`);
+        tariff.setAttribute('tariff-title', data[2]);
+        tariff.setAttribute('params_0', prettyUSD(data[3]));
+        tariff.setAttribute('params_1', prettyUSD(data[4]));
+        tariff.setAttribute('params_2', prettyUSD(data[5]));
+        tariff.setAttribute('params_3', `${data[6]}%`);
+        tariff.setAttribute('params_4', prettyUSD(data[7]));
+        tariff.setAttribute('params_5', `${data[8]}%`);
     }
 
-    static getTariff(type) {
-        switch (type) {
-            case 0:
-                return {
-                    background: `menubank-tariffs-type-0`,
-                    name: `standart`,
-                    name_rus: `базовый`
-                };
-            case 1:
-                return {
-                    background: `menubank-tariffs-type-1`,
-                    name: `standart+`,
-                    name_rus: `расширенный`
-                };
-            case 2:
-                return {
-                    background: `menubank-tariffs-type-2`,
-                    name: `supreme`,
-                    name_rus: `продвинутый`
-                };
-        }
-    }
-    
-
-    
     static lastTariff;
     static ontariff(tariff) {
         if (this.lastTariff != null)
@@ -260,17 +276,20 @@ var MenuBank = class MenuBank {
         for (var index = 0; index < static_data.length - 1; index++)
             parent.firstElementChild.innerHTML += /*html*/ `
                 <div>${static_data[index]}<span>${tariff.getAttribute(`params_${index}`)}</span></div>`;
-        parent.lastElementChild.innerHTML = /*html*/ `
-        <div>
-            ${static_data.at(-1)}
-            <button onclick="mp.trigger('MenuBank::BuyTariff', ${tariff.getAttribute(`type`)})" class="red-button">${tariff.getAttribute(`params_0`)}</button>
-        </div>`;
+        if (tariff.getAttribute('type') != this.cur_tarrif)
+            parent.lastElementChild.innerHTML = /*html*/ `
+            <div>
+                ${static_data.at(-1)}
+                <button onclick="mp.trigger('MenuBank::BuyTariff', ${parseInt(tariff.getAttribute(`type`))})" class="red-button">${tariff.getAttribute(`params_0`)}</button>
+            </div>`;
+        else parent.lastElementChild.innerHTML = /*html*/ `
+            <div style="justify-content: center;font-weight: 700;font-size: 16px;">Приобретено</div>`;
     }
 
     static onfocus(input, isCid) {
         input.select();
         input.parentElement.style.animation = '5s ease 0s infinite normal none running selected';
-        if (this.lastInput != null && !isCid) {
+        if (this.lastInput != null && !isCid && this.lastInput != input) {
             this.lastInput.value = '';
             this.oninput(this.lastInput, true);
         }
@@ -310,21 +329,14 @@ var MenuBank = class MenuBank {
 
     static onbutton(action) {
         var action = action.split('-')
-        mp.trigger('MenuBank::Action', action[0], action[1], this.curmoney, action[1] == 'transfer' ? this.cur_cid : null);
+        mp.trigger('MenuBank::Action', action[0], action[1], parseInt(this.curmoney), action[1] == 'transfer' ? parseInt(this.cur_cid) : -1);
     }
 }
-
 bank_data = [
-    ['Базовый', 1000000, 300000, 20, 15000],
-    ['Базовый', 100000, 250000, 2500000, 1.15, false],
-    [
-        [0, 25000, 1000000, 10000, 5, 5000, 0.5],
-        [1, 35000, 2000000, 20000, 10, 10000, 1],
-        [2, 45000, 3000000, 30000, 15, 15000, 1.5]
-    ]
-]
+    0, 15000, 500000, false
+];
 // MenuBank.draw(bank_data)
-// MenuBank.setDebetInfo(0, 'Премиальный')
-// MenuBank.setSavingsInfo(0, 'Базовый')
+// MenuBank.setDebetInfo(1, 15000)
+// MenuBank.setSavingsInfo(1, 25000)
 
-//новые типы тарифов: getTariff, новый тип фона тарифов: menu-bank.css в конце по образцу ДО menubank-tariffs-selected 
+//новые типы тарифов: tariffTypes, новый тип фона тарифов: menu-bank.css в конце по образцу ДО menubank-tariffs-selected 

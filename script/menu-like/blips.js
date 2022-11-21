@@ -1,6 +1,7 @@
 var Blips = class Blips {
     static blipIndex = 0;
     static container = document.getElementById('blips-container');
+    static loading = false;
     static creating_blip = {
         'color': null,
         'icon': null,
@@ -28,10 +29,12 @@ var Blips = class Blips {
     static fillBlips(data) {
         this.container.innerHTML = '';
         this.blipIndex = 0;
+        this.loading = true;
         for (var index = 0; index < data.length; index++)
             this.newBlip(data[index][0], data[index][1], data[index][2], data[index][3], data[index][4], data[index][5], data[index][6]);
         if (data.length > 9)
             this.container.style.height = `${this.container.parentElement.scrollHeight - 30}px`;
+        this.loading = false;
     }
 
 
@@ -209,7 +212,7 @@ var Blips = class Blips {
         this.lastPics[where] = pic;
         this.creating_blip[where] = parseInt(id.replace(/[^0-9\.]/g, ''));;
 
-        mp.trigger('BlipMenu::Local::SetProperty', where, this.getBlipIndex() ?? -1, this.creating_blip[where]);
+        if (!this.loading) mp.trigger('BlipMenu::Local::SetProperty', where, this.getBlipIndex() ?? -1, this.creating_blip[where]);
     }
 
     static onrange(slider, where) {
@@ -218,7 +221,7 @@ var Blips = class Blips {
         document.getElementById(`blip-${where}`).innerText = slider.value;
         this.creating_blip[where] = parseFloat(slider.value);
 
-        mp.trigger('BlipMenu::Local::SetProperty', where, this.getBlipIndex() ?? -1, this.creating_blip[where]);
+        if (!this.loading) mp.trigger('BlipMenu::Local::SetProperty', where, this.getBlipIndex() ?? -1, this.creating_blip[where]);
     }
 
     static onname(value) {

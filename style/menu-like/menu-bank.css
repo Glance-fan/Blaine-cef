@@ -271,6 +271,7 @@
 }
 
 #menubank-tariffs-container {
+    min-height: 470px;
     width: 250px;
     padding: 5px 32.5px;
 }
