@@ -110,6 +110,7 @@
             }
         }
     </style>
+
     <div id="vue_app">
         <colorpicker-template v-if="render.colorpicker"></colorpicker-template>
         <chat-template v-show="show.chat" v-if="render.chat"></chat-template>
@@ -203,6 +204,135 @@
     <script>
         const mountedApp = vue_app.mount('#vue_app')
     </script>
-</body>
+    <script type="module">
+        import { Scene, WebGLRenderer, PerspectiveCamera, Mesh } from 'https://cdn.skypack.dev/three@0.129.0';
+        import { OrbitControls } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/controls/OrbitControls.js';
+        import { TransformControls } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/controls/TransformControls.js';
+    
+        const mapEditorData = {
+            cameraPersp: null,
+            scene: null,
+            renderer: null,
+            control: null,
+            orbit: null,
+            mesh: null,
+            timer: null,
+        };
+		const mapEditorDegrees = 180 / Math.PI;
+		const mapEditorRadians = Math.PI / 180;
+    
+        const mapEditorInit = (enableRot, xAxis, yAxis, zAxis) => {    
+            const aspect = window.innerWidth / window.innerHeight;
+            mapEditorData.renderer = new WebGLRenderer({ alpha: true });
+            mapEditorData.renderer.setPixelRatio(window.devicePixelRatio);
+            mapEditorData.renderer.setSize(window.innerWidth, window.innerHeight);
+            mapEditorData.cameraPersp = new PerspectiveCamera(50, aspect, 0.01, 30000);
+            mapEditorData.cameraPersp.position.set(1000, 500, 1000);
+            mapEditorData.cameraPersp.lookAt(0, 200, 0);
+            mapEditorData.scene = new Scene();
+            mapEditorData.orbit = new OrbitControls(mapEditorData.cameraPersp, mapEditorData.renderer.domElement);
+            mapEditorData.orbit.update();
+            mapEditorData.orbit.addEventListener('change', render);
+            mapEditorData.orbit.enableZoom = false;
+            mapEditorData.orbit.enablePan = false;
+            mapEditorData.control = new TransformControls( mapEditorData.cameraPersp, mapEditorData.renderer.domElement);
+            mapEditorData.control.addEventListener('change', render);
+            mapEditorData.control.addEventListener('dragging-changed', draggingChanged);
+            mapEditorData.mesh = new Mesh();
+            mapEditorData.scene.add(mapEditorData.mesh);
+            mapEditorData.control.attach(mapEditorData.mesh);
+            mapEditorData.scene.add(mapEditorData.control);
+			mapEditorToggleMode(enableRot, xAxis, yAxis, zAxis);
+            mapEditorData.renderer.domElement.style.position = 'absolute';
+            document.body.insertAdjacentElement('afterbegin', mapEditorData.renderer.domElement);
+        };
+    
+        const mapEditorDestroy = () => {  
+            if (mapEditorData.timer != null) clearInterval(mapEditorData.timer);
+            if (mapEditorData.renderer != null) document.body.removeChild(mapEditorData.renderer.domElement);
+            if (mapEditorData.scene != null && mapEditorData.mesh != null) mapEditorData.scene.remove(mapEditorData.mesh);
+            if (mapEditorData.scene != null) mapEditorData.scene.clear();     
+            if (mapEditorData.orbit != null) mapEditorData.orbit.removeEventListener('change', render);
+            if (mapEditorData.control != null) {
+                mapEditorData.control.removeEventListener('change', render);
+                mapEditorData.control.removeEventListener('dragging-changed', draggingChanged);
+            }
+            mapEditorData.cameraPersp = null;
+            mapEditorData.scene = null;
+            mapEditorData.renderer = null;
+            mapEditorData.control = null;
+            mapEditorData.orbit = null;
+            mapEditorData.mesh = null;
+            mapEditorData.timer = null;
+        };
+		
+		const mapEditorToggleMode = (enableRot, xAxis, yAxis, zAxis) => {
+			if (!mapEditorData.control) return;
 
+			if (enableRot) {
+				mapEditorData.control.setMode('rotate');
+				mapEditorData.control.showX = xAxis;
+				mapEditorData.control.showY = yAxis;
+				mapEditorData.control.showZ = zAxis;
+			} else {
+				mapEditorData.control.setMode('translate');
+				mapEditorData.control.showX = xAxis;
+				mapEditorData.control.showY = yAxis;
+				mapEditorData.control.showZ = zAxis;
+			}
+		};
+    
+        const draggingChanged = (event) => {
+    
+            if (!mapEditorData.orbit)
+				return;
+    
+            mapEditorData.orbit.enabled = !event.value;
+    
+            if (event.value) {
+                if (mapEditorData.timer != null)
+					clearInterval(mapEditorData.timer);
+                mapEditorData.timer = setInterval(() => {
+					if (mapEditorData.control.getMode() == 'translate') {
+						mp.trigger("MapEditor::Update", true, mapEditorData.mesh.position.x, -mapEditorData.mesh.position.z, mapEditorData.mesh.position.y);
+					}
+					else {
+						mp.trigger("MapEditor::Update", false, mapEditorData.mesh.rotation.x * mapEditorDegrees, -mapEditorData.mesh.rotation.z * mapEditorDegrees, mapEditorData.mesh.rotation.y * mapEditorDegrees);
+					}
+                }, 3);
+            } else {
+                if (mapEditorData.timer != null) {
+					clearInterval(mapEditorData.timer);
+					mapEditorData.timer = null;
+				}
+            }
+        };
+    
+        const render = () => {
+            if (mapEditorData.renderer)
+				mapEditorData.renderer.render(mapEditorData.scene, mapEditorData.cameraPersp);
+        };
+    
+        window.mapEditor_update = function mapEditor_update(x, y, z, rX, rY, rZ, camX, camY, camZ, camTargetX, camTargetY, camTargetZ) {
+            mapEditorData.cameraPersp.position.set(camX, camZ, -camY);
+            mapEditorData.cameraPersp.lookAt(camTargetX, camTargetZ, -camTargetY);
+            if (!mapEditorData.orbit || !mapEditorData.orbit.enabled) return render();
+            mapEditorData.mesh.position.set(x, z, -y);
+            mapEditorData.mesh.rotation.set(rX * mapEditorRadians, rZ * mapEditorRadians, -rY * mapEditorRadians, 'YXZ');
+            render();
+        }
+    
+        window.mapEditor_init = function mapEditor_init(enableRot = false, xAxis = true, yAxis = true, zAxis = true) {
+			mapEditorInit(enableRot, xAxis, yAxis, zAxis); 
+		}		
+    
+        window.mapEditor_destroy = function mapEditor_destroy() {
+			mapEditorDestroy();
+		}
+		
+		window.mapEditor_toggleMode = function mapEditor_toggleMode(enableRot, xAxis, yAxis, zAxis) {
+			mapEditorToggleMode(enableRot, xAxis, yAxis, zAxis);
+		}
+    </script>
+</body>
 </html>

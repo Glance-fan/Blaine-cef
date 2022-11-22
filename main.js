@@ -2,80 +2,80 @@ const vue_app = Vue.createApp({
     data() {
         return {
             show: {
-                notifications: false,
-                login: false,
-                reg: false,
-                char_selection: false,
-                start_place: false,
+                actionbox: false,
+                anims: false,
+                atm: false,
+                blips: false,
+                car_maint: false,
                 char_creation: false,
-                hud_top: false,
-                hud_quest: false,
-                hud_help: false,
-                hud_spd: false,
-                hud_interact: false,
-                hud_menu: false,
-                hud_left: false,
-                chat: false,
                 char_interaction: false,
-                ov_interaction: false,
+                char_selection: false,
+                chat: false,
+                crates_inventory: false,
+                death: false,
+                docs: false,
+                elevator: false,
+                est_agency: false,
+                estate: false,
+                hud_help: false,
+                hud_interact: false,
+                hud_left: false,
+                hud_menu: false,
+                hud_quest: false,
+                hud_spd: false,
+                hud_top: false,
+                inventory: false,
                 iv_interaction: false,
-                pass_interaction: false,
+                login: false,
                 menu: false,
                 menu_bank: false,
                 menu_biz: false,
                 menu_gar: false,
                 menu_home: false,
-                actionbox: false,
-                inventory: false,
-                crates_inventory: false,
-                trade: false,
-                shop: false,
-                retail: false,
-                death: false,
-                docs: false,
+                notifications: false,
                 npc: false,
-                anims: false,
-                estate: false,
-                est_agency: false,
-                elevator: false,
-                car_maint: false,
-                blips: false,
-                tuning: false,
-                atm: false,
+                ov_interaction: false,
+                pass_interaction: false,
+                reg: false,
+                retail: false,
+                shop: false,
+                start_place: false,
+                trade: false,
+                tuning: false
             },
             render: {
-                notifications: false,
-                login: false,
-                reg: false,
-                char_selection: false,
-                start_place: false,
-                char_creation: false,
-                hud: false,
-                chat: false,
-                interaction: false,
-                inter_drawed: false,
-                menu: false,
-                menu_biz: false,
-                menu_gar: false,
-                menu_bank: false,
-                menu_home: false,
                 actionbox: false,
-                full_inventory: false,
-                inv_drawed: false,
-                shop: false,
-                retail: false,
+                anims: false,
+                atm: false,
+                blips: false,
+                car_maint: false,
+                char_creation: false,
+                char_selection: false,
+                chat: false,
+                colorpicker: false,
                 death: false,
                 docs: false,
-                npc: false,
-                anims: false,
-                estate: false,
-                est_agency: false,
                 elevator: false,
-                car_maint: false,
-                blips: false,
+                est_agency: false,
+                estate: false,
+                full_inventory: false,
+                hud: false,
+                inter_drawed: false,
+                interaction: false,
+                inv_drawed: false,
+                login: false,
+                menu: false,
+                menu_bank: false,
+                menu_biz: false,
+                menu_gar: false,
+                menu_home: false,
+                notifications: false,
+                npc: false,
+                reg: false,
+                retail: false,
+                shop: false,
+                start_place: false,
                 tuning: false,
-                atm: false,
-                colorpicker: false,
             }
         }
     },
@@ -109,15 +109,15 @@ const vue_app = Vue.createApp({
 })
 vue_app.use(VueColor);
 
-class mp {
-    static args_str;
-    static trigger(...args) {
-        this.args_str = '';
-        for (var index = 0; index < args.length; index++)
-            this.args_str += args[index] + ' '
-        console.log(this.args_str);
-    }
-}
+// class mp {
+//     static args_str;
+//     static trigger(...args) {
+//         this.args_str = '';
+//         for (var index = 0; index < args.length; index++)
+//             this.args_str += args[index] + ' '
+//         console.log(this.args_str);
+//     }
+// }
 
 function renderTemplate(isRender, template) {
     mountedApp.render[`${template}`] = isRender;
@@ -176,8 +176,7 @@ function resizeAll() {
     if (hud_help) hud_help.style.zoom = clHeight;
     if (hud_spd) hud_spd.style.zoom = clHeight;
     if (hud_interact) hud_interact.style.bottom = (document.body.clientHeight / 100 * (312 / 10.8)) + 'px';
-    if (npc_tmpl) {
-    }
+    if (npc_tmpl) {}
     if (notific_tmpl) resizeBigger(notific_tmpl);
     if (anims_tmpl) {
         anims_tmpl.style.bottom = (document.body.clientHeight / 100 * (300 / 10.8)) + 'px';

@@ -94,11 +94,11 @@ var MenuBank = class MenuBank {
                 <div>Количество</div>
                 <div class="menubank-input-block">
                     $
-                    <input oninput="MenuBank.oninput(this)" onfocus="MenuBank.onfocus(this)" onblur="MenuBank.onblur(this)" value="" maxlength="10" autocomplete="false" spellcheck="false" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
+                    <input id ="0-menubank-input" oninput="MenuBank.oninput(this)" onfocus="MenuBank.onfocus(this)" onblur="MenuBank.onblur(this)" value="" maxlength="10" autocomplete="false" spellcheck="false" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
                 </div>
                 <div class="menubank-buttons-block">
-                    <button class="red-button" onclick="MenuBank.onbutton('debit-deposit')">Пополнить</button>
-                    <button class="grey-button" onclick="MenuBank.onbutton('debit-withdraw')">Снять</button>
+                    <button class="red-button" onclick="MenuBank.onbutton('debit-deposit', 0)">Пополнить</button>
+                    <button class="grey-button" onclick="MenuBank.onbutton('debit-withdraw', 0)">Снять</button>
                 </div>
             </div>
             <div style="font-weight: 700;">Перевод</div>
@@ -106,15 +106,15 @@ var MenuBank = class MenuBank {
                 <div>CID игрока</div>
                 <div class="menubank-input-block">
                     #
-                    <input oninput="MenuBank.oncid(this)" onfocus="MenuBank.onfocus(this, true)" onblur="MenuBank.onblur(this)" value="" maxlength="10" autocomplete="false" spellcheck="false" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
+                    <input oninput="MenuBank.oncid(this)" onfocus="MenuBank.onfocus(this)" onblur="MenuBank.onblur(this)" value="" maxlength="10" autocomplete="false" spellcheck="false" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
                 </div>
                 <div>Количество</div>
                 <div class="menubank-input-block">
                     $
-                    <input oninput="MenuBank.oninput(this)" onfocus="MenuBank.onfocus(this)" onblur="MenuBank.onblur(this)" value="" maxlength="10" autocomplete="false" spellcheck="false" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
+                    <input id="1-menubank-input" oninput="MenuBank.oninput(this)" onfocus="MenuBank.onfocus(this)" onblur="MenuBank.onblur(this)" value="" maxlength="10" autocomplete="false" spellcheck="false" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
                 </div>
                 <div class="menubank-buttons-block" style="justify-content: center">
-                    <button class="red-button" onclick="MenuBank.onbutton('debit-transfer')">Перевести</button>
+                    <button class="red-button" onclick="MenuBank.onbutton('debit-transfer', 1)">Перевести</button>
                 </div>
             </div>
         </div>`;
@@ -138,22 +138,24 @@ var MenuBank = class MenuBank {
         if (forced) return parseInt(span.innerText.replace('$', '').replaceAll(' ', ''));
         switch (index) {
             case 1:
-            case 2:
                 value = prettyUSD(value);
+                break;
+            case 2:
+                if (value == 0) value = 'Нет'
+                else value = prettyUSD(value);
                 break;
             case 3:
                 value = `${value}%`;
                 break;
         }
         span.innerText = value;
-        return span;
     }
 
     static setMaxCashback(value) {
         document.getElementById('menubank-maxcashback').innerText = prettyUSD(value);
     }
 
-    //require [package, balance, maxbal, percent, Cash2Debet]
+    //require [name, balance, maxbalance, percent, Cash2Debet]
     static drawSavings(index, balance, toggle_state) {
         document.getElementById('menubank-1-container').innerHTML = /*html*/ `
         <div id="menubank-1-content-0">
@@ -169,11 +171,11 @@ var MenuBank = class MenuBank {
                 <div>Количество</div>
                 <div class="menubank-input-block">
                     $
-                    <input oninput="MenuBank.oninput(this)" onfocus="MenuBank.onfocus(this)" onblur="MenuBank.onblur(this)" value="" maxlength="10" autocomplete="false" spellcheck="false" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
+                    <input id="2-menubank-input" oninput="MenuBank.oninput(this)" onfocus="MenuBank.onfocus(this)" onblur="MenuBank.onblur(this)" value="" maxlength="10" autocomplete="false" spellcheck="false" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
                 </div>
                 <div class="menubank-buttons-block">
-                    <button class="red-button" onclick="MenuBank.onbutton('savings-deposit')">Пополнить</button>
-                    <button class="grey-button" onclick="MenuBank.onbutton('savings-withdraw')">Снять</button>
+                    <button class="red-button" onclick="MenuBank.onbutton('savings-deposit', 2)">Пополнить</button>
+                    <button class="grey-button" onclick="MenuBank.onbutton('savings-withdraw', 2)">Снять</button>
                 </div>
             </div>
         </div>`;
@@ -255,7 +257,7 @@ var MenuBank = class MenuBank {
         tariff.setAttribute('tariff-title', data[2]);
         tariff.setAttribute('params_0', prettyUSD(data[3]));
         tariff.setAttribute('params_1', prettyUSD(data[4]));
-        tariff.setAttribute('params_2', prettyUSD(data[5]));
+        tariff.setAttribute('params_2', data[5] == 0 ? 'Нет' : prettyUSD(data[5]));
         tariff.setAttribute('params_3', `${data[6]}%`);
         tariff.setAttribute('params_4', prettyUSD(data[7]));
         tariff.setAttribute('params_5', `${data[8]}%`);
@@ -286,22 +288,16 @@ var MenuBank = class MenuBank {
             <div style="justify-content: center;font-weight: 700;font-size: 16px;">Приобретено</div>`;
     }
 
-    static onfocus(input, isCid) {
+    static onfocus(input) {
         input.select();
         input.parentElement.style.animation = '5s ease 0s infinite normal none running selected';
-        if (this.lastInput != null && !isCid && this.lastInput != input) {
-            this.lastInput.value = '';
-            this.oninput(this.lastInput, true);
-        }
-        if (!isCid) this.lastInput = input;
     }
 
-    static lastInput;
     static onblur(input) {
         input.parentElement.style.animation = '';
     }
 
-    static cur_cid;
+    static cur_cid = -1;
     static oncid(input) {
         if (input.value == '' || input.value == 0 || input.value.at(0) == 0) {
             input.value = 1;
@@ -310,26 +306,22 @@ var MenuBank = class MenuBank {
         this.cur_cid = input.value;
     }
 
-    static oninput(input, forced) {
-        if (input.value == '' || input.value == 0 || input.value.at(0) == 0) {
-            if (!forced) {
+    static oninput(input) {
+            if (input.value == '' || input.value == 0 || input.value.at(0) == 0) {
                 input.value = 0;
                 input.select();
             }
-            input.parentElement.parentElement.lastElementChild.style.visibility = 'hidden';
-        } else
-            input.parentElement.parentElement.lastElementChild.style.visibility = 'visible';
         if (input.value > 999999999) input.value = 999999999;
-        this.curmoney = input.value;
     }
 
     static onCheckBox(chbx) {
         mp.trigger('MenuBank::Cash2Debet', !chbx.checked);
     }
 
-    static onbutton(action) {
-        var action = action.split('-')
-        mp.trigger('MenuBank::Action', action[0], action[1], parseInt(this.curmoney), action[1] == 'transfer' ? parseInt(this.cur_cid) : -1);
+    static onbutton(action, idx) {
+        var action = action.split('-');
+        var val = document.getElementById(`${idx}-menubank-input`).value;
+        mp.trigger('MenuBank::Action', action[0], action[1], parseInt(val), action[1] == 'transfer' ? parseInt(this.cur_cid) : -1);
     }
 }
 bank_data = [

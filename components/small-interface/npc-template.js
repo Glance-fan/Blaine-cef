@@ -3,7 +3,7 @@ vue_app.component('npc-template', {
         await include_source(scripts.npc);
         npc_tmpl = document.getElementById('NPC-container');
         resizeBigger(npc_tmpl);
-        onRenderFinished('NPC');
+        onRenderFinished('npc');
     },
     unmounted: function () {
         remove_source(scripts.npc);

@@ -48,7 +48,7 @@ var ActionBox = class ActionBox {
             case 2: //range
             this.container.parentElement.style.top = `calc(50% - 27px)`;
                 this.container.innerHTML = /*html*/ `
-                <input style="${data[1] == 1 ? 'direction: rtl' : ''}" type="range" min="${data[0]}" max="${data[1]}" value="${data[2] || data[1]}" step="${data[2]}" oninput="ActionBox.onrange(this)">
+                <input style="${data[1] == 1 ? 'direction: rtl' : ''}" type="range" min="${data[0]}" max="${data[1]}" value="${data[2] || data[1]}" step="${data[3]}" oninput="ActionBox.onrange(this)">
                 <div class="action-box-span-wrapper">
                     <span>${data[0]}</span>
                     <input id="action-box-range" value="${data[2] || data[1]}" oninput="ActionBox.onrangeinput(this)" autocomplete="false" spellcheck="false" min="${data[0]}" max="${data[1]}" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
