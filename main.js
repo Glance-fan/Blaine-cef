@@ -41,7 +41,7 @@ const vue_app = Vue.createApp({
                 shop: false,
                 start_place: false,
                 trade: false,
-                tuning: false
+                tuning: false,
             },
             render: {
                 actionbox: false,

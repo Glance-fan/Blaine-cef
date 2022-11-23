@@ -9,7 +9,6 @@ var shops = [ // defines all the shops
     [shop_svgs.shop.moto, 'Мотосалон'],
     [shop_svgs.shop.boat, 'Лодочный<br>салон'],
     [shop_svgs.shop.helic, 'Салон воздушного<br>транспорта'],
-    [shop_svgs.shop.auto, 'Тюнинг-салон'],
 ];
 
 var right_rect_data = [ // defines right rect states

@@ -1,7 +1,7 @@
 vue_app.component('tuning-template', {
     mounted: async function () {
-        await include_source(scripts.tuning);
         tuning_tmpl = document.querySelector('#tuning');
+        await include_source(scripts.tuning);
         // resizeBigger(blips_tmpl);
         onRenderFinished('tuning');
     },
@@ -14,9 +14,12 @@ vue_app.component('tuning-template', {
     <div id="tuning">
         <div id="tuning-left-side">
             <div class="tuning-bg"></div>
-            <div id="tuning-left-scrollable">
-                <div class="tuning-bg"></div>
-            </div>
+            <div>
+                <div id="tuning-left-scrollable">
+                    <div class="tuning-bg" id="tuning-container"></div>
+                </div>
+                <div class="tuning-nav"></div>
+            </div>   
             <div class="tuning-bg"></div>
         </div>
         <div></div>    

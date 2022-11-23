@@ -1,6 +1,6 @@
 var MenuBank = class MenuBank {
     static cur_tarrif = null;
-    //data = [cur_tarrif, debet_bal, savings_bal, savings_toggle]
+    //data = [cur_tarrif, debet_bal, cur_limit, savings_bal, savings_toggle]
     static draw(data) {
         if (data) {
             this.drawNavigation();
@@ -9,7 +9,7 @@ var MenuBank = class MenuBank {
         this.drawTariffs(this.tariffTypes)
     }
 
-    static setTarrif(tarrif_idx, debet_bal, savings_bal, savings_toggle) {
+    static setTarrif(tarrif_idx, debet_bal, limit, savings_bal, savings_toggle) {
         if (this.cur_tarrif != null) {
             debet_bal = this.setDebetInfo(1, null, true);
             savings_bal = this.setSavingsInfo(1, null, true);
@@ -18,6 +18,7 @@ var MenuBank = class MenuBank {
         this.drawDebet(tarrif_idx, debet_bal);
         this.drawSavings(tarrif_idx, savings_bal, savings_toggle);
         this.cur_tarrif = tarrif_idx;
+        if (this.cur_tarrif != null) this.setDebetLim(limit ?? this.cur_limit);
     }
 
     static selectOption(index) {
@@ -141,8 +142,8 @@ var MenuBank = class MenuBank {
                 value = prettyUSD(value);
                 break;
             case 2:
-                if (value == 0) value = 'Нет'
-                else value = prettyUSD(value);
+                if (value == -1) value = 'Нет'
+                else value = `${prettyUSD(this.cur_limit)} / ${prettyUSD(value)}`;
                 break;
             case 3:
                 value = `${value}%`;
@@ -323,9 +324,23 @@ var MenuBank = class MenuBank {
         var val = document.getElementById(`${idx}-menubank-input`).value;
         mp.trigger('MenuBank::Action', action[0], action[1], parseInt(val), action[1] == 'transfer' ? parseInt(this.cur_cid) : -1);
     }
+
+    static setDebetBal(val){
+        this.setDebetInfo(1, val);
+    }
+
+    static cur_limit;
+    static setDebetLim(limit){
+        this.cur_limit = limit;
+        this.setDebetInfo(2, limit == -1 ? limit : this.tariffTypes[this.cur_tarrif][5]);
+    }
+
+    static setSavingsBal(){
+        this.setSavingsInfo(1, val);
+    }
 }
 bank_data = [
-    0, 15000, 500000, false
+    0, 15000, 500, 500000, false
 ];
 // MenuBank.draw(bank_data)
 // MenuBank.setDebetInfo(1, 15000)
