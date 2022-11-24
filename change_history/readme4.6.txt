@@ -24,6 +24,19 @@ data = [cur_tarrif, debet_bal, debet_limit savings_bal, savings_toggle]
 - добавлены функции setDebetBal, setDebetLim, setSavingsInfo
 - обновленное отображение лимита
 
+- исправлен конфликт id: menu-bank
+- теперь при пустых инпутах и нажатии на кнопку ничего не происходит 
+
 /*npc*/
 /*actionbox*/
 - минорные исправления
+
+/*notifications*/
+- теперь можно прокливать насквозь 
+
+/*atm*/
+- инпут(добавлен parseInt при передаче) изначально пустой, а не 0
+
+/*hud*/
+//left
+- изменена обработка смены размеры

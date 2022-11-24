@@ -3,6 +3,7 @@
   bottom: 34px;
   left: calc(50% - 200px);
   z-index: 9999;
+  pointer-events: none;
 }
 
 .notification {

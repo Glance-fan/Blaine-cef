@@ -22,6 +22,14 @@ vue_app.component('tuning-template', {
             </div>   
             <div class="tuning-bg"></div>
         </div>
-        <div></div>    
+        <div id="tuning-right-side">
+            <div class="tuning-bg"></div>
+            <div style="width: 305px">
+                <div id="tuning-right-scrollable">
+                    <div class="tuning-bg" id="tuningvar-container"></div>
+                </div>
+            </div>
+            
+        </div>    
     </div>`
 })

@@ -322,6 +322,7 @@ var MenuBank = class MenuBank {
     static onbutton(action, idx) {
         var action = action.split('-');
         var val = document.getElementById(`${idx}-menubank-input`).value;
+        if (val == '') return;
         mp.trigger('MenuBank::Action', action[0], action[1], parseInt(val), action[1] == 'transfer' ? parseInt(this.cur_cid) : -1);
     }
 

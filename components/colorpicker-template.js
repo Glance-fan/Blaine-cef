@@ -16,7 +16,7 @@ vue_app.component('colorpicker-template', {
         this.position();
         document.body.addEventListener('mouseup', this.outClick);
     },
-    updated: function (){
+    updated: function () {
         if (picker_tmpl.getAttribute('alive') == 'false') renderTemplate(false, 'colorpicker');
     },
     unmounted: function () {
@@ -27,7 +27,7 @@ vue_app.component('colorpicker-template', {
             var pos = whoInvoked.getBoundingClientRect();
             var scale = parseFloat(whoInvoked.scale);
             picker_tmpl = document.querySelector('.vc-chrome');
-            picker_tmpl.style.left = whoInvoked.id.includes('shop') ? `${pos.x * scale + pos.width * scale - 190}px` : `${pos.x * scale}px`;
+            picker_tmpl.style.left = whoInvoked.id.includes('shop') || whoInvoked.id.includes('tuning') ? `${pos.x * scale + pos.width * scale - 190}px` : `${pos.x * scale}px`;
             picker_tmpl.style.top = `${pos.top * scale + pos.height * scale + 5 * scale}px`;
         },
         outClick(e) {
@@ -59,6 +59,10 @@ vue_app.component('colorpicker-template', {
                     break;
                 case 'shop':
                     mp.trigger('Shop::UpdateColor', whoInvoked.getAttribute('source-id'), hex)
+                    break;
+                case 'tuning':
+                    Tuning.colors_arr[whoInvoked.getAttribute('source-id')] = hex;
+                    mp.trigger('Tuning::UpdateColor', whoInvoked.getAttribute('source-id'), hex)
                     break;
                 default:
                     mp.trigger('ColourPicker::Update', hex, alpha)

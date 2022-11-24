@@ -231,7 +231,7 @@ vue_app.component('menu-template', {
                                 </svg>
                                 <span style="font-weight: 500;font-size: 14px;">Дебетовый счёт</span>
                             </p>
-                            <p style="font-weight: 600;font-size: 18px;margin-top: 10px;" id="menu-bank"></p>
+                            <p style="font-weight: 600;font-size: 18px;margin-top: 10px;" id="menu-bankcash"></p>
                         </h1>
                     </div>
                 </div>

@@ -1,8 +1,7 @@
 vue_app.component('hud-left-template', {
     mounted: function () {
         hud_left = document.getElementById('hud-left');
-        hud_left.style.setProperty('left', `${document.body.clientWidth / 100 * (299/19.2)}px`)
-        hud_left.style.setProperty('bottom', `${document.body.clientHeight / 100 * (13/10.8)}px`);
+        resizeBigger(hud_left);
     },
     unmounted: function () {
         switchTemplate(false, 'hud_left');

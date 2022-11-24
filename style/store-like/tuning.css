@@ -16,13 +16,20 @@
     animation: 5s ease 0s infinite normal none running selected;
 }
 
-#tuning-left-side {
+#tuning-left-side,
+#tuning-right-side {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 735px;
     position: absolute;
     left: 20px;
+}
+
+#tuning-right-side {
+    right: 20px;
+    left: unset;
+
 }
 
 #tuning-left-side>div:first-child {
@@ -33,27 +40,40 @@
     align-items: center;
 }
 
-#tuning-left-scrollable {
+#tuning-left-scrollable,
+#tuning-right-scrollable {
     width: 305px;
     height: 525px;
     margin-right: 15px;
     direction: rtl;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
 }
 
-#tuning-left-scrollable>div {
-    width: 300px;
-    height: 100%;
+#tuning-right-scrollable {
+    direction: ltr;
 }
 
-#tuning-left-scrollable::-webkit-scrollbar {
+#tuning-container,
+#tuningvar-container {
+    width: 300px;
+    min-height: 525px;
+}
+
+#tuning-container>div:not(:first-child),
+#tuningvar-container>div:not(:first-child) {
+    margin-top: 5px
+}
+
+#tuning-left-scrollable::-webkit-scrollbar,
+#tuning-right-scrollable::-webkit-scrollbar {
     width: 4px;
     background: #2F2F2F;
     border-radius: 16px;
 }
 
-#tuning-left-scrollable::-webkit-scrollbar-thumb {
+#tuning-left-scrollable::-webkit-scrollbar-thumb,
+#tuning-right-scrollable::-webkit-scrollbar-thumb {
     background: linear-gradient(225.72deg, #C81212 0%, #851717 100%);
     border-radius: 16px;
 }
@@ -87,4 +107,74 @@
     margin: 0 15px 15px 0;
 }
 
-#tuning-container {}
+
+.tuning-choice {
+    width: 300px;
+    height: 39px;
+    color: #BBBBBB;
+    font-weight: 600;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tuning-choice:hover {
+    color: #DDDDDD;
+}
+
+.tuning-selected {
+    background: linear-gradient(225.72deg, #C81212 0%, #851717 100%) 0% 0% / 300% 100%;
+    animation: 5s ease 0s infinite normal none running selected;
+}
+
+.tuning-delete-color {
+    height: 50px;
+    width: 270px;
+    padding: 15px;
+    border-radius: 5px;
+    color: #EDEDED;
+    font-weight: 600;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tuning-color-picker {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.tuning-color-picker>div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 85px;
+}
+
+.tuning-color-picker span {
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.tuning-color-row {
+    display: flex;
+    width: 270px;
+    justify-content: space-between;
+}
+
+.tuning-color-row:not(:first-child){
+    margin-top: 5px;
+}
+
+.tuning-color-row>div{
+    width: 15px;
+    height: 15px;
+    border-radius: 3px;
+}

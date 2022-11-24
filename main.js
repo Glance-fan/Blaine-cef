@@ -144,8 +144,7 @@ function resizeAll() {
     if (chselect_tmpl) resizeSmaller(chselect_tmpl);
     if (chcreate_tmpl) resizeBigger(chcreate_tmpl);
     if (hud_left) {
-        hud_left.style.setProperty('left', `${document.body.clientWidth / 100 * (299/19.2)}px`)
-        hud_left.style.setProperty('bottom', `${document.body.clientHeight / 100 * (13/10.8)}px`);
+        mp.trigger('Resize::UpdateLeftHudPos')
         resizeBigger(hud_left);
     }
     if (chinteract_tmpl) resizeBigger(chinteract_tmpl);

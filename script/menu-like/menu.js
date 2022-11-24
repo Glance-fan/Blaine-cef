@@ -96,7 +96,7 @@ var Menu = class Menu {
     }
 
     static setBank(value) {
-        document.getElementById('menu-bank').innerText = '$' + Number.parseInt(value).toLocaleString('ru');
+        document.getElementById('menu-bankcash').innerText = '$' + Number.parseInt(value).toLocaleString('ru');
     }
 
     static drawSkills(data) {

@@ -283,8 +283,8 @@ var Hud = class Hud {
     }
 
     static changeLBHpos(left, bottom) {
-        hud_left.style.left = left;
-        hud_left.style.bottom = bottom;
+        hud_left.style.left = `${left}%`;
+        hud_left.style.bottom = `${bottom}%`;
     }
 
     /*interact*/
