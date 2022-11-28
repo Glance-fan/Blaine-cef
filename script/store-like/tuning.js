@@ -10,7 +10,9 @@ var Tuning = class Tuning {
     static draw(data) {
         this.left.firstElementChild.innerHTML = tuning_svgs.main;
         this.drawNavigation(data.length);
+        this.fillMenu();
         this.tuning_data = data;
+        this.navigate(document.getElementById('0-tuning-nav'));
     }
 
     static drawNavigation(amount) {
@@ -29,7 +31,7 @@ var Tuning = class Tuning {
     }
 
     static newNavElem(parent, svgs, id) {
-        parent.innerHTML += /*html*/ `<div class="tuning-nav-elem dark-gray" id="${id}-tuning-nav" onclick="Tuning.navigate(this)" onmouseenter="Tuning.color(this, '#ddd')" onmouseleave="Tuning.color(this, '#bbb')">${svgs[id]}</div>`;
+        parent.innerHTML += /*html*/ `<div class="tuning-nav-elem dark-gray" id="${id}-tuning-nav" onclick="Tuning.navigate(this)" onmouseenter="Tuning.onmouse(this, '#ddd')" onmouseleave="Tuning.onmouse(this, '#bbb')">${svgs[id]}</div>`;
     }
 
     static fillContainer(data) {
@@ -39,8 +41,7 @@ var Tuning = class Tuning {
     }
 
     static fillVariants(type, choice) {
-        this.var_container.innerHTML = '';
-        this.var_container.style = '';
+        this.clear();
         var data = this.variants_arr[choice.id];
         switch (type) {
             case 'variants-list':
@@ -51,29 +52,35 @@ var Tuning = class Tuning {
                 break;
             case 'color-selection-1':
                 this.var_container.style = 'height: 150px;min-height: unset;';
-                // addColorPicker(this.var_container, choice.id, data[0], this.colors_arr[choice.id] ?? data[1]);
-                addDelete(this.var_container, choice.id, data[2]);
+                addColorPicker(this.var_container, choice.id, data[0], this.choices[choice.id] ?? '#fff');
+                this.setMoney(prettyUSD(data[1]));
+                if (this.initial_choices[choice.id] != null) addDelete(this.var_container, choice.id, data[2]);
                 break;
             case 'color-selection-2':
                 this.var_container.style = 'height: 300px;min-height: unset;';
                 this.var_container.innerHTML = /*html*/ `<div style="height:150px;"></div>`;
-                // addColorPicker(this.var_container.firstElementChild, `${choice.id}-main`, 'Основной цвет', this.colors_arr[choice.id] ?? data[0]);
-                // addColorPicker(this.var_container.firstElementChild, `${choice.id}-extra`, 'Дополнительный цвет', this.colors_arr[choice.id] ?? data[1]);
+                addColorPicker(this.var_container.firstElementChild, `${choice.id}-main`, 'Основной цвет', this.choices[choice.id] ?? data[0]);
+                addColorPicker(this.var_container.firstElementChild, `${choice.id}-extra`, 'Дополнительный цвет', this.choices[choice.id] ?? data[1]);
+                this.setMoney(prettyUSD(data[2]));
                 break;
             case 'color-selection-many':
-                this.var_container.style = 'height: 265px;min-height: unset;display: flex;justify-content: space-evenly;flex-direction: column;align-items: center;font-weight: 600;font-size: 14px;color: white;';
+                this.var_container.style = 'height: 265px;min-height: unset;';
+                this.var_container.innerHTML = /*html*/ `<div class="tuning-many-color"><div>Цвет</div><div></div></div>`;
                 var index = 0;
-                data = tuning_colors;
-                this.var_container.innerHTML = /*html*/ `<div>Цвет</div><div></div>`;
                 for (var i = 0; i < 10; i++) {
                     var row = document.createElement('div');
                     row.classList.add('tuning-color-row');
-                    this.var_container.lastElementChild.append(row);
+                    document.querySelector('.tuning-many-color').lastElementChild.append(row);
                     for (var j = 0; j < 16; j++) {
-                        row.innerHTML += /*html*/ `<div style="background: #${data[index][0]}"></div>`;
+                        row.innerHTML += /*html*/ `<div style="background: ${tuning_colors[index]}" id="${index}-tuning-color" onclick="Tuning.oncolor('${choice.id}', this)" class="tuning-color-elem" cost="${prettyUSD(data[1])}"></div>`;
                         index++;
                     }
                 }
+                if (data[0]) this.right.firstElementChild.style.visibility = 'visible';
+                if (this.choices[choice.id] == null) this.choices[choice.id] = 0;
+                if (typeof (this.choices[choice.id]) == 'number') this.choices[choice.id] += '-tuning-color'
+                document.getElementById(this.choices[choice.id]).click();
+                if (this.initial_choices[choice.id] != null) addDelete(this.var_container, choice.id, data[2]);
                 break;
         }
 
@@ -83,8 +90,8 @@ var Tuning = class Tuning {
         }
 
         function addColorPicker(parent, id, title, hex) {
-            parent.innerHTML += /*html*/
-                `<div class="tuning-color-picker">
+            parent.innerHTML += /*html*/ `
+            <div class="tuning-color-picker">
                 <div>
                     <span>${title}</span>
                     <div hex="${hex}"  class="colorpicker" id="tuning-${id}-colorpicker" source-id="${id}" parent="tuning" onclick="Tuning.oncolorcircle(this)" style="background: ${hex}"></div>
@@ -93,44 +100,63 @@ var Tuning = class Tuning {
         }
     }
 
+
+
     static variants_arr = [];
-    static colors_arr = [];
-    static newChoiceElem(id, name, type, params) {
+    static choices = [];
+    static initial_choices = [];
+    static newChoiceElem(id, name, type, params, initial) {
         this.container.innerHTML += /*html*/ `<div id="${id}" class="tuning-choice dark-gray" onclick="Tuning.selectChoiceElem(this)" type="${type}">${name}</div>`;
+        if (!(id in this.initial_choices)) {
+            this.initial_choices[id] = initial;
+            this.choices[id] = initial;
+        }
         this.variants_arr[id] = params;
     }
 
     static newVariantElem(id, index, cost, name) {
-        this.var_container.innerHTML += /*html*/ `<div id="${id}" class="tuning-choice dark-gray" onclick="Tuning.selectVariantElem(this)">${name != null ? name : `Вариант #${index + 1}`}</div>`;
+        this.var_container.innerHTML += /*html*/ `<div cost="${prettyUSD(cost)}" id="${id}" class="tuning-choice dark-gray" onclick="Tuning.selectVariantElem(this)">${name != null ? name : `Вариант #${index + 1}`}</div>`;
     }
+
+    static fillMenu() {
+        var tune_menu = document.getElementById('tuning-menu').children;
+        tune_menu[0].children[0].innerHTML = tuning_svgs.cash + `<p id="tuning-cash"></p>`;
+        tune_menu[0].children[1].innerHTML = tuning_svgs.testdrive;
+        tune_menu[1].children[0].innerHTML = tuning_svgs.bank + `<p id="tuning-bank"></p>`;
+        tune_menu[1].children[1].innerHTML = tuning_svgs.exit;
+    }
+
 
     /*clicks*/
     static navigate(elem) {
         if (elem == this.lastNav) return;
+        this.clear();
+
+        var index = parseInt(elem.id);
+        this.navigationRequest(index);
+
         this.colorNav(elem);
         this.lastNav = elem;
 
-        var index = parseInt(elem.id);
-        this.fillContainer(this.tuning_data[index])
+        this.fillContainer(this.tuning_data[index]);
         if (this.lastChoices[index]) document.getElementById(this.lastChoices[index]).click();
-
-        this.navigationRequest(index);
+        else this.selectChoiceElem(this.container.firstElementChild);
     }
 
     static selectChoiceElem(choice) {
         this.colorSelected(choice);
-        this.fillVariants(choice.getAttribute('type'), choice)
-        // this.switchMoney(true);
-        // var cost = prettyUSD(parse/Int(choice.getAttribute('cost')) * this.coef);
-        // this.cash.lastElementChild.innerText = cost;
-        // this.bank.lastElementChild.innerText = cost;
+        this.fillVariants(choice.getAttribute('type'), choice);
+        try {
+            if (this.choices[choice.id]) document.getElementById(this.choices[choice.id]).click();
+        } catch (error) {}
     }
 
     static selectVariantElem(variant) {
-        // this.colorSelected(variant);
-        // var id = variant.getAttribute('data');
-        // this.cur_variant_arr[id] = variant.id;
-        // document.getElementById(id).cur_variant = variant.id;
+        this.colorVariant(variant);
+        var index = variant.id.split('_')[0]
+        if (this.initial_choices[index] == variant.id) this.setMoney('Приобретено');
+        else this.setMoney(variant.getAttribute('cost'));
+        this.choices[index] = variant.id;
         this.variantRequest(variant.id)
     }
 
@@ -139,6 +165,16 @@ var Tuning = class Tuning {
         whoInvoked.scale = tuning_tmpl.style.zoom || 1;
         renderTemplate(true, 'colorpicker');
         document.addEventListener('click', this.documentClick);
+    }
+
+    static oncolor(source_id, elem) {
+        if (this.choices[source_id] != null)
+            document.getElementById(this.choices[source_id]).classList.remove(`tuning-color-selected`);
+        elem.classList.add(`tuning-color-selected`);
+        if (this.initial_choices[source_id] == parseInt(elem.id)) this.setMoney('Приобретено');
+        else this.setMoney(elem.getAttribute('cost'));
+        this.choices[source_id] = elem.id;
+        this.colorRequest(source_id, parseInt(elem.id));
     }
 
 
@@ -165,7 +201,7 @@ var Tuning = class Tuning {
         }
     }
 
-    static color(elem, color) {
+    static onmouse(elem, color) {
         if (!!this.lastNav && elem == this.lastNav) return;
         var paths = elem.getElementsByTagName('path');
         for (var i = 0; i < paths.length; i++)
@@ -174,7 +210,7 @@ var Tuning = class Tuning {
 
     static colorSelected(elem) {
         elem.style.color = 'white';
-        elem.classList.add('tuning-selected')
+        elem.classList.add('tuning-selected');
 
         var lastChoice = document.getElementById(this.lastChoices[parseInt(this.lastNav.id)]);
         if (!!lastChoice && lastChoice != elem) {
@@ -183,6 +219,44 @@ var Tuning = class Tuning {
         }
 
         this.lastChoices[parseInt(this.lastNav.id)] = elem.id;
+    }
+
+    static colorVariant(elem) {
+        elem.style.color = 'white';
+        elem.classList.add('tuning-selected');
+
+        var lastChoice = document.getElementById(this.choices[elem.id.split('_')[0]])
+        if (!!lastChoice && lastChoice != elem) {
+            lastChoice.classList.remove('tuning-selected');
+            lastChoice.style.color = '';
+        }
+
+    }
+
+    static setMoney(val) {
+        document.getElementById('tuning-cash').innerText = val;
+        document.getElementById('tuning-bank').innerText = val;
+    }
+
+    static clear() {
+        this.var_container.innerHTML = '';
+        this.var_container.style = '';
+        this.right.firstElementChild.style.visibility = 'hidden';
+    }
+
+    static switchColor(status, id, value) {
+        if (status) {
+            this.initial_choices[id] = value;
+            document.getElementById(id).click();
+        } else {
+            this.initial_choices[id] = null;
+            document.getElementById(id).click();
+        }
+    }
+
+    static buyVariant(id) {
+        this.initial_choices[id.split('_')[0]] = id;
+        document.getElementById(id).click();
     }
 
     /*requests*/
@@ -194,26 +268,39 @@ var Tuning = class Tuning {
         mp.trigger('Tuning::Choose', id);
     }
 
+    static payRequest(pay_method) {
+        mp.trigger("Shop::Buy", pay_method);
+        /*server-response imitation*/
+        //switchColor(true, id, value);
+        //buyVariant(id);
+    }
+
     static deleteRequest(id) {
-        mp.trigger('Tuning::DeleteColor', id)
+        mp.trigger('Tuning::DeleteColor', id);
+        /*server-response imitation*/
+        // Tuning.switchColor(false, id);
+    }
+
+    static colorRequest(source_id, id) {
+        mp.trigger('Tuning::ChangeColor', source_id, id)
     }
 }
 
 tune_data = [
     [ //Tech
-        ['engine', 'Двигатель', 'variants-list', [100, 140, 200]],
+        ['engine', 'Двигатель', 'variants-list', [100, 140, 200], 'engine_2'],
         ['breaks', 'Тормоза', 'variants-list', [
             [500, 'Тормоза первые'],
             [430, 'Тормоза вторые'],
             [260, 'Тормоза третьи']
-        ]],
-        ['transmission', 'Коробка передач', 'variants-list', [1040, 1470, 2030, 1250, 1304, 5041]],
-        ['pendant', 'Подвеска', 'variants-list', [1400, 1430, 2005, 5102]],
-        ['turbo', 'Турбо-тюнинг', 'variants-list', [1100, 1420, 2300, 510, 5293, 699, 7103, 6010, 602, 1296, 1100, 1420, 2300, 510, 5293, 699, 7103, 6010, 602, 1296]],
+        ], 'breaks_1'],
+        ['transmission', 'Коробка передач', 'variants-list', [1040, 1470, 2030, 1250, 1304, 5041], 'transmission_4'],
+        ['pendant', 'Подвеска', 'variants-list', [1400, 1430, 2005, 5102], 'pendant_0'],
+        ['turbo', 'Турбо-тюнинг', 'variants-list', [1100, 1420, 2300, 510, 5293, 699, 7103, 6010, 602, 1296, 1100, 1420, 2300, 510, 5293, 699, 7103, 6010, 602, 1296], 'turbo_9'],
     ],
     [ //Style
-        ['id1', 'Спойлер', 'variants-list', [1, 1, 1]],
-        ['neon', 'Неон', 'color-selection-1', ['Цвет неона', '#E89623', 5000]]
+        ['id1', 'Спойлер', 'variants-list', [1, 1, 1], 'id1_2'],
+        ['neon', 'Неон', 'color-selection-1', ['Цвет неона', 9000, 5000], '#ff00ff']
     ],
     [ //Color
         ['paint-type', 'Тип покраски', 'variants-list', [
@@ -223,10 +310,10 @@ tune_data = [
             [2500, 'Матовый'],
             [5430, 'Металлический'],
             [2360, 'Хром'],
-        ]],
-        ['paint-color', 'Цвета покраски', 'color-selection-2', ['#E89623', '#E89623']],
-        ['pearl', 'Перламутр', 'color-selection-many', []],
-        ['disks', 'Диски', 'color-selection-many', []],
+        ], 'paint-type_3'],
+        ['paint-color', 'Цвета покраски', 'color-selection-2', [null, '#eeff33', 18000]],
+        ['pearl', 'Перламутр', 'color-selection-many', [true, 27000, 5000], null],
+        ['disks', 'Диски', 'color-selection-many', [false, 36000, 5000], 100],
     ],
     [ //Wheel
 

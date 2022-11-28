@@ -338,8 +338,10 @@ var Inventory = class Inventory {
     }
 
     static fillCheckBox(id, status) {
-        var checkbox = document.getElementById(`${id}-tradechbox`)
-        checkbox.checked = checkbox.checked == null ? false : !checkbox.checked;
+        var checkbox = document.getElementById(`${id}-tradechbox`);
+        // checkbox.checked = checkbox.checked == null ? false : !checkbox.checked;
+        if (checkbox.checked == null) checkbox.checked = false;
+        checkbox.checked = status;
         if (status) {
             checkbox.classList.add('trade-checkbox-selected');
             checkbox.querySelector('path').setAttribute('stroke', 'white')
@@ -805,7 +807,7 @@ var Inventory = class Inventory {
 
     static requestTradeReady(checkbox) {
         //this.fillCheckBox('last', !checkbox.checked)
-        //this.switchTradeBtn(checkbox.checked);
+        //this.switchTradeBtn(!checkbox.checked);
         mp.trigger("Trade::UpdateLocal", 2, !checkbox.checked);
     }
 

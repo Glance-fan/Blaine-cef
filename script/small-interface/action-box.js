@@ -34,7 +34,7 @@ var ActionBox = class ActionBox {
                 else this.container.style = '';
                 for (let index = 0; index < data.length; index++)
                     this.container.firstElementChild.innerHTML += /*html*/ `
-                <div class="action-box-choice-elem" onclick="ActionBox.onclick(this)" id="${data[index][0]}-action-box-choice">${data[index][1]} [#${data[index][0]}]</div>`;
+                <div class="action-box-choice-elem" onclick="ActionBox.onclick(this)" id="${data[index][0]}-action-box-choice">${data[index][1]}</div>;`
                 this.container.firstElementChild.firstElementChild.click();
                 break;
             case 1: //input
@@ -46,7 +46,7 @@ var ActionBox = class ActionBox {
                     }, 0)
                 break;
             case 2: //range
-            this.container.parentElement.style.top = `calc(50% - 27px)`;
+                this.container.parentElement.style.top = `calc(50% - 27px)`;
                 this.container.innerHTML = /*html*/ `
                 <input style="${data[1] == 1 ? 'direction: rtl' : ''}" type="range" min="${data[0]}" max="${data[1]}" value="${data[2] || data[1]}" step="${data[3]}" oninput="ActionBox.onrange(this)">
                 <div class="action-box-span-wrapper">

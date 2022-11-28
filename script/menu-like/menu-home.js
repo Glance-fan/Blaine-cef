@@ -5,8 +5,8 @@ var MenuHome = class MenuHome {
         this.fillLayout(data[1]);
         this.fillRoomies(data[2]);
         this.fillFurniture(data[3]);
-        this.fillLights(data[4])
-        this.selectOption(3)
+        this.fillLights(data[4]);
+        this.selectOption(0)
     }
 
     static selectOption(index) {
@@ -27,9 +27,9 @@ var MenuHome = class MenuHome {
     static navigate(opt) {
         if (this.lastNav == opt) return;
         document.getElementById('menuhome-0-extracontainer').style.display = 'none';
-        this.resetRoommate();
-        this.resetFurniture();
-        this.resetLight();
+        // this.resetRoommate();
+        // this.resetFurniture();
+        // this.resetLight();
         if (this.lastNav != null) {
             this.lastNav.style = '';
             this.lastNav.parentElement.classList.remove('current');
@@ -136,8 +136,8 @@ var MenuHome = class MenuHome {
                     <div style="font-weight: 500">Приобрести</div>
                     <div style="font-weight: 600" id="menuhome-layout-cost">${cost}</div>
                     <div style="display:flex; justify-content:space-between; width: 100%;">
-                        <button class="red-button" onclick="MenuHome.onbutton('cash', MenuHome.lastLayout.id)">${hud_left_svgs.cash}</button>
-                        <button class="grey-button" onclick="MenuHome.onbutton('bank', MenuHome.lastLayout.id)">${hud_left_svgs.bank}</button>
+                        <button style="width: 80px" class="red-button" onclick="MenuHome.onbutton('cash', MenuHome.lastLayout.id)">${hud_left_svgs.cash}</button>
+                        <button style="width: 80px" class="grey-button" onclick="MenuHome.onbutton('bank', MenuHome.lastLayout.id)">${hud_left_svgs.bank}</button>
                     </div>
                 </div>`
             parent.style = '';
@@ -190,9 +190,8 @@ var MenuHome = class MenuHome {
     }
 
     static scrollLayout() {
-        this.onlayout(document.getElementById(this.currentLayout));
+        this.onlayout(this.lastLayout ?? document.getElementById(this.currentLayout));
         var parent = document.getElementById('menuhome-layouts-scrollable');
-        parent.scrollTo(0, 0);
         parent.scrollTo({
             top: parent.querySelector('.menuhome-selected-layout').offsetTop - 115,
             behavior: 'smooth'
@@ -200,7 +199,7 @@ var MenuHome = class MenuHome {
     }
 
 
-
+    /*roommates*/
     //data[i] = [id, 'name', [light(t|f), doors(t|f), closet(t|f), wardrobe(t|f), fridge(t|f)]]
     static fillRoomies(data) {
         document.getElementById('menuhome-1-container').innerHTML = /*html*/ `
@@ -254,24 +253,28 @@ var MenuHome = class MenuHome {
         var parent = document.getElementById('menuhome-rommies-info');
         parent.innerHTML = ``;
         for (var index = 0; index < data.length; index++)
-            this.newRoommate(parent, data[index][0], data[index][1], data[index][2])
+            this.newRoommate(...data[index]);
+        try {
+            parent.firstElementChild.click();
+        } catch (error) {}
     }
 
     static permits_arr = {};
-    static newRoommate(parent, id, name, permits) {
+    static newRoommate(id, name, permits) {
         var mate = document.createElement('div');
         mate.id = `${id}-menuhome-roommate`;
-        mate.innerText = `${name} [#${id}]`;
+        mate.innerText = `${name}`;
         mate.classList.add('menuhome-rommies-elem');
         mate.setAttribute('onclick', `MenuHome.onRoommate(this)`);
-        parent.append(mate);
+        document.getElementById('menuhome-rommies-info').append(mate);
         this.permits_arr[id] = permits;
+        mate.click();
     }
 
     static lastMate;
     static onRoommate(mate) {
         this.resetRoommate();
-        document.getElementById('menuhome-1-content-1').style.visibility = 'visible';
+        document.getElementById('menuhome-1-content-1').style.display = 'flex';
         this.lastMate = mate;
         mate.classList.add('menuhome-selected-roommate')
         this.setAllPermits(this.permits_arr[parseInt(mate.id)]);
@@ -279,8 +282,16 @@ var MenuHome = class MenuHome {
         document.getElementById('menuhome-rommies-title').innerText = `Сожители [${temparr.indexOf(mate) + 1}/${temparr.length}]`
     }
 
+    static removeRoommate(id) {
+        document.getElementById(`${id}-menuhome-roommate`).remove();
+        this.resetRoommate();
+        try {
+            document.getElementById('menuhome-rommies-info').firstElementChild.click();
+        } catch (error) {}
+    }
+
     static resetRoommate() {
-        document.getElementById('menuhome-1-content-1').style.visibility = 'hidden';
+        document.getElementById('menuhome-1-content-1').style.display = 'none';
         if (this.lastMate != null) this.lastMate.classList.remove('menuhome-selected-roommate');
         this.lastMate = null;
         document.getElementById('menuhome-rommies-title').innerText = `Сожители`;
@@ -288,7 +299,7 @@ var MenuHome = class MenuHome {
     }
 
 
-
+    /*furniture*/
     static fillFurniture(data) {
         document.getElementById('menuhome-2-container').innerHTML = /*html*/ `
         <div>
@@ -316,22 +327,32 @@ var MenuHome = class MenuHome {
         this.fillFurnitureContainer('possible', data[1]);
     }
 
-    //which = 'installed' || 'possible'
+    //which = 'possible' || 'installed'
     static fillFurnitureContainer(which, data) {
         var parent = document.getElementById(`menuhome-furniture-${which}`);
+        parent.innerHTML = ``;
         for (var index = 0; index < data.length; index++)
-            this.newFurnitureElem(parent, data[index][0], data[index][1], data[index][2]);
+            this.newFurnitureElem(which, ...data[index]);
+        try {
+            parent.firstElementChild.click();
+        } catch (error) {}
     }
 
-    static newFurnitureElem(parent, uid, id, name) {
+    static newFurnitureElem(which, uid, id, name) {
+        var parent = document.getElementById(`menuhome-furniture-${which}`);
         var elem = document.createElement('div');
+        parent.append(elem);
         elem.id = `${uid}-menuhome-furniture`;
         elem.innerHTML = /*html*/ `
             <div>${name}</div>
-            <div><img src="${furnitureItems[id]}"/></div>`
+            <div>${inventoryItems[id]}</div>`
         elem.classList.add('menuhome-furniture-elem');
         elem.setAttribute('onclick', `MenuHome.onFurniture(this, '${parent.id.split('-').at(-1)}')`);
-        parent.append(elem);
+        elem.click();
+        parent.parentElement.scrollTo({
+            top: parent.parentElement.scrollHeight,
+            behavior: 'smooth'
+        })
     }
 
     static lastFurniture = [];
@@ -347,20 +368,32 @@ var MenuHome = class MenuHome {
         } else {
             document.getElementById('menuhome-furniture-title-2').innerText = `Можно установить [${temparr.indexOf(elem) + 1}]`
         }
-
     }
 
-    static resetFurniture() {
-        document.getElementById(`menuhome-furniture-installed-btns`).style.visibility = 'hidden';
-        document.getElementById(`menuhome-furniture-possible-btns`).style.visibility = 'hidden';
-        if (this.lastFurniture['installed'] != null) this.lastFurniture['installed'].classList.remove('menuhome-selected-furniture');
-        if (this.lastFurniture['possible'] != null) this.lastFurniture['possible'].classList.remove('menuhome-selected-furniture');
-        this.lastFurniture['installed'] = null;
-        this.lastFurniture['possible'] = null;
-        document.getElementById('menuhome-furniture-title-1').innerText = `Установленная мебель`;
-        document.getElementById('menuhome-furniture-title-2').innerText = `Можно установить`;
-        document.getElementsByClassName('menuhome-furniture-scrollable')[0].scrollTo(0, 0);
-        document.getElementsByClassName('menuhome-furniture-scrollable')[1].scrollTo(0, 0)
+    static removeFurniture(which, id) {
+        document.getElementById(`${id}-menuhome-furniture`).remove();
+        this.resetFurniture(which == 'installed' ? 0 : 1, which)
+        try {
+            document.getElementById(`menuhome-furniture-${which}`).firstElementChild.click();
+        } catch (error) {}
+    }
+
+    static resetFurniture(index, which) {
+        if (which) reset(index, which);
+        else {
+            reset(0, 'installed');
+            reset(1, 'possible');
+        }
+
+        function reset(index, which) {
+            document.getElementById(`menuhome-furniture-${which}-btns`).style.visibility = 'hidden';
+            if (MenuHome.lastFurniture[`${which}`] != null)
+                MenuHome.lastFurniture[`${which}`].classList.remove('menuhome-selected-furniture');
+            MenuHome.lastFurniture[`${which}`] = null;
+            document.getElementById(`menuhome-furniture-title-${index + 1}`).innerText = index == 0 ? `Установленная мебель` : `Можно установить`;
+            var elem = document.getElementsByClassName('menuhome-furniture-scrollable')[index]
+            elem.parentElement.replaceChild(elem, elem);
+        }
     }
 
 
@@ -464,6 +497,7 @@ var MenuHome = class MenuHome {
         mp.trigger('MenuHome::Action', action, param);
         // MenuHome.setButton(action, state) //if action == 'entry' || 'closet'
         // MenuHome.applyColor(id, hex) //if action == 'apply-color' || 'reset-color'
+        // if (action == 'expel') this.removeRoommate(param);
     }
 }
 
@@ -485,17 +519,17 @@ var home_roomies = [
 ]
 var home_furniture = [
     [
-        [100, 'bed', 'Свободные спортивные штаны и футболка с трусами'],
-        [101, 'bed', 'Кровать двуспальная#2'],
-        [102, 'armchair', 'Позднеренессансное кресло'],
-        [103, 'table', 'Стол стеклянный (журнальный)'],
-        [108, 'closet', 'Комод классический (бежевый)'],
+        [100, 'furn_0', 'Свободные спортивные штаны и футболка с трусами'],
+        [101, 'furn_1', 'Кровать двуспальная#2'],
+        [102, 'furn_2', 'Позднеренессансное кресло'],
+        [103, 'furn_3', 'Стол стеклянный (журнальный)'],
+        [108, 'furn_4', 'Комод классический (бежевый)'],
     ],
     [
-        [104, 'closet', 'Комод классический (черный)'],
-        [105, 'closet', 'Комод классический (белый)'],
-        [106, 'closet', 'Комод классический (зеленый)'],
-        [107, 'closet', 'Комод классический (фиолетовый)'],
+        [104, 'furn_5', 'Комод классический (черный)'],
+        [105, 'furn_6', 'Комод классический (белый)'],
+        [106, 'furn_7', 'Комод классический (зеленый)'],
+        [107, 'furn_8', 'Комод классический (фиолетовый)'],
     ]
 ]
 var home_lights = [

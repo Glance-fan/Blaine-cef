@@ -21,15 +21,16 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 735px;
+    height: 680px;
     position: absolute;
     left: 20px;
+    top: calc(50% - 435px);
 }
 
 #tuning-right-side {
     right: 20px;
     left: unset;
-
+    height: unset;
 }
 
 #tuning-left-side>div:first-child {
@@ -38,6 +39,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-left: 5px;
 }
 
 #tuning-left-scrollable,
@@ -80,7 +82,6 @@
 
 #tuning-left-side>div:nth-child(2) {
     display: flex;
-
     width: 525px;
 
 }
@@ -106,7 +107,6 @@
     align-items: center;
     margin: 0 15px 15px 0;
 }
-
 
 .tuning-choice {
     width: 300px;
@@ -169,12 +169,80 @@
     justify-content: space-between;
 }
 
-.tuning-color-row:not(:first-child){
+.tuning-color-row:not(:first-child) {
     margin-top: 5px;
 }
 
-.tuning-color-row>div{
+.tuning-color-elem {
     width: 15px;
     height: 15px;
     border-radius: 3px;
+}
+
+#tuning-right-side>div:first-child {
+    width: 300px;
+    height: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    visibility: hidden;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #BBBBBB;
+}
+
+.tuning-many-color {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    align-items: center;
+    font-weight: 600;
+    font-size: 14px;
+    color: white;
+    height: 265px;
+}
+
+.tuning-color-selected{
+    border: 1px solid white;
+    width: 13px;
+    height: 13px;
+}
+
+
+#tuning-menu {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 20px;
+    width: 300px;
+    height: 170px;
+}
+
+#tuning-menu>div {
+    display: flex;
+    justify-content: space-between;
+}
+
+#tuning-menu>div>div{
+    height: 80px;
+    width: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+}
+
+#tuning-menu>div>div:first-child{
+    color: white;
+    width: 180px;
+    flex-direction: column;
+}
+
+#tuning-menu p {
+    margin-top: 10px;
+    font-weight: 600;
+    font-size: 12px;
 }

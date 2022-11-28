@@ -164,6 +164,7 @@ function resizeAll() {
         resizeBigger(document.querySelector('.inv-help'));
     }
     if (shop_tmpl) resizeBigger(shop_tmpl);
+    if (tuning_tmpl) resizeBigger(tuning_tmpl);
     if (retail_tmpl) resizeBigger(retail_tmpl);
     if (death_tmpl) Death.resize(death_tmpl);
     if (hud_top) hud_top.style.zoom = clHeight;

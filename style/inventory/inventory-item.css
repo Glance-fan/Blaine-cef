@@ -147,7 +147,6 @@
     align-items: center;
     padding: 0 10px;
     user-select: none;
-    text-transform: capitalize;
 }
 
 .tooltip-arrow {

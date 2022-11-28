@@ -211,7 +211,7 @@ var Estate = class Estate {
 // Estate.draw('offer', 'veh', null, ['Jessica Day', 750000, 'model', 500000, 80085, 'отсутствует'])
 
 // Estate.draw('sell', 'sell', null, ['Jessica Day', [
-//     ['House', 'producer', 'model', 'class_range', 550000, 177],
+//     ['House', 'Магазин брендовой одежды', '', 'class_range', 550000, 3],
 //     ['Biz', 'producer', 'model', 'class_range', 550000, 177],
 //     ['Flat', 'producer', 'model', 'class_range', 550000, 177],
 //     ['Garage', 'producer', 'model', 'class_range', 550000, 177],

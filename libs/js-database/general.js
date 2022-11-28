@@ -24,7 +24,7 @@ var scripts = {
     menu_bank: ['libs/svgs/menu-bank.js', 'script/menu-like/menu-bank.js', 'style/menu-like/menu-bank.css'],
     menu_biz: ['libs/svgs/menu-biz.js', 'script/menu-like/menu-biz.js', 'style/menu-like/menu-biz.css'],
     menu_gar: ['script/menu-like/menu-garage.js', 'style/menu-like/menu-garage.css'],
-    menu_home: ['libs/svgs/menu-home.js', 'script/menu-like/menu-home.js', 'style/menu-like/menu-home.css'],
+    menu_home: ['libs/svgs/menu-home.js', 'libs/svgs/inventory/inventory.js', 'script/menu-like/menu-home.js', 'style/menu-like/menu-home.css'],
     menu: ['libs/svgs/menu.js', 'script/menu-like/menu.js', 'style/menu-like/menu.css'],
 
     /*small-interface*/
@@ -42,7 +42,6 @@ var scripts = {
     shop: ['libs/svgs/shop.js', 'libs/js-database/shop.js', 'script/store-like/shop.js', 'style/store-like/shop.css'],
     tuning: ['libs/svgs/tuning.js', 'script/store-like/tuning.js', 'style/store-like/tuning.css'],
 
-    
     /*no category*/
     hud: ['libs/frameworks/speedometer.js', 'script/hud.js', 'style/hud.css'],
     inventory: ['libs/svgs/inventory/inventory.js', 'libs/svgs/inventory/weapon.js', 'libs/js-database/inventory.js', 'script/inventory.js', 'style/inventory/inventory.css', 'style/inventory/inventory-item.css'],

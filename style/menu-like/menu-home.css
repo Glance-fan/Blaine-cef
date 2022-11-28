@@ -287,6 +287,7 @@
     height: 250px;
     align-items: center;
     font-size: 14px;
+    padding: 10px;
 }
 
 #menuhome-0-extracontent-1 svg {
@@ -427,6 +428,10 @@
     margin-top: 30px;
 }
 
+.menuhome-furniture-elem img {
+    width: 60px;
+    height: 60px;
+}
 
 
 .menuhome-selected-roommate,
@@ -435,11 +440,11 @@
     animation: 5s ease 0s infinite normal none running selected;
 }
 
-#menuhome-3-container>div:first-child{
+#menuhome-3-container>div:first-child {
     height: 505px;
 }
 
-#menuhome-3-container>div:last-child{
+#menuhome-3-container>div:last-child {
     height: 180px;
     width: 305px;
 }
@@ -457,7 +462,7 @@
     width: 345px;
 }
 
-.menuhome-lights-elem, 
+.menuhome-lights-elem,
 .menuhome-lights-elem>div:last-child {
     display: flex;
     align-items: center;
@@ -471,17 +476,17 @@
     font-weight: 700;
 }
 
-.menuhome-lights-elem svg{
+.menuhome-lights-elem svg {
     width: 25px;
     height: 25px;
     opacity: 0.7;
 }
 
-.menuhome-lights-elem svg:hover{
+.menuhome-lights-elem svg:hover {
     opacity: 0.9;
 }
 
-.menuhome-lights-elem:not(:first-child){
+.menuhome-lights-elem:not(:first-child) {
     margin-top: 25px;
 }
 

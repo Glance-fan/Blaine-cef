@@ -153,11 +153,11 @@
     animation: 5s ease 0s infinite normal none running selected;
 }
 
-.assortment-elem svg {
+.assortment-elem svg,
+.assortment-elem img {
     width: 45px;
     height: 45px;
 }
-
 
 .bottom-assortment {
     display: none;
@@ -308,7 +308,7 @@
     padding: 0px 6px;
 }
 
-.personal-accept{
+.personal-accept {
     font-weight: 600;
     font-size: 12px;
 }

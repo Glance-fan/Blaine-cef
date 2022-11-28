@@ -55,13 +55,14 @@ vue_app.component('colorpicker-template', {
                     mp.trigger('Menu::UpdateAimColor', hex, alpha)
                     break;
                 case 'menu_home':
+                    MenuHome.lastLight.setAttribute('hex', hex); 
                     mp.trigger('HomeMenu::UpdateLightColor', whoInvoked.getAttribute('source-id'), hex)
                     break;
                 case 'shop':
                     mp.trigger('Shop::UpdateColor', whoInvoked.getAttribute('source-id'), hex)
                     break;
                 case 'tuning':
-                    Tuning.colors_arr[whoInvoked.getAttribute('source-id')] = hex;
+                    Tuning.choices[whoInvoked.getAttribute('source-id')] = hex;
                     mp.trigger('Tuning::UpdateColor', whoInvoked.getAttribute('source-id'), hex)
                     break;
                 default:
