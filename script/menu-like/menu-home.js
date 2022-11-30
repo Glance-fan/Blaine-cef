@@ -27,9 +27,6 @@ var MenuHome = class MenuHome {
     static navigate(opt) {
         if (this.lastNav == opt) return;
         document.getElementById('menuhome-0-extracontainer').style.display = 'none';
-        // this.resetRoommate();
-        // this.resetFurniture();
-        // this.resetLight();
         if (this.lastNav != null) {
             this.lastNav.style = '';
             this.lastNav.parentElement.classList.remove('current');
@@ -55,15 +52,15 @@ var MenuHome = class MenuHome {
                 <div style="font-weight: 700;">Управление</div>
                 <div id="menuhome-info-buttons" class="menuhome-section">
                     <div style="justify-content:space-between">
-                        <button onclick="MenuHome.onbutton('entry', this.className == 'red-button')" id="menuhome-entry-btn" class="red-button">Закрыть<br>вход</button>
-                        <button onclick="MenuHome.onbutton('closet', this.className == 'red-button')" id="menuhome-closet-btn" class="red-button">Закрыть<br>шкафы</button>
+                        <button onclick="MenuHome.onbutton('entry', this.className == 'red-button')" id="menuhome-entry-btn" class="red-button">Закрыть\nвход</button>
+                        <button onclick="MenuHome.onbutton('closet', this.className == 'red-button')" id="menuhome-closet-btn" class="red-button">Закрыть\nшкафы</button>
                     </div>
                     <div style="justify-content:center">
                         <button onclick="MenuHome.switchContainer('extra')" class="grey-button">Изменить<br>планировку</button>
                     </div>
                 </div>
             </div>
-            <div style="justify-content:center"><button onclick="MenuHome.onbutton('sell2gov')" class="grey-button">Продать<br>государству</button></div>
+            <div style="justify-content:center"><button onclick="MenuHome.onbutton('sell2gov')" class="red-button">Продать<br>государству</button></div>
         </div>`;
         this.fillInfo(type, data);
     }
@@ -99,10 +96,10 @@ var MenuHome = class MenuHome {
         var btn = menuhome_tmpl.querySelector(`#menuhome-${which}-btn`);
         var text = btn.innerText.split('\n');
         if (status) {
-            btn.className = 'grey-button';
+            btn.className = 'red-button';
             btn.innerText = `Открыть\n${text[1]}`;
         } else {
-            btn.className = 'red-button';
+            btn.className = 'green-button';
             btn.innerText = `Закрыть\n${text[1]}`;
         }
     }
@@ -230,7 +227,7 @@ var MenuHome = class MenuHome {
             parent.innerHTML += /*html*/ `
             <div>
                 ${static_data[index][0]}
-                <div class="menuhome-checkbox" onclick="MenuHome.onCheckBox(this.firstElementChild)">
+                <div class="menuhome-checkbox" onclick="MenuHome.onCheckBox([this.firstElementChild.id.split('-')[1], !this.firstElementChild.checked, parseInt(MenuHome.lastMate.id)])">
                     <input type="checkbox" id="${static_data[index][1]}" onclick="return false"/>
                     <span class="menuhome-checkbox-switch"></span>
                 </div>
@@ -238,10 +235,16 @@ var MenuHome = class MenuHome {
         }
     }
 
+    static permits = ['light', 'doors', 'closet', 'wardrobe', 'fridge']
     static setAllPermits(data) {
         var static_data = menuhome_static.permits;
         for (var index = 0; index < data.length; index++)
             this.setCheckBox(static_data[index][1], data[index]);
+    }
+
+    static setPermit(id, state, index){
+        this.permits_arr[index][this.permits.indexOf(id)] = state;
+        this.setCheckBox(`menuhome-${id}-permit`, state);
     }
 
     static setCheckBox(id, state) {
@@ -300,10 +303,12 @@ var MenuHome = class MenuHome {
 
 
     /*furniture*/
+    static max_furn;
     static fillFurniture(data) {
+        this.max_furn = data[2];
         document.getElementById('menuhome-2-container').innerHTML = /*html*/ `
         <div>
-            <div style="font-weight: 700;" id="menuhome-furniture-title-1">Установленная мебель</div>
+            <div style="font-weight: 700;" id="menuhome-furniture-title-1">Установленная мебель [${data[0].length} / ${this.max_furn}]</div>
             <div class="menuhome-furniture-scrollable">
                 <div id="menuhome-furniture-installed"  class="menuhome-section"></div>
             </div>
@@ -314,7 +319,7 @@ var MenuHome = class MenuHome {
             </div>
         </div>
         <div>
-            <div style="font-weight: 700;" id="menuhome-furniture-title-2">Можно установить</div>
+            <div style="font-weight: 700;" id="menuhome-furniture-title-2">Можно установить [${data[1].length}]</div>
             <div class="menuhome-furniture-scrollable">
                 <div id="menuhome-furniture-possible"  class="menuhome-section"></div>
             </div>
@@ -364,9 +369,9 @@ var MenuHome = class MenuHome {
         document.getElementById(`menuhome-furniture-${from}-btns`).style.visibility = 'visible';
         var temparr = Array.from(elem.parentElement.children);
         if (from == 'installed') {
-            document.getElementById('menuhome-furniture-title-1').innerText = `Установленная мебель [${temparr.indexOf(elem) + 1}/${temparr.length}]`
+            document.getElementById('menuhome-furniture-title-1').innerText = `Установленная мебель [${temparr.length} / ${this.max_furn}]`
         } else {
-            document.getElementById('menuhome-furniture-title-2').innerText = `Можно установить [${temparr.indexOf(elem) + 1}]`
+            document.getElementById('menuhome-furniture-title-2').innerText = `Можно установить [${temparr.length}]`
         }
     }
 
@@ -423,7 +428,14 @@ var MenuHome = class MenuHome {
     static fillLightsContainer(data) {
         var parent = document.getElementById(`menuhome-lights-container`);
         for (var index = 0; index < data.length; index++)
-            this.newLightsElem(parent, data[index][0], data[index][1], data[index][2], data[index][3]);
+            this.newLightsElem(parent, ...data[index]);
+        setTimeout(() => {
+            try {
+                parent.querySelector('svg').onclick()
+            } catch (error) {
+                document.getElementById('menuhome-3').style.display = 'none';
+            }
+        }, 0);
     }
 
     static newLightsElem(parent, id, name, isOn, hex) {
@@ -432,7 +444,7 @@ var MenuHome = class MenuHome {
         light.innerHTML = /*html*/ `
         <div>${name}</div>
         <div style="width: 100px;">
-            <div class="menuhome-checkbox" onclick="MenuHome.onCheckBox(this.firstElementChild)">
+            <div class="menuhome-checkbox" onclick="MenuHome.onCheckBox([this.firstElementChild.id, !this.firstElementChild.checked])">
                 <input type="checkbox" id="${id}" onclick="return false"/>
                 <span class="menuhome-checkbox-switch"></span>
             </div>
@@ -462,6 +474,7 @@ var MenuHome = class MenuHome {
         this.colorpicker.style.background = hex;
         this.colorpicker.setAttribute('source-id', this.nowSource);
         this.colorpicker.setAttribute('hex', hex);
+        this.colorpicker.setAttribute('cur-hex', hex);
     }
 
     static applyColor(id, hex) {
@@ -487,14 +500,14 @@ var MenuHome = class MenuHome {
     }
 
 
-    static onCheckBox(setting) {
-        mp.trigger("MenuHome::CheckBox", setting.id, !setting.checked);
+    static onCheckBox(params) {
+        mp.trigger("MenuHome::CheckBox", ...params);
         /*server-responce*/
         //MenuHome.setCheckBox(setting.id, !setting.checked);
     }
 
     static onbutton(action, param) {
-        mp.trigger('MenuHome::Action', action, param);
+        mp.trigger('MenuHome::Action', action, ...(Array.isArray(param) ? param : [param]));
         // MenuHome.setButton(action, state) //if action == 'entry' || 'closet'
         // MenuHome.applyColor(id, hex) //if action == 'apply-color' || 'reset-color'
         // if (action == 'expel') this.removeRoommate(param);
@@ -530,7 +543,7 @@ var home_furniture = [
         [105, 'furn_6', 'Комод классический (белый)'],
         [106, 'furn_7', 'Комод классический (зеленый)'],
         [107, 'furn_8', 'Комод классический (фиолетовый)'],
-    ]
+    ], 50
 ]
 var home_lights = [
     ['source-1', 'Источник #1', true, '#FF0000'],
@@ -546,4 +559,4 @@ var home_lights = [
     ['source-32', 'Источник #32', false, '#000000'],
     ['source-33', 'Источник #33', true, '#F0000F'],
 ]
-MenuHome.draw(0, [home_info, home_layouts, home_roomies, home_furniture, home_lights])
+// MenuHome.draw(0, [home_info, home_layouts, home_roomies, home_furniture, home_lights])
