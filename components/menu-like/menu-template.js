@@ -182,6 +182,7 @@ vue_app.component('menu-template', {
         </div>
     </div>
     <div class="menu-right-panel">
+        <div class="close-template" onclick="mp.trigger('Menu::Close')">${close_svg}</div>
         <!--Character option-->
         <div class="menu-char-info">
             <!--General + Finance-->
@@ -337,55 +338,8 @@ vue_app.component('menu-template', {
             <div class="settings-row">
                 <h2>Интерфейс</h2>
                 <!--Minor settings-->
-                <div class="sett-block section-bg sett-text" style="justify-content: space-evenly;">
-                    <!--Time-->
-                    <div>
-                        <span>Время сервера</span>
-                        <label class="sett-checkbox">
-                            <input type="checkbox" onclick="Menu.onCheck(this, this.checked)" id="sett-time">
-                            <span class="sett-checkbox-switch"></span>
-                        </label>
-                    </div>
-                    <!--Help-->
-                    <div>
-                        <span>Скрыть подсказки</span>
-                        <label class="sett-checkbox">
-                            <input type="checkbox" onclick="Menu.onCheck(this, this.checked)" id="sett-help">
-                            <span class="sett-checkbox-switch"></span>
-                        </label>
-                    </div>
-                    <!--Names-->
-                    <div>
-                        <span>Скрыть имена игроков</span>
-                        <label class="sett-checkbox">
-                            <input type="checkbox" onclick="Menu.onCheck(this, this.checked)" id="sett-names">
-                            <span class="sett-checkbox-switch"></span>
-                        </label>
-                    </div>
-                    <!--Notifications-->
-                    <div>
-                        <span>Скрыть CID игроков</span>
-                        <label class="sett-checkbox">
-                            <input type="checkbox" onclick="Menu.onCheck(this, this.checked)" id="sett-cid">
-                            <span class="sett-checkbox-switch"></span>
-                        </label>
-                    </div>
-                    <!--HUD-->
-                    <div>
-                        <span>Скрыть HUD</span>
-                        <label class="sett-checkbox">
-                            <input type="checkbox" onclick="Menu.onCheck(this, this.checked)" id="sett-hud">
-                            <span class="sett-checkbox-switch"></span>
-                        </label>
-                    </div>
-                    <!--Quest-->
-                    <div>
-                        <span>Скрыть задание</span>
-                        <label class="sett-checkbox">
-                            <input type="checkbox" onclick="Menu.onCheck(this, this.checked)" id="sett-quest">
-                            <span class="sett-checkbox-switch"></span>
-                        </label>
-                    </div>
+                <div class="sett-block section-bg sett-text">
+                    <p><div id="main-toggle-block"></div></p>
                 </div>
                 <!--Aim-->
                 <div class="section-bg aim">
@@ -429,7 +383,7 @@ vue_app.component('menu-template', {
                         </div>
                         <div>
                             <span style="font-size: 12px;font-weight: 500;">Размер</span>
-                            <input id="sett-aimScale" type="range" min="0" max="1" value="0.5" step="0.01" oninput="Menu.onrange(this)" style="background-size: 50% 100%;">
+                            <input id="sett-aimScale" type="range" min="0" max="1" value="0.5" step="0.1" oninput="Menu.onrange(this)" style="background-size: 50% 100%;">
                             <div id="aim-size-spans">
                                 <span>0</span>
                                 <span id="aim-size">0.5</span>
@@ -478,36 +432,8 @@ vue_app.component('menu-template', {
                 </div>
 
                 <h2 style="left:305px">Дополнительные параметры</h2>
-                <div class="sett-block section-bg sett-text"
-                    style="margin-left:20px; justify-content: space-evenly;">
-                    <div>
-                        <span>Скрыть кнопку<br>взаимодействия</span>
-                        <label class="sett-checkbox">
-                            <input type="checkbox" onclick="Menu.onCheck(this, this.checked)" id="sett-interact">
-                            <span class="sett-checkbox-switch"></span>
-                        </label>
-                    </div>
-                    <div>
-                        <span>Скрыть названия<br>предметов на земле</span>
-                        <label class="sett-checkbox">
-                            <input type="checkbox" onclick="Menu.onCheck(this, this.checked)" id="sett-items">
-                            <span class="sett-checkbox-switch"></span>
-                        </label>
-                    </div>
-                    <div>
-                        <span>Автоматическая<br>перезарядка</span>
-                        <label class="sett-checkbox">
-                            <input type="checkbox" onclick="Menu.onCheck(this, this.checked)" id="sett-reload">
-                            <span class="sett-checkbox-switch"></span>
-                        </label>
-                    </div>
-                    <div>
-                        <span>Включить указание<br>пальцем на объекты</span>
-                        <label class="sett-checkbox">
-                            <input type="checkbox" onclick="Menu.onCheck(this, this.checked)" id="sett-finger">
-                            <span class="sett-checkbox-switch"></span>
-                        </label>
-                    </div>
+                <div class="sett-block section-bg sett-text" style="margin-left:20px;">
+                    <p><div id="extra-toggle-block"></div></p>
                 </div>
             </div>
             <!--Sound + Special-->
@@ -542,7 +468,7 @@ vue_app.component('menu-template', {
                             <span class="sett-checkbox-switch"></span>
                         </label>
                     </div>
-                    <p class="special-text">
+                    <p class="special-text" style="padding: 0; height: unset">
                         Только для людей с ограниченными<br>возможностями!<br>
                         <br>При использовании данной функции<br>не по назначению Вы будете наказаны!
                     </p>

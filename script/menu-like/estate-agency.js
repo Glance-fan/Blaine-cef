@@ -11,6 +11,12 @@ var EstAgency = class Real_Estate_Agency {
         'Гаражи': [],
     }
 
+    static defaultFilters = {
+        'Дома': [0, 999999999, 0, 99, 0, 99],
+        'Квартиры': [0, 999999999, 0, 99],
+        'Гаражи': [0, 999999999, 0, 99],
+    }
+
     static curFilters = {}
 
     static draw(data) {
@@ -27,6 +33,7 @@ var EstAgency = class Real_Estate_Agency {
         this.full_data['Дома'] = data[0];
         this.full_data['Квартиры'] = data[1];
         this.full_data['Гаражи'] = data[2];
+        this.full_data['gps'] = data[3];
     }
 
     static selectOption(id, index) {
@@ -74,12 +81,15 @@ var EstAgency = class Real_Estate_Agency {
         this.fillFilters();
     }
 
+    //id = ['Дома', 'Квартиры', 'Гаражи'], new_default = [cost_min, cost_max, rooms_min, rooms_max, garages_min, garages_max]
+    static changeDefault(id, new_default) {
+        this.defaultFilters[id] = new_default;
+        this.resetFilters();
+        try { this.lastNav.click(); } catch (error) {};
+    }
+
     static resetFilters() {
-        this.curFilters = {
-            'Дома': [0, 999999999, 0, 99, 0, 99],
-            'Квартиры': [0, 999999999, 0, 99],
-            'Гаражи': [0, 999999999, 0, 99],
-        }
+        this.curFilters = JSON.parse(JSON.stringify(this.defaultFilters));
     }
 
     static container = document.getElementById('estagency-container')
@@ -111,8 +121,8 @@ var EstAgency = class Real_Estate_Agency {
         var elem = this.container.lastElementChild;
         elem.setAttribute('uid', typeof uid == 'number' ? `${uid}-estagelem` : uid)
         elem.setAttribute('onclick', `EstAgency.onEstate(this)`);
-        elem.setAttribute('param_1', this.prettyUSD(cost));
-        elem.setAttribute('param_2', this.prettyUSD(tax, true));
+        elem.setAttribute('param_1', prettyUSD(cost));
+        elem.setAttribute('param_2', prettyUSD(tax, true));
         elem.setAttribute('param_3', param_3);
         if (param_4 != null) elem.setAttribute('param_4', param_4);
     }
@@ -147,7 +157,7 @@ var EstAgency = class Real_Estate_Agency {
                 return /*html*/ `
                 <div class="estagency-filter-type-0">
                     $
-                    <input oninput="EstAgency.onAnyInput(this, 999999999)" onfocus="EstAgency.onCostFocus(this)" onblur="this.parentElement.style.animation = '';" value="${EstAgency.curFilters[EstAgency.curOpen][parseInt(id)]}" id="${id}" maxlength="10" autocomplete="false" spellcheck="false" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
+                    <input oninput="EstAgency.onAnyInput(this, ${EstAgency.defaultFilters[EstAgency.curOpen][1]})" onfocus="EstAgency.onCostFocus(this)" onblur="this.parentElement.style.animation = '';" value="${EstAgency.curFilters[EstAgency.curOpen][parseInt(id)]}" id="${id}" maxlength="10" autocomplete="false" spellcheck="false" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
                 </div>`;
             case 1:
                 return /*html*/ `
@@ -179,7 +189,7 @@ var EstAgency = class Real_Estate_Agency {
     }
 
     static onSmallInput(input) {
-        this.onAnyInput(input, 99);
+        this.onAnyInput(input, this.getMaxXtrm(parseInt(input.id)));
         this.checkSmallInput(input);
     }
 
@@ -197,12 +207,25 @@ var EstAgency = class Real_Estate_Agency {
 
     static checkSmallInput(input) {
         var parent = input.parentElement.children;
-        if (input.value == 0) parent[0].firstElementChild.style.opacity = 0;
+        var xtrms = this.getXtrms(parseInt(input.id));
+        if (input.value == xtrms[0]) parent[0].firstElementChild.style.opacity = 0;
         else parent[0].firstElementChild.style.opacity = 1;
-        if (input.value == 99) parent[2].firstElementChild.style.opacity = 0;
+        if (input.value == xtrms[1]) parent[2].firstElementChild.style.opacity = 0;
         else parent[2].firstElementChild.style.opacity = 1;
         this.curFilters[this.curOpen][parseInt(input.id)] = parseInt(input.value);
         this.applyFilters();
+    }
+
+    static getXtrms(num) {
+        var temp_arr = this.defaultFilters[this.curOpen];
+        if (num % 2 == 0) return [temp_arr[num], temp_arr[num + 1]];
+        else return [temp_arr[num - 1], temp_arr[num]];
+    }
+
+    static getMaxXtrm(num) {
+        var temp_arr = this.defaultFilters[this.curOpen];
+        if (num % 2 == 0) return temp_arr[num + 1];
+        else return temp_arr[num];
     }
 
     static onAnyInput(input, max) {
@@ -226,16 +249,11 @@ var EstAgency = class Real_Estate_Agency {
             output.lastElementChild.innerHTML += /*html*/
                 `<div style="font-weight:700">${elem.getAttribute(`param_${index + 1}`)}</div>`;
         }
+        var gps_id = Array.from(document.querySelector('.current').parentElement.children).indexOf(document.querySelector('.current')) - 1;
         this.output.innerHTML += /*html*/ `<div>
             GPS-метка
-            <button onclick="EstAgency.gpsRequest()" class="red-button">$250</button>
+            <button onclick="EstAgency.gpsRequest()" class="red-button">${prettyUSD(this.full_data['gps'][gps_id])}</button>
         </div>`;
-    }
-
-    static prettyUSD(text, countDay) {
-        var num = parseInt(text);
-        if (countDay) return `$${num.toLocaleString('ru')} / $${(num * 24).toLocaleString('ru')}`
-        else return `$${num.toLocaleString('ru')}`
     }
 
     static gpsRequest() {
@@ -287,5 +305,6 @@ estag_data = [
     [
         ['uid#5', 'Гараж#1', 500000, 130, 6],
         ['uid#6', 'Гараж#2', 600000, 140, 7],
-    ]
+    ],
+    [3000, 450, 210]
 ]

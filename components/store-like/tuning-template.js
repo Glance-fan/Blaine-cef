@@ -31,11 +31,11 @@ vue_app.component('tuning-template', {
             <div id="tuning-menu">
                 <div>
                     <div class="red-button" onclick="Tuning.payRequest(true)"></div>
-                    <div id="tuning-testdrive" class="red-button" onclick=" mp.trigger('Tuning::TestDrive')"></div>
+                    <div id="tuning-testdrive" class="red-button" onclick=" mp.trigger('Shop::TestDrive')"></div>
                 </div>
                 <div>
                     <div class="grey-button" onclick="Tuning.payRequest(false)"></div>
-                    <div class="dark-gray" onclick="mp.trigger('Tuning::Close')"></div>
+                    <div class="dark-gray" onclick="mp.trigger('Shop::Close')"></div>
                 </div>
             </div>
         </div>    

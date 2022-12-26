@@ -6,6 +6,7 @@ var Tuning = class Tuning {
     static lastChoices;
     static lastNav;
     static tuning_data;
+	static lastChoiceId;
 
     static draw(data) {
         this.left.firstElementChild.innerHTML = tuning_svgs.main;
@@ -144,6 +145,7 @@ var Tuning = class Tuning {
     }
 
     static selectChoiceElem(choice) {
+		this.lastChoiceId = choice.getAttribute('id');
         this.colorSelected(choice);
         this.fillVariants(choice.getAttribute('type'), choice);
         try {
@@ -153,7 +155,7 @@ var Tuning = class Tuning {
 
     static selectVariantElem(variant) {
         this.colorVariant(variant);
-        var index = variant.id.split('_')[0]
+        var index = this.getVariantId(variant.id);
         if (this.initial_choices[index] == variant.id) this.setMoney('Приобретено');
         else this.setMoney(variant.getAttribute('cost'));
         this.choices[index] = variant.id;
@@ -225,7 +227,7 @@ var Tuning = class Tuning {
         elem.style.color = 'white';
         elem.classList.add('tuning-selected');
 
-        var lastChoice = document.getElementById(this.choices[elem.id.split('_')[0]])
+        var lastChoice = document.getElementById(this.choices[this.getVariantId(elem.id)])
         if (!!lastChoice && lastChoice != elem) {
             lastChoice.classList.remove('tuning-selected');
             lastChoice.style.color = '';
@@ -255,17 +257,21 @@ var Tuning = class Tuning {
     }
 
     static buyVariant(id) {
-        this.initial_choices[id.split('_')[0]] = id;
+        this.initial_choices[this.getVariantId(id)] = id;
         document.getElementById(id).click();
     }
+	
+	static getVariantId(id) {
+		return id.split('_').slice(0, -1).join('_');
+	}
 
     /*requests*/
     static navigationRequest(id) {
-        mp.trigger('Tuning::NavChange', id);
+        mp.trigger('Shop::NavChange', parseInt(id));
     }
 
     static variantRequest(id) {
-        mp.trigger('Tuning::Choose', id);
+        mp.trigger('Shop::Choose', id, this.lastChoiceId);
     }
 
     static payRequest(pay_method) {
@@ -276,13 +282,13 @@ var Tuning = class Tuning {
     }
 
     static deleteRequest(id) {
-        mp.trigger('Tuning::DeleteColor', id);
+        mp.trigger('Shop::Choose::Color', id, -1);
         /*server-response imitation*/
         // Tuning.switchColor(false, id);
     }
 
     static colorRequest(source_id, id) {
-        mp.trigger('Tuning::ChangeColor', source_id, id)
+        mp.trigger('Shop::Choose::Color', source_id, parseInt(id))
     }
 }
 
@@ -313,12 +319,17 @@ tune_data = [
         ], 'paint-type_3'],
         ['paint-color', 'Цвета покраски', 'color-selection-2', [null, '#eeff33', 18000]],
         ['pearl', 'Перламутр', 'color-selection-many', [true, 27000, 5000], null],
-        ['disks', 'Диски', 'color-selection-many', [false, 36000, 5000], 100],
+        ['disks', 'Диски', 'color-selection-many', [false, 36000, 5000], 0],
+        ['disksc', 'Дым от колес', 'color-selection-1', ['Цвет дыма от колес', 9000, 5000], null],
     ],
     [ //Wheel
-
+		["wheels_0", "Колеса #1", "variants-list", [100, 200, 300]],
+    ],
+	
+	[ //Wheel
+	    ["wheels_r_0", "Колеса #1", "variants-list", [100, 200, 300]],
     ],
     [ //Misc
-
+        ["wheels_tttt_0", "Колеса #1", "variants-list", [100, 200, 300]],
     ],
 ]

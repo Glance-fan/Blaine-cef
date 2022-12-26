@@ -63,7 +63,7 @@ vue_app.component('colorpicker-template', {
                     break;
                 case 'tuning':
                     Tuning.choices[whoInvoked.getAttribute('source-id')] = hex;
-                    mp.trigger('Tuning::UpdateColor', whoInvoked.getAttribute('source-id'), hex)
+                    mp.trigger('Shop::UpdateColor', whoInvoked.getAttribute('source-id'), hex)
                     break;
                 default:
                     mp.trigger('ColourPicker::Update', hex, alpha)

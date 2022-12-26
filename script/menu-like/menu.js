@@ -202,8 +202,7 @@ var Menu = class Menu {
 
     /*quests*/
     static requestShowQuest(id) {
-        //TBD use parseInt(id);
-
+        mp.trigger('Menu::Quests::Locate', id.replace('-quest', ''));
     }
 
     //quests[i] = ['id','quest-giver', 'name', 'goal', 'progress'];
@@ -453,6 +452,24 @@ var Menu = class Menu {
     static onCheck(setting, curState, event) {
         mp.trigger("Menu::UpdateSetting", setting.id, setting.type == "checkbox" ? setting.checked : setting.value);
         setting.checked = !curState;
+    }
+
+    //where = 'main' || 'extra'
+    static createManyToggles(where, toggles) {
+        for (var index = 0; index < toggles.length; index++) 
+            this.createToggle(where, ...toggles[index]);            
+    }
+    
+    static createToggle(where, id, descr) { 
+        var parent = document.getElementById(`${where}-toggle-block`);
+        parent.innerHTML += /*html*/ `
+        <div class="toggle-wrapper">
+            <span>${descr}</span>
+            <label class="sett-checkbox"  style="margin: 0; position: unset">
+                <input type="checkbox" onclick="Menu.onCheck(this, this.checked)" id="sett-${id}">
+                <span class="sett-checkbox-switch"></span>
+            </label>
+        </div>`;        
     }
     
     static setSettings(data) {

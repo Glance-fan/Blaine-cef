@@ -2,6 +2,20 @@ var Elevator = class Elevator {
     static container = document.getElementById('elevator-container');
     static curfloor = document.getElementById('elevator-wrapper').firstElementChild;
     static btn = document.getElementById('elevator-wrapper').lastElementChild;
+    static maxFloor = 100;
+    static setMaxFloor(value){
+        if (value <= 0) value = 1;
+        if (parseInt(this.curfloor.innerText) > value) this.curfloor.innerText = value;
+        this.maxFloor = value;
+    }
+    
+    static setCurrentFloor(value){
+        if (value <= 0) value = 1;
+        else if (value > this.maxFloor) value = this.maxFloor;
+        this.curfloor.innerText = value;
+        this.btn.style.visibility = 'visible';
+    }
+
     static draw() {
         document.getElementById('elevator').firstElementChild.innerHTML = `${elevator_svgs.main}лифт`
         for (var row = 0; row < elevator.length; row++) {
@@ -20,7 +34,7 @@ var Elevator = class Elevator {
         if (this.curfloor.innerText == '' && value == 0) return;
         this.curfloor.innerText += value;
         this.btn.style.visibility = 'visible';
-        if (parseInt(this.curfloor.innerText) > 100) this.curfloor.innerText = 100;
+        if (parseInt(this.curfloor.innerText) > this.maxFloor) this.curfloor.innerText = this.maxFloor;
     }
 
     static onerase() {

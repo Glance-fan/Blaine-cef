@@ -2,8 +2,11 @@ var Retail = class Retail {
     static isFurniture = false;
     static isPersonal = false;
     static draw(which, data, name, personal) {
-        if (which == 'furniture') this.isFurniture = true;
-        this.drawNavigation(retails[which], data);
+        if (which.includes('furniture')) {
+            this.isFurniture = true; 
+            var furn_id = which.split('-');
+        }
+        this.drawNavigation(this.isFurniture ?  [retails[furn_id[0]][0], retails[furn_id[0]][1][parseInt(furn_id[1])]] : retails[which], data);
         this.fillBottom();
         if (name) document.getElementById('assortment-title').innerText = `Товары ${name}`;
         if (personal) {

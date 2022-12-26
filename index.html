@@ -12,14 +12,18 @@
     <script src="libs/frameworks/chart.js"></script>
     <script src="libs/js-database/general.js"></script>
     <script src="libs/svgs/hud.js"></script>
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.3.3/math.min.js" integrity="sha512-AZlpUxTyDgo/Ne1TyeXv345mwyAKh646DnZSsEt0GAF7aSFWu94UjCBcgm+yqKyH/6g9boKAzIEMO+wEGc6mJQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><script src='https://cdn.plot.ly/plotly-2.16.1.min.js'></script> -->
 </head>
 
 <!-- oncontextmenu="return false" -->
 
 <body onload="resizeAll()" onresize="resizeAll()">
-    <!-- <script src="test.js"></script> -->
     <link rel="stylesheet" href="style/main.css">
+    <style>
+        body {
+            /* background: url('bg.jpg');  */
+        }
+    </style>
+
     <div id="vue_app">
         <colorpicker-template v-if="render.colorpicker"></colorpicker-template>
         <chat-template v-show="show.chat" v-if="render.chat"></chat-template>

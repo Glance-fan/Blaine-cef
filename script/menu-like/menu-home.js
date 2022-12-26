@@ -243,8 +243,8 @@ var MenuHome = class MenuHome {
     }
 
     static setPermit(id, state, index){
-        this.permits_arr[index][this.permits.indexOf(id)] = state;
-        this.setCheckBox(`menuhome-${id}-permit`, state);
+        this.permits_arr[index][id] = state;
+        this.setCheckBox(`menuhome-${this.permits[id]}-permit`, state);
     }
 
     static setCheckBox(id, state) {
