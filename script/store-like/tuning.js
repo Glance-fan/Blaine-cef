@@ -6,7 +6,7 @@ var Tuning = class Tuning {
     static lastChoices;
     static lastNav;
     static tuning_data;
-	static lastChoiceId;
+    static lastChoiceId;
 
     static draw(data) {
         this.left.firstElementChild.innerHTML = tuning_svgs.main;
@@ -53,22 +53,23 @@ var Tuning = class Tuning {
                 break;
             case 'color-selection-1':
                 this.var_container.style = 'height: 150px;min-height: unset;';
-                addColorPicker(this.var_container, choice.id, data[0], this.choices[choice.id] ?? '#fff');
-                this.setMoney(prettyUSD(data[1]));
-                if (this.initial_choices[choice.id] != null) addDelete(this.var_container, choice.id, data[2]);
+                addColorPicker(this.var_container, choice.id, data[0], this.choices[choice.id] ?? '#FFFFFF', data[1]);
+                if (this.initial_choices[choice.id] != '#FFFFFF') addDelete(this.var_container, choice.id, data[2]);
+                else this.initial_choices[choice.id] = '#FFFFFF';
+                this.setColorCost(choice.id);
                 break;
             case 'color-selection-2':
                 this.var_container.style = 'height: 300px;min-height: unset;';
                 this.var_container.innerHTML = /*html*/ `<div style="height:150px;"></div>`;
-                addColorPicker(this.var_container.firstElementChild, `${choice.id}-main`, 'Основной цвет', this.choices[choice.id] ?? data[0]);
-                addColorPicker(this.var_container.firstElementChild, `${choice.id}-extra`, 'Дополнительный цвет', this.choices[choice.id] ?? data[1]);
-                this.setMoney(prettyUSD(data[2]));
+                addColorPicker(this.var_container.firstElementChild, `${choice.id}-main`, 'Основной цвет', this.choices[`${choice.id}-main`] ?? data[0], data[2]);
+                addColorPicker(this.var_container.firstElementChild, `${choice.id}-extra`, 'Дополнительный цвет', this.choices[`${choice.id}-extra`] ?? data[1], data[2]);
+                this.setColorCost([`${choice.id}-main`, `${choice.id}-extra`]);
                 break;
             case 'color-selection-many':
                 this.var_container.style = 'height: 265px;min-height: unset;';
                 this.var_container.innerHTML = /*html*/ `<div class="tuning-many-color"><div>Цвет</div><div></div></div>`;
-                var index = 0;
-                for (var i = 0; i < 10; i++) {
+                var index = 16;
+                for (var i = 1; i < 10; i++) {
                     var row = document.createElement('div');
                     row.classList.add('tuning-color-row');
                     document.querySelector('.tuning-many-color').lastElementChild.append(row);
@@ -78,9 +79,10 @@ var Tuning = class Tuning {
                     }
                 }
                 if (data[0]) this.right.firstElementChild.style.visibility = 'visible';
-                if (this.choices[choice.id] == null) this.choices[choice.id] = 0;
                 if (typeof (this.choices[choice.id]) == 'number') this.choices[choice.id] += '-tuning-color'
-                document.getElementById(this.choices[choice.id]).click();
+                try {
+                    document.getElementById(this.choices[choice.id]).click();
+                } catch (error) {}
                 if (this.initial_choices[choice.id] != null) addDelete(this.var_container, choice.id, data[2]);
                 break;
         }
@@ -90,18 +92,19 @@ var Tuning = class Tuning {
                 <div class="tuning-delete-color dark-gray" style="margin-top: 15px;" onclick="Tuning.deleteRequest('${id}')">${tuning_svgs.cross}Удалить (${prettyUSD(cost)})</div>`;
         }
 
-        function addColorPicker(parent, id, title, hex) {
+        function addColorPicker(parent, id, title, hex, cost) {
             parent.innerHTML += /*html*/ `
             <div class="tuning-color-picker">
                 <div>
                     <span>${title}</span>
-                    <div hex="${hex}"  class="colorpicker" id="tuning-${id}-colorpicker" source-id="${id}" parent="tuning" onclick="Tuning.oncolorcircle(this)" style="background: ${hex}"></div>
+                    <div hex="${hex}"  class="colorpicker" id="tuning-${id}-colorpicker" source-id="${id}" parent="tuning" cost="${prettyUSD(cost)}" onclick="Tuning.oncolorcircle(this)" style="background: ${hex}"></div>
                 </div>
             </div>`;
+            if (Tuning.initial_choices[id] == null) Tuning.initial_choices[id] = (hex ?? '#ffffff').toUpperCase();
+            else Tuning.initial_choices[id] = Tuning.initial_choices[id].toUpperCase();
+            Tuning.choices[id] = (hex ?? '#ffffff').toUpperCase();
         }
     }
-
-
 
     static variants_arr = [];
     static choices = [];
@@ -122,9 +125,8 @@ var Tuning = class Tuning {
     static fillMenu() {
         var tune_menu = document.getElementById('tuning-menu').children;
         tune_menu[0].children[0].innerHTML = tuning_svgs.cash + `<p id="tuning-cash"></p>`;
-        tune_menu[0].children[1].innerHTML = tuning_svgs.testdrive;
-        tune_menu[1].children[0].innerHTML = tuning_svgs.bank + `<p id="tuning-bank"></p>`;
-        tune_menu[1].children[1].innerHTML = tuning_svgs.exit;
+        tune_menu[0].children[1].innerHTML = tuning_svgs.bank + `<p id="tuning-bank"></p>`;
+        tune_menu[1].children[0].innerHTML = tuning_svgs.exit;
     }
 
 
@@ -144,8 +146,11 @@ var Tuning = class Tuning {
         else this.selectChoiceElem(this.container.firstElementChild);
     }
 
+    static money_block;
     static selectChoiceElem(choice) {
-		this.lastChoiceId = choice.getAttribute('id');
+        this.money_block = document.getElementById('tuning-menu').firstElementChild;
+        this.money_block.style.visibility = 'hidden';
+        this.lastChoiceId = choice.getAttribute('id');
         this.colorSelected(choice);
         this.fillVariants(choice.getAttribute('type'), choice);
         try {
@@ -156,6 +161,10 @@ var Tuning = class Tuning {
     static selectVariantElem(variant) {
         this.colorVariant(variant);
         var index = this.getVariantId(variant.id);
+        if (variant.id.includes('wheel'))
+            Object.keys(Tuning.choices).filter(key => key.startsWith(variant.id.split('_')[0])).forEach(key => {
+                Tuning.choices[key] = null;
+            });
         if (this.initial_choices[index] == variant.id) this.setMoney('Приобретено');
         else this.setMoney(variant.getAttribute('cost'));
         this.choices[index] = variant.id;
@@ -182,12 +191,16 @@ var Tuning = class Tuning {
 
     /*misc*/
     static getNavigation(amount) {
-        if (amount == 6) {
-            Array.prototype.splice.apply(tuning_nav, [3, tuning_moto.length].concat(tuning_moto));
-            return [1, 2, 2, 1];
-        } else {
-            tuning_nav.splice(4, 1)
-            return [1, 2, 1, 1];
+        switch (amount) {
+            case 6:
+                Array.prototype.splice.apply(tuning_nav, [3, tuning_moto.length].concat(tuning_moto));
+                return [1, 2, 2, 1];
+            case 5:
+                tuning_nav.splice(4, 1);
+                return [1, 2, 1, 1];
+            case 4:
+                tuning_nav.splice(3, 2);
+                return [1, 2, 1];
         }
     }
 
@@ -235,15 +248,36 @@ var Tuning = class Tuning {
 
     }
 
+    static setColorCost(id) {
+        if (Array.isArray(id)) {
+            if (this.choices[id[0]] == this.initial_choices[id[0]] && this.choices[id[1]] == this.initial_choices[id[1]])
+                this.setMoney('Приобретено');
+            else this.setMoney(document.querySelector(`[source-id="${id[0]}"]`).getAttribute('cost'));
+        } else {
+            if (this.choices[id] == this.initial_choices[id])
+                this.setMoney('Приобретено');
+            else this.setMoney(document.querySelector(`[source-id="${id}"]`).getAttribute('cost'));
+        }
+    }
+
     static setMoney(val) {
-        document.getElementById('tuning-cash').innerText = val;
-        document.getElementById('tuning-bank').innerText = val;
+        this.money_block.style.visibility = 'visible';
+        Array.from(this.money_block.querySelectorAll('p')).forEach(el => {
+            el.innerText = val;
+            if (val == 'Приобретено') el.parentElement.style.pointerEvents = 'none';
+            else el.parentElement.style.pointerEvents = 'unset';
+        });
     }
 
     static clear() {
         this.var_container.innerHTML = '';
         this.var_container.style = '';
         this.right.firstElementChild.style.visibility = 'hidden';
+    }
+
+    static clearColor() {
+        document.querySelector('.tuning-color-selected').classList.remove('tuning-color-selected');
+        this.money_block.style.visibility = 'hidden';
     }
 
     static switchColor(status, id, value) {
@@ -253,6 +287,7 @@ var Tuning = class Tuning {
         } else {
             this.initial_choices[id] = null;
             document.getElementById(id).click();
+            this.clearColor();
         }
     }
 
@@ -260,10 +295,10 @@ var Tuning = class Tuning {
         this.initial_choices[this.getVariantId(id)] = id;
         document.getElementById(id).click();
     }
-	
-	static getVariantId(id) {
-		return id.split('_').slice(0, -1).join('_');
-	}
+
+    static getVariantId(id) {
+        return id.split('_').slice(0, -1).join('_');
+    }
 
     /*requests*/
     static navigationRequest(id) {
@@ -319,17 +354,22 @@ tune_data = [
         ], 'paint-type_3'],
         ['paint-color', 'Цвета покраски', 'color-selection-2', [null, '#eeff33', 18000]],
         ['pearl', 'Перламутр', 'color-selection-many', [true, 27000, 5000], null],
-        ['disks', 'Диски', 'color-selection-many', [false, 36000, 5000], 0],
+        ['disks', 'Диски', 'color-selection-many', [false, 36000, 5000], 16],
         ['disksc', 'Дым от колес', 'color-selection-1', ['Цвет дыма от колес', 9000, 5000], null],
     ],
     [ //Wheel
-		["wheels_0", "Колеса #1", "variants-list", [100, 200, 300]],
+        ["wheels_0", "Колеса #1", "variants-list", [100, 200, 300], 'wheels_0_1'],
+        ["wheels_1", "Колеса #2", "variants-list", [100, 200, 300]],
+        ["wheels_2", "Колеса #3", "variants-list", [100, 200, 300]],
+        ["wheels_3", "Колеса #14", "variants-list", [100, 200, 300]],
+        ["wheels_4", "Колеса #5", "variants-list", [100, 200, 300]],
     ],
-	
-	[ //Wheel
-	    ["wheels_r_0", "Колеса #1", "variants-list", [100, 200, 300]],
+    [ //Wheel
+        ["rwheels_0", "Колеса #1", "variants-list", [100, 200, 300]],
+        ["rwheels_7", "Колеса #1", "variants-list", [100, 200, 300]],
+        ["rwheels_8", "Колеса #1", "variants-list", [100, 200, 300]],
     ],
     [ //Misc
-        ["wheels_tttt_0", "Колеса #1", "variants-list", [100, 200, 300]],
+        ["misc", "Колеса #1", "variants-list", [100, 200, 300]],
     ],
 ]

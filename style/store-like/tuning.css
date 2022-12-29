@@ -205,7 +205,7 @@
     height: 265px;
 }
 
-.tuning-color-selected{
+.tuning-color-selected {
     border: 1px solid white;
     width: 13px;
     height: 13px;
@@ -214,7 +214,6 @@
 
 #tuning-menu {
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
     margin-top: 20px;
     width: 300px;
@@ -223,22 +222,28 @@
 
 #tuning-menu>div {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
 }
 
-#tuning-menu>div>div{
+#tuning-menu>div:last-child {
+    justify-content: center;
+}
+
+#tuning-menu>div:first-child>div,
+#tuning-menu .dark-gray {
+    color: white;
+    width: 180px;
     height: 80px;
-    width: 80px;
+    flex-direction: column;
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 3px;
 }
 
-#tuning-menu>div>div:first-child{
-    color: white;
-    width: 180px;
-    flex-direction: column;
+#tuning-menu .dark-gray {
+    width: 80px;
 }
 
 #tuning-menu p {

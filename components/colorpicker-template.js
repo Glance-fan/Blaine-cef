@@ -62,12 +62,20 @@ vue_app.component('colorpicker-template', {
                     mp.trigger('Shop::UpdateColor', whoInvoked.getAttribute('source-id'), hex)
                     break;
                 case 'tuning':
-                    Tuning.choices[whoInvoked.getAttribute('source-id')] = hex;
+                    var idx = whoInvoked.getAttribute('source-id');
+                    Tuning.choices[idx] = hex;
+                    if (idx.endsWith('main') || idx.endsWith('extra')) 
+                        Tuning.setColorCost([getIdx(idx, 'main'), getIdx(idx, 'extra')]);
+                    else Tuning.setColorCost(idx);
                     mp.trigger('Shop::UpdateColor', whoInvoked.getAttribute('source-id'), hex)
                     break;
                 default:
                     mp.trigger('ColourPicker::Update', hex, alpha)
                     break;
+            }
+
+            function getIdx(idx, string){
+                return `${idx.split('-').splice(0, idx.split('-').length - 1).join('-')}-${string}`
             }
         },
     },

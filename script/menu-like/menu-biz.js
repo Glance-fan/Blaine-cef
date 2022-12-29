@@ -4,9 +4,10 @@ var MenuBiz = class MenuBusiness {
         this.fillInformation(data[0]);
         this.fillManage(data[1]);
         this.fillStats(data[2]);
+        this.selectOption(0)
     }
 
-    static selectOption(index){
+    static selectOption(index) {
         document.getElementById(`menubiz-${index}`).click();
     }
 
@@ -53,7 +54,7 @@ var MenuBiz = class MenuBusiness {
                         <span class="menubiz-static-text">Кол-во</span>
                         <div id="menubiz-input-block">
                             <span>$</span>
-                            <input value="${data[7]}" max="${data[7]}" oninput="MenuBiz.onCollectAmount(this)" autocomplete="false" spellcheck="false" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
+                            <input value="${data[6]}" max="${data[6]}" oninput="MenuBiz.onCollectAmount(this)" autocomplete="false" spellcheck="false" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
                         </div>
                     </div>
                     <button onclick="mp.trigger('MenuBiz::Collect', MenuBiz.curCollect)" class="red-button">Забрать</button>                    
@@ -62,7 +63,7 @@ var MenuBiz = class MenuBusiness {
             </div>
             <div style="display:flex; justify-content:center;margin-top: 205px;"><button onclick="mp.trigger('MenuBiz::SellToGov')" class="grey-button">Продать<br>государству</button></div>
         </div>`;
-        this.curCollect = data[7];
+        this.curCollect = data[6];
         container = document.getElementById('menubiz-0-content-0');
         for (var index = 0; index < data.length; index++) {
             container.firstElementChild.innerHTML += /*html*/
@@ -72,13 +73,14 @@ var MenuBiz = class MenuBusiness {
         }
 
         container = container.lastElementChild.children;
-        container[3].innerText = this.prettyUSD(container[3].innerText);
-        container[4].innerText = this.prettyUSD(container[4].innerText, true);
+        container[3].innerText = prettyUSD(container[3].innerText);
+        container[4].innerText = prettyUSD(container[4].innerText, true);
         container[5].innerText = `${container[5].innerText}%`;
-        container[6].innerText = this.prettyUSD(container[6].innerText);
-        container[7].innerText = this.prettyUSD(container[7].innerText);
+        container[6].innerText = prettyUSD(container[6].innerText);
+        container[7].innerText = prettyUSD(container[7].innerText);
         container[8].innerText = `${container[8].innerText} ед.`;
-
+        container[9].innerText = prettyUSD(container[9].innerText);
+        container[10].innerText = prettyUSD(container[10].innerText);
     }
 
     static setBizName(value) {
@@ -93,21 +95,31 @@ var MenuBiz = class MenuBusiness {
 
     static setMoneyRegister(value) {
         var container = document.getElementById('menubiz-0-content-0').lastElementChild.children;
-        container[6].innerText = this.prettyUSD(value);
+        container[6].innerText = prettyUSD(value);
     }
 
     static setMoneyAccount(value) {
         var container = document.getElementById('menubiz-0-content-0').lastElementChild.children;
-        container[7].innerText = this.prettyUSD(value);
-        
+        container[7].innerText = prettyUSD(value);
+
         document.getElementById('menubiz-input-block').querySelector('input').value = value;
         document.getElementById('menubiz-input-block').querySelector('input').max = value;
         this.curCollect = value;
     }
 
-    static setSalesTax(value) {
+    static setMaterials(value) {
         var container = document.getElementById('menubiz-0-content-0').lastElementChild.children;
         container[8].innerText = `${value} ед.`;
+    }
+
+    static setBuyMaterials(value) {
+        var container = document.getElementById('menubiz-0-content-0').lastElementChild.children;
+        container[9].innerText = prettyUSD(value);
+    }
+
+    static setSellMaterials(value) {
+        var container = document.getElementById('menubiz-0-content-0').lastElementChild.children;
+        container[10].innerText = prettyUSD(value);
     }
 
     static onCollectAmount(input) {
@@ -119,10 +131,11 @@ var MenuBiz = class MenuBusiness {
         this.curCollect = input.value;
     }
 
-    //data = [extra_charge, isWorkers, cash_collect, commission, isOrdered, delivery_1, delivery_2] 
+    //data = [[cur_charge, max_charge], isWorkers, cash_collect, commission, isOrdered, delivery_1, delivery_2] 
     //delivery_1 = pricePerOne || amount, delivery_2 = delivery_cost || delivery_status
     static amount_elems;
-    static cur_extra;
+    static cur_charge;
+    static max_charge;
     static fillManage(data) {
         var container = document.getElementById('menubiz-1-container');
         container.innerHTML = /*html*/ `
@@ -137,10 +150,10 @@ var MenuBiz = class MenuBusiness {
                                 <div style="display: flex;width: 160px;justify-content: space-between;">
                                     <div style="display: flex;align-items: center;">
                                         <div style="height: 100%;display: flex;align-items: center;" onclick="MenuBiz.onMinus(this)">${menubiz_svgs.minus}</div>
-                                        <input maxlength="4" value="${data[0]}" oninput="MenuBiz.onExtraCash(this)" autocomplete="off" spellcheck="false" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
+                                        <input id="menubiz-charge" maxlength="${data[0][1].toString().length + 1}" value="${data[0][0]}" oninput="MenuBiz.onExtraCash(this, ${data[0][1]})" autocomplete="off" spellcheck="false" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
                                         <div style="height: 100%;display: flex;align-items: center;" onclick="MenuBiz.onPlus(this)">${menubiz_svgs.plus}</div>
                                     </div>
-                                    <button onclick="mp.trigger('MenuBiz::ExtraCharge', MenuBiz.cur_extra)" class="red-button" style="height:25px; width:50px">ОК</button>
+                                    <button onclick="mp.trigger('MenuBiz::ExtraCharge', MenuBiz.cur_charge)" class="red-button" style="height:25px; width:50px">ОК</button>
                                 </div>
                             </div>
                             <div class="menubiz-info-text" style="margin: 15px 0">
@@ -171,9 +184,10 @@ var MenuBiz = class MenuBusiness {
         this.setCashCollect(data[2]);
         var parent = container.querySelector('input').parentElement.children;
         this.amount_elems = [parent[0].firstElementChild, parent[1], parent[2].firstElementChild];
-        MenuBiz.cur_extra = data[0];
-        if (data[0] == 100) this.amount_elems[2].style.opacity = 0.5;
-        if (data[0] == 1) this.amount_elems[0].style.opacity = 0.5;
+        MenuBiz.cur_charge = data[0][0];
+        MenuBiz.max_charge = data[0][1];
+        if (this.cur_charge == this.max_charge) this.amount_elems[2].style.opacity = 0;
+        if (this.cur_charge == 0) this.amount_elems[0].style.opacity = 0;
     }
 
     static setCommission(new_commision) {
@@ -189,11 +203,11 @@ var MenuBiz = class MenuBusiness {
         <div>
             <div>
                 <div>${isOrdered ? `Ваш заказ` :`Цена за 1 ед.`}</div>
-                <div>${isOrdered ? `${del_1} ед.` : this.prettyUSD(del_1)}</div>
+                <div>${isOrdered ? `${del_1} ед.` : prettyUSD(del_1)}</div>
             </div>
             <div>
                 <div>${isOrdered ? `Статус` : `Стоимость<br>доставки`}</div>
-                <div>${isOrdered ? `${del_2}` : this.prettyUSD(del_2)}</div>
+                <div>${isOrdered ? `${del_2}` : prettyUSD(del_2)}</div>
             </div>
             <div style="height: 90px;flex-direction: column;align-items: unset;${isOrdered ? `justify-content: center` : `justify-content: space-between;`}">
                 ${isOrdered ? /*html*/ `<span class="menubiz-info-text">${menubiz_static.manage[2]}</span>` : 
@@ -204,7 +218,7 @@ var MenuBiz = class MenuBusiness {
                 </div>
                 <div style="align-items: center;justify-content: center;width: unset;">
                     <div>Стоимость</div>
-                    <div id="menubiz-delivery-cost">${this.prettyUSD(del_1 + del_2)}</div>
+                    <div id="menubiz-delivery-cost">${prettyUSD(del_1 + del_2)}</div>
                 </div>`}
             </div>
             <div><button onclick="${isOrdered ? `mp.trigger('MenuBiz::Delivery', 'cancel')` : `mp.trigger('MenuBiz::Delivery', 'pay', MenuBiz.materialAmount)`}" class="red-button">${isOrdered ? `Отменить<br>заявку` : `Оплатить<br>заказ`}</button></div>
@@ -219,44 +233,53 @@ var MenuBiz = class MenuBusiness {
             input.select()
         }
         this.materialAmount = input.value;
-        document.getElementById('menubiz-delivery-cost').innerHTML = this.prettyUSD(this.materialAmount * this.materialCost + this.deliveryCost);
+        document.getElementById('menubiz-delivery-cost').innerHTML = prettyUSD(this.materialAmount * this.materialCost + this.deliveryCost);
     }
 
-    static onExtraCash(input) {
+    static onExtraCash(input, max) {
         if (input.value == 0 || input.value == '') {
-            input.value = 1;
+            input.value = 0;
             input.select()
         }
-        if (parseInt(input.value) > 100) input.value = 100;
-        if (input.value == 100) MenuBiz.amount_elems[2].style.opacity = 0.5;
+        if (parseInt(input.value) > max) input.value = max;
+        if (input.value == max) MenuBiz.amount_elems[2].style.opacity = 0;
         else MenuBiz.amount_elems[2].style.opacity = 1;
-        if (input.value == 1) MenuBiz.amount_elems[0].style.opacity = 0.5;
+        if (input.value == 0) MenuBiz.amount_elems[0].style.opacity = 0;
         else MenuBiz.amount_elems[0].style.opacity = 1;
-        MenuBiz.cur_extra = input.value;
+        MenuBiz.cur_charge = input.value;
     }
 
     static onPlus() {
-        if (parseInt(MenuBiz.amount_elems[1].value) + 1 < 101) {
+        if (parseInt(MenuBiz.amount_elems[1].value) + 1 < MenuBiz.max_charge + 1) {
             MenuBiz.amount_elems[1].style.opacity = 1;
             MenuBiz.amount_elems[1].value++;
         }
-        if (MenuBiz.amount_elems[1].value == 100) MenuBiz.amount_elems[2].style.opacity = 0.5;
+        if (MenuBiz.amount_elems[1].value == MenuBiz.max_charge) MenuBiz.amount_elems[2].style.opacity = 0;
         MenuBiz.amount_elems[0].style.opacity = 1;
-        MenuBiz.cur_extra = MenuBiz.amount_elems[1].value;
+        MenuBiz.cur_charge = MenuBiz.amount_elems[1].value;
     }
 
     static onMinus() {
-        if (parseInt(MenuBiz.amount_elems[1].value) - 1 > 0) {
+        if (parseInt(MenuBiz.amount_elems[1].value) - 1 > -1) {
             MenuBiz.amount_elems[0].style.opacity = 1;
             MenuBiz.amount_elems[1].value--
         }
-        if (MenuBiz.amount_elems[1].value == 1) MenuBiz.amount_elems[0].style.opacity = 0.5;
+        if (MenuBiz.amount_elems[1].value == 0) MenuBiz.amount_elems[0].style.opacity = 0;
         MenuBiz.amount_elems[2].style.opacity = 1;
-        MenuBiz.cur_extra = MenuBiz.amount_elems[1].value;
+        MenuBiz.cur_charge = MenuBiz.amount_elems[1].value;
     }
 
     static onCheckBox(setting) {
         mp.trigger("MenuBiz::CashCollect", !setting.checked);
+    }
+
+    static setCharge(value) {
+        document.getElementById('menubiz-charge').value = value;
+        this.cur_charge = value;
+        if (this.cur_charge == this.max_charge) this.amount_elems[2].style.opacity = 0;
+        else this.amount_elems[2].style.opacity = 1;
+        if (this.cur_charge == 0) this.amount_elems[0].style.opacity = 0;
+        else this.amount_elems[0].style.opacity = 1;
     }
 
     static setCashCollect(state) {
@@ -301,7 +324,7 @@ var MenuBiz = class MenuBusiness {
                         displayColors: false,
                         callbacks: {
                             label: function (context) {
-                                return MenuBiz.prettyUSD(context.parsed.y);
+                                return prettyUSD(context.parsed.y);
                             },
                             title: function (context) {
                                 return `День: ${context[0].label}`;
@@ -311,9 +334,11 @@ var MenuBiz = class MenuBusiness {
                 },
                 scales: {
                     y: {
+                        beginAtZero: true,
+                        suggestedMax: 10,
                         ticks: {
                             callback: function (value, index, values) {
-                                return MenuBiz.prettyUSD(value);
+                                return prettyUSD(value);
                             },
                         },
                     },
@@ -332,19 +357,13 @@ var MenuBiz = class MenuBusiness {
         Chart.defaults.font.size = '14';
         new Chart(ctx, config);
     }
-
-    static prettyUSD(text, countDay) {
-        var num = parseInt(text);
-        if (countDay) return `$${num.toLocaleString('ru')} / $${(num * 24).toLocaleString('ru')}`
-        else return `$${num.toLocaleString('ru')}`
-    }
 }
 
 
-menubiz_info = ['Магазин 24/7 #1', 'Магазин 24/7', 'Jessica Day', '500000', '15', '10', '0', '100000', '0']
-menubiz_manage = [100, false, false, 5, true, 2000, 'в пути']
+menubiz_info = ['Магазин 24/7 #1', 'Магазин 24/7', 'Jessica Day', 500000, 15, 10, 950, 100000, 0, 1240, 402336]
+menubiz_manage = [[100, 150], false, false, 5, true, 2000, 'в пути']
 menubiz_chart = [
     ['27.09', '28.09', '29.09', '30.09', '01.10', '02.10', '03.10', '04.10', '05.10', '06.10', '07.10', '08.10', '09.10', '10.10', '11.10', '12.10', '13.10', '14.10', '15.10', '16.10', '17.10', '18.10', '19.10', '20.10', '21.10', '22.10', '23.10', '24.10', '25.10', '26.10'],
-    [10000000, 20000000, 30000000, 80000000, 90000000, 150000000, 1000000, 110000000, 40000000, 60000000, 999999999, 9999, 1235, 99999999, 888888888, 612351, 777777777, 13456789, 987654321, 156987435, 15987643, 567894236, 338899077, 856479132, 759846321, 753945688, 654789321, 621135462, 346462346, 995511243]
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ]
 MenuBiz.draw([menubiz_info, menubiz_manage, menubiz_chart])
