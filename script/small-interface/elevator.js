@@ -3,13 +3,13 @@ var Elevator = class Elevator {
     static curfloor = document.getElementById('elevator-wrapper').firstElementChild;
     static btn = document.getElementById('elevator-wrapper').lastElementChild;
     static maxFloor = 100;
-    static setMaxFloor(value){
+    static setMaxFloor(value) {
         if (value <= 0) value = 1;
         if (parseInt(this.curfloor.innerText) > value) this.curfloor.innerText = value;
         this.maxFloor = value;
     }
-    
-    static setCurrentFloor(value){
+
+    static setCurrentFloor(value) {
         if (value <= 0) value = 1;
         else if (value > this.maxFloor) value = this.maxFloor;
         this.curfloor.innerText = value;
@@ -27,7 +27,7 @@ var Elevator = class Elevator {
             }
         }
         this.container.lastElementChild.lastElementChild.setAttribute('onclick', `Elevator.onerase()`);
-        this.container.lastElementChild.firstElementChild.style.pointerEvents='none';
+        this.container.lastElementChild.firstElementChild.style.pointerEvents = 'none';
     }
 
     static onnumber(value) {

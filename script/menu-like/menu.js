@@ -157,41 +157,30 @@ var Menu = class Menu {
         elem.classList.add('prop-elem', 'extra-section-bg');
         lastRow.append(elem);
 
-        if (prop[0] == 'veh') {
-            elem.innerHTML = /*html*/ `
-            <h1 class="menu-elem-top" style="margin: 0">
-                <p>${propertyIcons[prop[1]]}</p>
-                <p style="display: flex;flex-direction: column;">
-                    <span class="menu-elem-text">${prop[2]}</span>
-                    <span class="menu-extra-elem-text">${prop[3]}</span>
-                </p>
-            </h1>`;
-        } else {
-            elem.innerHTML = /*html*/ `
-            <h1 class="menu-elem-top" style="margin: 0">
-                <p>${propertyIcons[prop[1]]}</p>
-                <p style="display: flex;flex-direction: column;">
-                    <span class="menu-elem-text">${prop[2]} <span class="menu-extra-elem-text">#${prop[6]}</span></span>
-                    <span class="menu-extra-elem-text">${prop[3]}</span>
-                </p>
-            </h1>`;
-        }
-
+        elem.innerHTML = /*html*/ `
+        <h1 class="menu-elem-top" style="margin: 0">
+            <div style="padding-right: 10px;">${propertyIcons[prop[1]]}</div>
+            <p style="display: flex;flex-direction: column;height: 25px;">
+                <span class="menu-elem-text">
+                    ${prop[2]} 
+                    ${prop[0] != 'veh' ? `<span class="menu-extra-elem-text">#${prop[6]}</span>` : ``}
+                </span>
+                <span class="menu-extra-elem-text">${prop[3]}</span>
+            </p>
+        </h1>`;
 
         elem.innerHTML += /*html*/ `
         <h1 class="prop-elem-bottom">
-            <p style="width: 100%;">
-                <h3 style="margin: 0;margin-left: 10px;position: absolute;display: flex;
-                flex-direction: column;">
+            <div style="width: 100%;">
+                <h3 style="margin: 0;position: absolute;display: flex;flex-direction: column;">
                     <span class="menu-headline-elem-text">Класс</span>
                     <span class="menu-elem-text">${prop[4]}</span>
                 </h3>
-                <h3 style="margin: 0; margin-right: 10px;text-align: right;display: flex;
-                flex-direction: column;">
+                <h3 style="margin: 0;text-align: right;display: flex;flex-direction: column;">
                     <span class="menu-headline-elem-text">Цена</span>
                     <span class="menu-elem-text">$${Number.parseInt(prop[5]).toLocaleString('ru')}</span>
                 </h3>
-            </p>
+            </div>
         </h1>`;
     }
 
@@ -205,7 +194,7 @@ var Menu = class Menu {
         mp.trigger('Menu::Quests::Locate', id.replace('-quest', ''));
     }
 
-    //quests[i] = ['id','quest-giver', 'name', 'goal', 'progress'];
+    //quests[i] = ['id','quest-giver', 'name', 'goal', quest-type];
     static drawQuests(quests) {
         document.querySelector('.quests-table').innerHTML = '';
         for (var i = 0; i < quests.length; i++)
@@ -220,11 +209,6 @@ var Menu = class Menu {
     static updateQuestGoal(id, new_goal) {
         var goal = document.getElementById(id + '-goal');
         goal.innerText = new_goal;
-    }
-
-    static updateQuestProgress(id, new_progress) {
-        var prog = document.getElementById(id + '-prog');
-        prog.innerText = new_progress;
     }
 
     static newQuest(quest) {
@@ -248,7 +232,7 @@ var Menu = class Menu {
         }
 
         var elem = document.createElement('div');
-        elem.classList.add('quests-elem', 'extra-section-bg');
+        elem.classList.add('quests-elem', `quest-grad-type-${quest[4]}`);
         lastRow.append(elem);
 
         if (lastRow.getElementsByClassName('quests-elem').length == 4)
@@ -264,17 +248,16 @@ var Menu = class Menu {
                 <span class="menu-extra-elem-text">${quest[2]}</span>
             </p>
         </h1>
-        <p class="quest-middle menu-elem-text" style="margin-top: 0">
+        <div class="quest-middle menu-elem-text" style="margin-top: 0">
             <span class="menu-headline-elem-text">Цель</span>
-            </br><span id="${elem.id}-goal">${quest[3]}</span>
-        </p>
-        <h1  class="quest-bottom">
-            <p class="quest-middle menu-elem-text">
-                <span class="menu-headline-elem-text">Прогресс</span>
-                </br><span id="${elem.id}-prog">${quest[4]}</span>
-            </p>
-            ${menu_svgs.marker}
-        </h1>`;
+            </br>
+            <div style="display: flex; margin-top: 3px;">
+                <div style="text-align:justify;">
+                    <div class="menu-text-float"></div>
+                    <span id="${elem.id}-goal">${quest[3]}</span>
+                </div>
+            </div>
+        </div>${menu_svgs.marker}`;
         elem.getElementsByTagName('svg')[1].name = elem.id;
     }
 
@@ -316,7 +299,7 @@ var Menu = class Menu {
         }
 
         var elem = document.createElement('div');
-        elem.classList.add('achievements-elem', 'section-bg');
+        elem.classList.add('achievements-elem');
         elem.id = achievement[0] + '-achievement'
         lastRow.append(elem);
 
@@ -326,11 +309,10 @@ var Menu = class Menu {
         achievement[3] = achievement[3] > achievement[4] ? achievement[4] : achievement[3];
         elem.innerHTML = /*html*/ `
         <p class="star"></p>
-        <p style="margin-top: 10px;margin-left:25px;">
-            <span  style="font-weight: 600;font-size: 14px;">${achievement[1]}</span>
-            <br style="content: &quot;&quot;;margin-top: 8px;display: block;">
-            <span class="menu-headline-elem-text">${achievement[2]}</span>
-        </p>
+        <div style="display: flex;flex-direction: column;height: 25px;">
+            <span  style="font-weight: 600;font-size: 20px;">${achievement[1]}</span>
+        </div>
+        <div class="menu-headline-elem-text">${achievement[2]}</div>
         <p class="prog-wrapper">
             <progress max="${achievement[4]}" value="${achievement[3]}" class="achievement-bar" id="${achievement[0]}-achprog"></progress>
             <label style="margin-top:5px; display:flex; justify-content:space-between">
@@ -792,8 +774,8 @@ Menu.setAllChar(['name', false, 'fraction', 'organisation', 17, 447.5, 'Reg-date
     ]
 ])
 Menu.drawQuests([
-    [173, 'Max-black', 'Fuck Alice', 'Go to Alice', '0/3'],
-    [174, 'Max-black', 'Eat shava', 'Buy packet', '2/5']
+    [173, 'Max-black', 'Fuck Alice', 'Go to Alice', 0],
+    [174, 'Max-black', 'Eat shava', 'Buy packet', 1]
 ])
 Menu.drawAchievements([
     [130, 'asda', 'purpose', 13, 50],

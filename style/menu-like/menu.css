@@ -65,19 +65,15 @@
 
 .extra-section-bg {
     background: linear-gradient(250.85deg, #303030 5.14%, #414141 52.26%, #303030 92.13%) 0% 0% / 300% 100%;
-    animation: 10s ease 0s infinite normal none running selected-gradient;
+    animation: 10s ease 0s infinite normal none running selected;
     border-radius: 5px;
-}
-
-.menu-elem svg {
-    margin-left: 10px;
-    margin-right: 10px;
 }
 
 .menu-elem-top {
     display: flex;
     align-items: center;
     margin: 0;
+    height: 25px;
 }
 
 .menu-elem-text {
@@ -339,6 +335,7 @@
 .prop-table {
     max-height: 225px;
     overflow-y: auto;
+    overflow-x: hidden;
     position: absolute;
     margin-left: 10px;
     margin-top: 60px;
@@ -363,22 +360,22 @@
 }
 
 .prop-elem {
-    width: 160px;
-    height: 105px;
+    width: 140px;
+    height: 95px;
     margin-right: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5px 10px;
 }
 
 .prop-elem svg {
-    margin-left: 10px;
-    margin-right: 10px;
+    height: 20px;
+    width: 20px;
 }
 
 .prop-elem-bottom {
-    display: flex;
-    align-items: center;
     margin: 0;
-    margin-top: 35px;
-    width: 100%;
 }
 
 /*quests-menu*/
@@ -418,30 +415,34 @@
 }
 
 .quests-elem {
-    width: 160px;
-    height: 105px;
+    width: 140px;
+    height: 85px;
     margin-right: 30px;
+    padding: 10px;
+    position: relative;
+    animation: 10s ease 0s infinite normal none running selected;
+    border-radius: 5px;
+    background-size: 300% 100%;
 }
 
-.quest-middle {
-    text-align: left;
-    margin-top: 3px;
-    margin-left: 10px;
-    height: 30px;
+.menu-text-float {
+    width: 20px;
+    float:right;
+    height:100%;
+    margin-left:15px;
+    display:flex;
+    align-items:flex-end;
+    shape-outside:inset(calc(100% - 20px) 0 0);
 }
 
-.quest-bottom {
-    margin: 0;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-.quest-bottom svg {
+.menu-marker {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
     opacity: 0.7;
 }
 
-.quest-bottom svg:hover {
+.menu-marker:hover {
     opacity: 1;
 }
 
@@ -479,24 +480,33 @@
 }
 
 .achievements-elem {
-    width: 370px;
-    height: 95px;
+    width: 320px;
+    padding: 10px 25px;
+    height: 120px;
     margin-right: 35px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: linear-gradient(250.85deg, #303030 5.14%, #414141 52.26%, #303030 92.13%) 0% 0% / 300% 100%;
+    animation: 10s ease 0s infinite normal none running selected;
+    border-radius: 5px;
 }
 
 .star {
-    width: 320px;
+    /*width: 320px; */
     position: absolute;
-    margin-top: 10px;
-    margin-left: 25px;
+    /* margin-top: 10px; */
+    /* margin-left: 25px; */
+    right: 25px;
     display: flex;
     justify-content: right;
 }
 
 .prog-wrapper {
-    margin-top: 10px;
-    margin-left: 25px;
     display: flex;
+    height: 25px;
+    justify-content: space-evenly;
     flex-direction: column;
     width: 320px;
 }

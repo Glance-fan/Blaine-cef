@@ -137,7 +137,8 @@
 }
 
 #menugar-info-wrapper-1>div:last-child {
-    width: 305px;
+    width: 285px;
+    padding: 0 10px;
     height: 240px;
     background: linear-gradient(265.48deg, #282828 2.73%, rgba(44, 44, 44, 0.515625) 48.56%, #282828 97.34%);
     border-radius: 5px;
@@ -155,8 +156,8 @@
 }
 
 #menugar-info {
+    width: 100%;
     height: 120px;
-    width: 265px;
     display: flex;
     justify-content: space-between;
 }

@@ -82,18 +82,18 @@ var Estate = class Estate {
                     this.container.innerHTML += /*html*/ `
                     <h1 class="estate-sell-elem" onclick="Estate.select(this)">
                         <div>
-                            ${estate_svgs[elem[0].toLowerCase()]}
-                            <div style="display: flex;flex-direction: column;">
+                            <div style="padding-right: 10px;">${estate_svgs[elem[0].toLowerCase()]}</div>
+                            <div style="display: flex;flex-direction: column;height:25px;">
                                 <span class="sellelem-text-1">${elem[1]}${elem[5] !=null ? `<span class="sellelem-text-2">#${elem[5]}</span>`: ''}</span>
                                 <span class="sellelem-text-2">${elem[2]}</span>
                             </div>
                         </div>
                         <div>
-                            <div style="padding-left: 10px">
+                            <div>
                                 <span class="sellelem-text-2">Класс</span>
                                 <span class="sellelem-text-1">${elem[3]}</span>
                             </div>
-                            <div style="text-align: right; padding-right: 10px">
+                            <div style="text-align: right;">
                                 <span class="sellelem-text-2">Цена</span>
                                 <span class="sellelem-text-1">${prettyUSD(elem[4])}</span>
                             </div>
@@ -194,11 +194,6 @@ var Estate = class Estate {
         mp.trigger('Estate::Action', action, this.curprice, this.lastEstate != null ? Array.from(this.lastEstate.parentNode.children).indexOf(this.lastEstate) : null);
     }
 }
-
-
-// Estate.draw('house', 123, [null, 500000, 90, 2, '0'])
-// Estate.draw('biz', null, ['Store #1', 'Weapon', null, 500000, 15, 10])
-// Estate.draw('flat', 231, [null, 500000, 90, 10])
 
 // Estate.draw('info', 'house', 4694, ['Jessica Day', 500000, 90, 2, '0'], true)
 // Estate.draw('info','biz', null, ['Store #1', 'Weapon', null, 500000, 15, 10])

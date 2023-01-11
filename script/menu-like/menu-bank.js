@@ -52,7 +52,7 @@ var MenuBank = class MenuBank {
         opt.style.color = 'white';
         document.getElementById(`${opt.id}-container`).style.display = 'flex';
         this.lastNav = opt;
-        if (opt.id == 'menubank-2') this.ontariff(document.querySelector('.menubank-tariffs-elem'))
+        if (opt.id == 'menubank-2') this.ontariff(document.querySelectorAll('.menubank-tariffs-elem')[this.cur_tarrif])
     }
 
 
@@ -341,7 +341,7 @@ var MenuBank = class MenuBank {
     }
 }
 bank_data = [
-    0, 15000, 500, 500000, false
+    1, 15000, 500, 500000, false
 ];
 // MenuBank.draw(bank_data)
 // MenuBank.setDebetInfo(1, 15000)

@@ -31,6 +31,7 @@
     font-weight: 700;
     font-size: 18px;
     color: white;
+    position: absolute;
 }
 
 #action-box>div:first-child svg {
@@ -41,21 +42,22 @@
 #action-box>div:last-child {
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(268.24deg, rgba(34, 34, 34, 0.98) 0.37%, rgba(41, 41, 41, 0.98) 53.3%, rgba(34, 34, 34, 0.98) 100%);
     box-shadow: 10.3472px 11.4969px 72.4307px rgba(0, 0, 0, 0.24);
-    border-radius: 0px 0px 30px 30px;
+    border-radius: 30px;
     width: 600px;
-    position: absolute;
-    bottom: 0;
-    z-index: -1;
 }
 
 .action-box-wrapper {
     width: 425px;
-    position: absolute;
+    padding: 150px 87.5px 30px;
     top: calc(50% - 120px);
     left: calc(50% - 212.5px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .action-box-buttons {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     margin-top: 35px;
@@ -114,7 +116,8 @@
     animation: 5s ease 0s infinite normal none running selected;
 }
 
-.action-box-input {
+.action-box-textarea,
+#action-box-input {
     background: linear-gradient(265.48deg, #282828 2.73%, rgba(44, 44, 44, 0.515625) 48.56%, #282828 97.34%);
     border-radius: 5px;
     overflow: hidden;
@@ -131,11 +134,17 @@
     padding: 15px;
 }
 
-.action-box-input::placeholder {
+.action-box-textarea::placeholder,
+#action-box-input::placeholder {
     font-family: 'Montserrat';
     font-weight: 700;
     font-size: 14px;
     color: rgba(213, 212, 212, 0.25);
+}
+
+#action-box-input {
+    margin-top: 35px;
+    height: 15px;
 }
 
 
@@ -195,10 +204,10 @@
     animation: 5s ease 0s infinite normal none running selected;
 }
 
-#actionbox-money-text{
+.actionbox-text {
     font-weight: 700;
-font-size: 14px;color: #FFFFFF;
-word-wrap: break-word;
-height: 80px;
-padding: 20px 0 25px 0;
+    font-size: 14px;
+    color: #FFFFFF;
+    word-wrap: break-word;
+    text-align: center;
 }

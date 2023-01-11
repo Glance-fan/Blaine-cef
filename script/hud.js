@@ -98,9 +98,10 @@ var Hud = class Hud {
     }
 
     /*quest*/
-    //quest = ['Квестодатель', 'Название задания', 'Название цели', 'Прогресс'] 
+    //quest = ['Квестодатель', 'Название задания', 'Название цели', Тип квеста] 
     static drawQuest(quest) {
         var elem = document.querySelector('.hud-quest-content');
+        document.querySelector('.hud-quest-line').className = `hud-quest-line quest-grad-type-${quest[3]}`;
         elem.innerHTML =
             /*html*/
             `<h1 class="hud-quest-top">
@@ -112,14 +113,8 @@ var Hud = class Hud {
             </h1>
             <p class="hud-quest-middle hud-quest-text">
                 <span class="hud-quest-headline">Цель</span>
-                </br><span>${quest[2]}</span>
-            </p>
-            <h1  class="hud-quest-bottom">
-                <p class="hud-quest-middle hud-quest-text">
-                    <span class="hud-quest-headline">Прогресс</span>
-                    </br><span>${quest[3]}</span>
-                </p>
-            </h1>`;
+                <span style="margin-top: 3px;">${quest[2]}</span>
+            </p>`;
     }
 
     /*help*/

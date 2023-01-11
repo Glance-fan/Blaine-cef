@@ -6,6 +6,7 @@ vue_app.component('chat-template', {
   },
   mounted: async function () {
     await include_source(scripts.chat);
+    chat_tmpl = document.getElementById('chat');
     onRenderFinished("chat");
   },
   updated: function () {
@@ -17,6 +18,7 @@ vue_app.component('chat-template', {
   unmounted: function () {
     remove_source(scripts.chat);
     this.loading = true;
+    chat_tmpl = null;
     switchTemplate(false, 'chat')
   },
   template:

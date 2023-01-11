@@ -1,4 +1,4 @@
-var death_tmpl, login_tmpl, chselect_tmpl, reg_tmpl, start_tmpl, shop_tmpl, actionbox, inv_tmpl, crinv_tmpl, trade_tmpl, chcreate_tmpl, menu_tmpl, menubank_tmpl, menubiz_tmpl, menugar_tmpl, menuhome_tmpl, retail_tmpl, chinteract_tmpl, ovinteract_tmpl, ivinteract_tmpl, passengers_tmpl, hud_left, hud_top, hud_quest, hud_help, hud_spd, hud_interact, npc_tmpl, notific_tmpl, anims_tmpl, hud_menu, estate_tmpl, estagency_tmpl, elevator_tmpl, carmaint_tmpl, blips_tmpl, docs_tmpl, tuning_tmpl, atm_tmpl, whoInvoked, picker_tmpl;
+var death_tmpl, login_tmpl, chselect_tmpl, reg_tmpl, start_tmpl, shop_tmpl, actionbox, inv_tmpl, chat_tmpl, crinv_tmpl, trade_tmpl, chcreate_tmpl, menu_tmpl, menubank_tmpl, menubiz_tmpl, menugar_tmpl, menuhome_tmpl, retail_tmpl, chinteract_tmpl, ovinteract_tmpl, ivinteract_tmpl, passengers_tmpl, hud_left, hud_top, hud_quest, hud_help, hud_spd, hud_interact, npc_tmpl, notific_tmpl, anims_tmpl, hud_menu, estate_tmpl, estagency_tmpl, elevator_tmpl, carmaint_tmpl, blips_tmpl, docs_tmpl, tuning_tmpl, atm_tmpl, whoInvoked, picker_tmpl;
 
 var clHeight, clWidth;
 
@@ -25,7 +25,7 @@ var scripts = {
     menu_biz: ['libs/svgs/menu-biz.js', 'script/menu-like/menu-biz.js', 'style/menu-like/menu-biz.css'],
     menu_gar: ['script/menu-like/menu-garage.js', 'style/menu-like/menu-garage.css'],
     menu_home: ['libs/svgs/menu-home.js', 'libs/svgs/inventory/inventory.js', 'script/menu-like/menu-home.js', 'style/menu-like/menu-home.css'],
-    menu: ['libs/svgs/menu.js', 'script/menu-like/menu.js', 'style/menu-like/menu.css'],
+    menu: ['libs/svgs/menu.js', 'script/menu-like/menu.js', 'style/quest-grads.css', 'style/menu-like/menu.css'],
 
     /*small-interface*/
     actionbox: ['script/small-interface/action-box.js', 'style/small-interface/action-box.css'],
@@ -43,6 +43,6 @@ var scripts = {
     tuning: ['libs/svgs/tuning.js', 'script/store-like/tuning.js', 'style/store-like/tuning.css'],
 
     /*no category*/
-    hud: ['libs/frameworks/speedometer.js', 'script/hud.js', 'style/hud.css'],
+    hud: ['libs/frameworks/speedometer.js', 'script/hud.js', 'style/quest-grads.css', 'style/hud.css'],
     inventory: ['libs/svgs/inventory/inventory.js', 'libs/svgs/inventory/weapon.js', 'libs/js-database/inventory.js', 'script/inventory.js', 'style/inventory/inventory.css', 'style/inventory/inventory-item.css'],
 }

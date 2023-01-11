@@ -65,9 +65,9 @@
 }
 
 .hud-quest-line {
+    background-size: 100% 300%;
     height: inherit;
     width: 5px;
-    background: linear-gradient(225deg, #C81212 0%, #851717 100%) 0% 0% / 100% 300%;
     animation: 5s ease 0s infinite normal none running selected-reverse;
 }
 
@@ -109,9 +109,12 @@
 
 .hud-quest-middle {
     text-align: left;
-    margin-top: 5px;
     margin-left: 10px;
-    height: 30px;
+    max-height: 65px;
+    min-height: 35px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .hud-quest-bottom {

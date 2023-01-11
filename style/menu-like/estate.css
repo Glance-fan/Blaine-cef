@@ -67,6 +67,7 @@
     background: linear-gradient(265.48deg, #282828 2.73%, rgba(44, 44, 44, 0.515625) 48.56%, #282828 97.34%);
     border-radius: 5px;
     overflow-y: hidden;
+    overflow-x: hidden;
 }
 
 #estate-container::-webkit-scrollbar {
@@ -94,6 +95,10 @@
     flex-direction: column;
     justify-content: space-evenly;
 
+}
+
+#estate-container>div>div {
+    white-space: nowrap;
 }
 
 #estate-buttons {
@@ -153,16 +158,18 @@
 }
 
 .estate-sell-elem {
-    width: 160px;
+    min-width: 140px;
+    width: 140px;
     height: 95px;
-    padding: 5px 0;
-    border-radius: 5px;
-    min-width: 160px;
-    margin-right: 45px;
-    background: linear-gradient(250.85deg, #303030 5.14%, #414141 52.26%, #303030 92.13%) 0% 0% / 300% 100%;
+    margin-right: 10px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    padding: 5px 10px;
+    margin-right: 45px;
+
+    border-radius: 5px;
+    background: linear-gradient(250.85deg, #303030 5.14%, #414141 52.26%, #303030 92.13%) 0% 0% / 300% 100%;
 }
 
 .estate-sell-elem:hover {
@@ -172,7 +179,6 @@
 .estate-sell-elem svg {
     width: 20px;
     height: 20px;
-    padding: 0 10px;
 }
 
 .estate-sell-elem>div {

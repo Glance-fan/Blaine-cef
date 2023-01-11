@@ -34,7 +34,7 @@ vue_app.component('tuning-template', {
                     <div class="grey-button" onclick="Tuning.payRequest(false)"></div>
                 </div>
                 <div>
-                    <div class="dark-gray" onclick="mp.trigger('Shop::Close')"></div>
+--                     <div class="dark-gray" onclick="mp.trigger('Shop::Close')"></div>
                 </div>
             </div>
         </div>    

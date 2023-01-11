@@ -18,7 +18,7 @@ vue_app.component('actionbox-template', {
                     <div></div>
                     <div>
                         <div class="action-box-wrapper">
-                            <div id="action-box-container"><div></div></div>
+                            <div id="action-box-container" style="width: 100%;"><div></div></div>
                             <div class="action-box-buttons">
                                 <button class="red-button" onclick="ActionBox.onbutton(0)">Принять</button>
                                 <button class="grey-button" onclick="ActionBox.onbutton(1)">Отменить</button>

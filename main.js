@@ -147,6 +147,7 @@ function resizeAll() {
         mp.trigger('Resize::UpdateLeftHudPos')
         resizeBigger(hud_left);
     }
+    if (chat_tmpl) resizeBigger(chat_tmpl);
     if (chinteract_tmpl) resizeBigger(chinteract_tmpl);
     if (ovinteract_tmpl) resizeBigger(ovinteract_tmpl);
     if (ivinteract_tmpl) resizeBigger(ivinteract_tmpl);
