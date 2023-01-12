@@ -427,12 +427,12 @@
 
 .menu-text-float {
     width: 20px;
-    float:right;
-    height:100%;
-    margin-left:15px;
-    display:flex;
-    align-items:flex-end;
-    shape-outside:inset(calc(100% - 20px) 0 0);
+    float: right;
+    height: 100%;
+    margin-left: 15px;
+    display: flex;
+    align-items: flex-end;
+    shape-outside: inset(calc(100% - 20px) 0 0);
 }
 
 .menu-marker {
@@ -494,10 +494,7 @@
 }
 
 .star {
-    /*width: 320px; */
     position: absolute;
-    /* margin-top: 10px; */
-    /* margin-left: 25px; */
     right: 25px;
     display: flex;
     justify-content: right;
@@ -769,8 +766,8 @@
     width: 85%;
 }
 
-.sett-block>p {
-    padding: 25px 15px;
+.sett-block-toggle-wrapper {
+    padding: 25px 0px 25px 15px;
     height: 170px;
 }
 
@@ -779,7 +776,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 95%;
+    line-height: 17px;
+    height: 34px;
+    margin-right: 20px;
+    max-width: 255px;
 }
 
 #main-toggle-block,

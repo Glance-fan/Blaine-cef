@@ -339,7 +339,7 @@ vue_app.component('menu-template', {
                 <h2>Интерфейс</h2>
                 <!--Minor settings-->
                 <div class="sett-block section-bg sett-text">
-                    <p><div id="main-toggle-block"></div></p>
+                    <p style="width: 295px"><p class="sett-block-toggle-wrapper"><div id="main-toggle-block"></div></p></p>
                 </div>
                 <!--Aim-->
                 <div class="section-bg aim">
@@ -433,7 +433,7 @@ vue_app.component('menu-template', {
 
                 <h2 style="left:305px">Дополнительные параметры</h2>
                 <div class="sett-block section-bg sett-text" style="margin-left:20px;">
-                    <p><div id="extra-toggle-block"></div></p>
+                    <p style="width: 295px"><p class="sett-block-toggle-wrapper"><div id="extra-toggle-block"></div></p></p>
                 </div>
             </div>
             <!--Sound + Special-->

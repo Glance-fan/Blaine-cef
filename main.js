@@ -42,6 +42,7 @@ const vue_app = Vue.createApp({
                 start_place: false,
                 trade: false,
                 tuning: false,
+                salon: false,
             },
             render: {
                 actionbox: false,
@@ -76,6 +77,7 @@ const vue_app = Vue.createApp({
                 shop: false,
                 start_place: false,
                 tuning: false,
+                salon: false,
             }
         }
     },

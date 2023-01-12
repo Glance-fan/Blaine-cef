@@ -66,7 +66,10 @@ vue_app.component('colorpicker-template', {
                     Tuning.choices[idx] = hex;
                     if (idx.endsWith('main') || idx.endsWith('extra')) 
                         Tuning.setColorCost([getIdx(idx, 'main'), getIdx(idx, 'extra')]);
-                    else Tuning.setColorCost(idx);
+                    else {
+                        Tuning.setColorCost(idx); 
+                        if (Tuning.choices[idx] == '#000000') Tuning.clearColor();
+                    }
                     mp.trigger('Shop::UpdateColor', whoInvoked.getAttribute('source-id'), hex)
                     break;
                 default:
