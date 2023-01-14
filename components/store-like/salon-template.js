@@ -22,6 +22,7 @@ vue_app.component('salon-template', {
             </div>   
         </div>
         <div id="salon-right-side">
+            <div></div>
             <div style="width: 305px">
                 <div id="salon-right-scrollable">
                     <div class="salon-bg" id="salonvar-container"></div>
@@ -29,8 +30,8 @@ vue_app.component('salon-template', {
             </div>
             <div id="salon-menu">
                 <div>
-                    <div class="red-button" onclick=""></div>
-                    <div class="grey-button" onclick=""></div>
+                    <div class="red-button" onclick="Salon.payRequest(true)"></div>
+                    <div class="grey-button" onclick="Salon.payRequest(false)"></div>
                 </div>
                 <div>
                      <div class="dark-gray" onclick="mp.trigger('Shop::Close')"></div>

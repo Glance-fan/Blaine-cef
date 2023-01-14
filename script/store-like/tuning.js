@@ -9,7 +9,7 @@ var Tuning = class Tuning {
     static lastChoiceId;
 
     static draw(data) {
-        this.left.firstElementChild.innerHTML = tuning_svgs.main;
+        document.querySelector('.tuning-bg').innerHTML = tuning_svgs.main;
         this.drawNavigation(data.length);
         this.fillMenu();
         this.tuning_data = data;
