@@ -40,10 +40,11 @@ var Tuning = class Tuning {
         for (var index = 0; index < data.length; index++)
             this.newChoiceElem(...data[index]);
     }
-
+    
+    static default_color;
     static fillVariants(type, choice) {
         this.clear();
-        var black = '#000000';
+        this.default_color = choice.id == 'neon' ? `#000000` : `#FFFFFF`;
         var data = this.variants_arr[choice.id];
         switch (type) {
             case 'variants-list':
@@ -55,11 +56,11 @@ var Tuning = class Tuning {
             case 'color-selection-1':
                 this.var_container.style = 'height: 150px;min-height: unset;';
                 if (this.initial_choices[choice.id] == null) this.choices[choice.id] = null;
-                addColorPicker(this.var_container, choice.id, data[0], this.choices[choice.id] ?? black, data[1]);
-                if (this.initial_choices[choice.id] != black) addDelete(this.var_container, choice.id, data[2]);
-                else this.initial_choices[choice.id] = black;
+                addColorPicker(this.var_container, choice.id, data[0], this.choices[choice.id] ?? this.default_color, data[1]);
+                if (this.initial_choices[choice.id] != this.default_color) addDelete(this.var_container, choice.id, data[2]);
+                else this.initial_choices[choice.id] = this.default_color;
                 this.setColorCost(choice.id);
-                if (this.choices[choice.id] == black) this.money_block.style.visibility = 'hidden';;
+                if (this.choices[choice.id] == this.default_color) this.money_block.style.visibility = 'hidden';;
                 break;
             case 'color-selection-2':
                 this.var_container.style = 'height: 300px;min-height: unset;';
@@ -100,9 +101,9 @@ var Tuning = class Tuning {
                     <div hex="${hex}"  class="colorpicker" id="tuning-${id}-colorpicker" source-id="${id}" parent="tuning" cost="${prettyUSD(cost)}" onclick="Tuning.oncolorcircle(this)" style="background: ${hex}"></div>
                 </div>
             </div>`;
-            if (Tuning.initial_choices[id] == null) Tuning.initial_choices[id] = (hex ?? black).toUpperCase();
+            if (Tuning.initial_choices[id] == null) Tuning.initial_choices[id] = (hex ?? this.default_color).toUpperCase();
             else Tuning.initial_choices[id] = Tuning.initial_choices[id].toUpperCase();
-            Tuning.choices[id] = (hex ?? black).toUpperCase();
+            Tuning.choices[id] = (hex ?? this.default_color).toUpperCase();
         }
     }
 
@@ -115,7 +116,7 @@ var Tuning = class Tuning {
             this.initial_choices[id] = initial;
             this.choices[id] = initial;
         }
-        if (id.includes('wheel') && initial != null && this.lastChoices[parseInt(this.lastNav.id)] == null) 
+        if (id.includes('wheel') && initial != null && this.lastChoices[parseInt(this.lastNav.id)] == null)
             this.lastChoices[parseInt(this.lastNav.id)] = id;
         this.variants_arr[id] = params;
     }
@@ -288,18 +289,15 @@ var Tuning = class Tuning {
 
     static switchColor(status, id, value) {
         if (status) {
-            if (id == "colour")
-            {
+            if (id == "colour") {
                 var cols = value.split('_');
-                
+
                 this.initial_choices["colour-main"] = cols[0];
                 this.initial_choices["colour-extra"] = cols[1];
-                
+
                 document.getElementById(id).click();
-            }
-            else
-            {
-                this.initial_choices[id] = value;	
+            } else {
+                this.initial_choices[id] = value;
                 document.getElementById(id).click();
             }
         } else {

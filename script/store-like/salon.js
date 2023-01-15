@@ -6,6 +6,7 @@ var Salon = class Salon {
     static lastChoices;
     static lastChoiceId;
     static initial_choices = {};
+    static overlay_choices = {};
     static variants_arr = [];
     static choices = [];
     static money_block;
@@ -42,7 +43,7 @@ var Salon = class Salon {
     }
 
     /*pics-elems*/
-    static fillWithPics(id, data, initial) {
+    static fillWithPics(id, data, initial, hairoverlay) {
         this.container.innerHTML = '';
         this.container.style = 'width: 130px;padding: 26.25px 85px;'
         if (initial && !this.lastChoices[parseInt(this.lastNav.id)] && !this.initial_choices[id]) {
@@ -52,18 +53,27 @@ var Salon = class Salon {
             this.choices[id] = initial;
         }
         for (var index = 0; index < data.length; index++)
-            this.newPicElem(id, ...data[index], initial);
+            this.newPicElem(id, ...data[index]);
 
-        this.var_container.className = '';
+        if (!hairoverlay) this.var_container.className = '';
+        else this.fillHairVariants(hairoverlay);
+        this.var_container.parentElement.style = 'height: 347px';
+        this.var_container.style = 'min-height: unset';
         this.lastChoiceId = id;
-        this.drawColorSelection(this.var_container, id, salon_colors['hair']);
+
+        if (hairoverlay)
+            this.drawColorSelection(this.right.firstElementChild, `${id}-main`, salon_colors['hair']);
+        this.drawColorSelection(this.right.children[1], hairoverlay ? `${id}-extra` : id, salon_colors['hair']);
     }
 
-    static newPicElem(id, idx, price) {
-        var path;
-        if (id.includes('hair')) path = this.cur_sex ? 'hair/boy' : 'hair/girl';
+    static newPicElem(id, idx, price, overlay) {
+        var path, hair_id = `${id}_${idx}`;
+        if (id.includes('hair')) {
+            path = this.cur_sex ? 'hair/boy' : 'hair/girl';
+            if (!(hair_id in this.overlay_choices)) this.overlay_choices[hair_id] = overlay;
+        }
         this.container.innerHTML += /*html*/
-            `<div id="${id}_${idx}" class="salon-pic-elem" onclick="Salon.selectPicElem(this)" style="background: url(libs/img/char-creation/hair/${path || id}/Screenshot_${idx}.png);background-size: cover;" cost="${prettyUSD(price)}"><div></div></div>`;
+            `<div id="${hair_id}" class="salon-pic-elem" onclick="Salon.selectPicElem(this)" style="background: url(libs/img/char-creation/hair/${path || id}/Screenshot_${idx}.png);background-size: cover;" cost="${prettyUSD(price)}"><div></div></div>`;
     }
 
     /*choices-elems*/
@@ -88,12 +98,13 @@ var Salon = class Salon {
 
     /*misc-selection*/
     static drawColorSelection(parent, where, colors) {
+        if (this.choices[this.lastChoiceId][0] == -1) return;
         parent.innerHTML = /*html*/ `
             <div class="salon-color-block salon-bg">
-                <div>Цвет</div>
+                <div>${where.includes('main') ? 'Цвет (Основной)' : where.includes('extra') ? 'Цвет (Акцент)' : 'Цвет'}</div>
                 <div class="salon-color-wrapper"></div>
-            </div>`;
-        var wrapper = document.querySelector('.salon-color-wrapper');
+            </div>${parent.innerHTML}`;
+        var wrapper = parent.querySelector('.salon-color-wrapper');
         var color_id = 0;
         for (var rows = 0; rows < Math.ceil(colors.length / 16); rows++) {
             wrapper.innerHTML += /*html*/ `<div class="salon-color-row"></div>`;
@@ -105,13 +116,17 @@ var Salon = class Salon {
             }
         }
         if (this.choices[this.lastChoiceId]) {
-            document.getElementById(`${this.choices[this.lastChoiceId][0]}-${where}-color`).classList.add('salon-color-selected');
-            // this.colorRequest(this.choices[this.lastChoiceId][0]);
+            if (where.includes('main') || where.includes('extra')) {
+                where.includes('main') ?
+                    document.getElementById(`${this.choices[this.lastChoiceId][2]}-${where}-color`).classList.add('salon-color-selected') :
+                    document.getElementById(`${this.choices[this.lastChoiceId][3]}-${where}-color`).classList.add('salon-color-selected');
+            } else document.getElementById(`${this.choices[this.lastChoiceId][0]}-${where}-color`).classList.add('salon-color-selected');
         }
     }
 
     static drawRange(value) {
-        this.var_container.parentElement.innerHTML += /*html*/
+        this.var_container.parentElement.style = 'height: 391px';
+        this.right.children[1].innerHTML += /*html*/
             `<div class="salon-slider-block salon-bg">
                 <div>Насыщенность</div>
                 <div class="salon-slider-wrapper">
@@ -131,12 +146,19 @@ var Salon = class Salon {
     static fillVariants(id) {
         var data = this.variants_arr[id];
         this.var_container.innerHTML = '';
+        if (data.length > 10) this.var_container.style = 'min-height: unset';
         for (var index = 0; index < data.length; index++)
             this.newVariantElem(`${id}_${index}`, ...data[index]);
     }
 
     static newVariantElem(id, cost, name) {
         this.var_container.innerHTML += /*html*/ `<div cost="${prettyUSD(cost)}" id="${id}" class="salon-choice dark-gray" onclick="Salon.selectVariantElem(this)">${name}</div>`;
+    }
+
+    static fillHairVariants(data) {
+        if (data.length < 9) this.var_container.style = 'min-height: 347px';
+        for (var index = 0; index < data.length; index++)
+            this.var_container.innerHTML += /*html*/ `<div id="hairoverlay_${data[index]}" class="salon-choice dark-gray" onclick="Salon.selectVariantElem(this)">${index == 0 ? `Без висков` : `Виски #${index}`}</div>`;
     }
 
     /*menu*/
@@ -167,16 +189,28 @@ var Salon = class Salon {
         if (this.lastChoices[index]) document.getElementById(this.lastChoices[index]).click();
         else this.selectChoiceElem(this.container.firstElementChild);
 
-        this.container.parentElement.scrollTo({
-            top: document.querySelector('.salon-pic-selected').offsetTop - 181,
-            behavior: 'smooth'
-        })
+        try {
+            this.container.parentElement.scrollTo({
+                top: document.querySelector('.salon-pic-selected').offsetTop - 181,
+                behavior: 'smooth'
+            })
+        } catch (error) {}
     }
 
     static selectPicElem(pic) {
         if (this.choices[this.lastChoiceId][1] != pic.id) this.picRequest(pic.id);
         this.choices[this.lastChoiceId][1] = pic.id;
         this.colorPicSelected(pic);
+        if (pic.id.includes('hair')) {
+            pic.id == this.initial_choices['hair'][1] ?
+                document.getElementById(this.initial_choices['hair'][0]).click() :
+                document.getElementById(`hairoverlay_${this.overlay_choices[pic.id]}`).click();
+            document.getElementById('salon-right-scrollable').scrollTo({
+                top: this.right.querySelector('.salon-selected').offsetTop - 333,
+                behavior: 'smooth'
+            })
+
+        }
         this.updateVariantMoney(pic);
     }
 
@@ -187,29 +221,49 @@ var Salon = class Salon {
         this.drawColorSelection(this.right.firstElementChild, choice.id, salon_colors['makeup']);
         this.fillVariants(choice.id);
         if (this.choices[choice.id][1]) document.getElementById(this.choices[choice.id][1]).click();
+        this.drawRange(this.choices[this.lastChoiceId][2]);
         this.var_container.parentElement.scrollTo({
             top: document.getElementById(this.choices[choice.id][1]).offsetTop - 155,
             behavior: 'smooth'
         })
-        this.drawRange(this.choices[this.lastChoiceId][2]);
     }
 
     static selectVariantElem(variant) {
         if (this.choices[this.lastChoiceId][1] != variant.id) this.variantRequest(variant.id);
         this.colorVariantSelected(variant);
-        if (this.initial_choices[this.lastChoiceId][1] == variant.id) this.setMoney('Приобретено');
-        else this.setMoney(variant.getAttribute('cost'));
-        this.choices[this.lastChoiceId][1] = variant.id;
-        this.updateVariantMoney(variant);
+        this.choices[this.lastChoiceId][variant.id.includes('hair') ? 0 : 1] = variant.id;
+        this.updateVariantMoney(variant.id.includes('hair') ? salon_tmpl.querySelector('.salon-pic-selected').parentElement : variant);
     }
 
     static oncolor(elem) {
+        if (elem.id.includes('main') || elem.id.includes('extra')) {
+            this.oncolorhair(elem, elem.id.includes('main') ? 2 : 3);
+            return;
+        }
         if (this.choices[this.lastChoiceId][0] != parseInt(elem.id)) this.colorRequest(parseInt(elem.id));
         if (this.choices[this.lastChoiceId][0] != null)
             document.querySelector('.salon-color-selected').classList.remove('salon-color-selected');
         elem.classList.add('salon-color-selected');
         this.choices[this.lastChoiceId][0] = parseInt(elem.id);
         this.updateVariantMoney(Salon.var_container.querySelector('.salon-selected') || salon_tmpl.querySelector('.salon-pic-selected').parentElement);
+    }
+
+    static oncolorhair(elem, idx) {
+        if (this.choices[this.lastChoiceId][idx] != null)
+            document.querySelectorAll('.salon-color-wrapper')[idx == 2 ? 0 : 1].querySelector('.salon-color-selected').classList.remove('salon-color-selected');
+        elem.classList.add('salon-color-selected');
+        if (this.choices[this.lastChoiceId][idx] != parseInt(elem.id))
+            this.colorRequest(parseInt(elem.id), idx == 2 ? 'main' : 'extra');
+        if (idx == 2) {
+            if (this.choices[this.lastChoiceId][3] != null)
+                this.right.children[1].querySelector('.salon-color-selected').classList.remove('salon-color-selected');
+            if (this.choices[this.lastChoiceId][3] != parseInt(elem.id))
+                this.colorRequest(parseInt(elem.id), 'extra');
+            document.getElementById(elem.id.replace('main', 'extra')).classList.add('salon-color-selected');
+            this.choices[this.lastChoiceId][3] = parseInt(elem.id);
+        }
+        this.choices[this.lastChoiceId][idx] = parseInt(elem.id);
+        this.updateVariantMoney(salon_tmpl.querySelector('.salon-pic-selected').parentElement);
     }
 
     static onrange(slider) {
@@ -294,7 +348,8 @@ var Salon = class Salon {
         elem.style.color = 'white';
         elem.classList.add('salon-selected');
 
-        var lastChoice = document.getElementById(this.choices[this.lastChoiceId][1])
+        var idx = this.lastChoiceId.includes('hair') ? 0 : 1;
+        var lastChoice = document.getElementById(this.choices[this.lastChoiceId][idx])
         if (!!lastChoice && lastChoice != elem) {
             lastChoice.classList.remove('salon-selected');
             lastChoice.style.color = '';
@@ -309,13 +364,13 @@ var Salon = class Salon {
     }
 
     static clear() {
-        document.getElementById('salon-right-scrollable').innerHTML = /*html*/
-            `<div class="salon-bg" id="salonvar-container"></div>`
+        document.querySelectorAll('.salon-color-block').forEach((el) => {
+            el.remove()
+        })
+        this.right.children[1].innerHTML = /*html*/ `<div id="salon-right-scrollable"><div class="salon-bg" id="salonvar-container"></div></div>`;
         this.var_container = document.getElementById('salonvar-container');
-        this.var_container.className = 'salon-bg';
         this.container.parentElement.style = '';
-        this.right.firstElementChild.innerHTML = '';
-        this.var_container.innerHTML = '';
+        this.var_container.parentElement.style = '';
     }
 
     static buyVariant(id, new_initial) {
@@ -331,19 +386,19 @@ var Salon = class Salon {
     }
 
     static picRequest(id) {
-        mp.trigger('Update::Shop', id);
+        mp.trigger('Shop::Choose', id);
     }
 
     static variantRequest(id) {
-        mp.trigger('Shop::Choose', id, this.lastChoiceId);
+        mp.trigger('Shop::Choose', 'variant', id, this.lastChoiceId);
     }
 
     static rangeRequest(value) {
-        mp.trigger('Shop::Update', value, this.lastChoiceId);
+        mp.trigger('Shop::Choose', 'opacity', value, this.lastChoiceId);
     }
 
     static colorRequest(id) {
-        mp.trigger('Shop::Choose', id, this.lastChoiceId);
+        mp.trigger('Shop::Choose', 'colour', id, this.lastChoiceId);
     }
 
     static payRequest(pay_method) {
@@ -353,27 +408,37 @@ var Salon = class Salon {
 
 salon_data = [
     ['hair', [
-            [2, 1000],
-            [9, 1000],
-            [6, 1000],
-            [13, 1000]
+            [2, 1000, 51], //hair_id, cost, hairoverlay_initital_id
+            [9, 2000, -1],
+            [6, 3000, 117],
+            [13, 4000, 120]
         ],
-        [12, 'hair_13']
+        ['hairoverlay_34', 'hair_13', 12, 15], //bought: hairoverlay_id, hair_id, color_1, color_2
+        [-1, 23, 34, 41, 51, 46, 72, 87, 98, 120, 151, 172, 131, 143, 145, 117] //hairovelay return ids
     ],
     ['eyebrows', [
-            [3, 1000],
+            [3, 1000], //hair_id, cost
             [7, 1000],
             [13, 1000]
         ],
-        [14, 'eyebrows_7']
+        [14, 'eyebrows_7'] //bought: color, hair_id
     ],
     [
         ['lipstick', 'Помада', [
                 [500, 'Средняя матовая'],
                 [300, 'Матовая'],
-                [1000, 'Глянцевая']
+                [1000, 'Глянцевая'],
+                [500, 'Средняя матовая'],
+                [300, 'Матовая'],
+                [1000, 'Глянцевая'],
+                [500, 'Средняя матовая'],
+                [300, 'Матовая'],
+                [1000, 'Глянцевая'],
+                [500, 'Средняя матовая'],
+                [300, 'Матовая'],
+                [1000, 'Глянцевая'],
             ],
-            [10, 'lipstick_0', 0.4]
+            [10, 'lipstick_11', 0.4] //bought: color, makeup_id, makeup_opacity; 
         ],
         ['blush', 'Румяна', [
                 [500, 'Средняя матовая'],
@@ -387,7 +452,7 @@ salon_data = [
                 [300, 'Матовая'],
                 [1000, 'Глянцевая']
             ],
-            [11, 'makeup_2', 0.1]
+            [-1, 'makeup_2', 0.1] //if color == -1 -> no colorpicker
         ]
     ]
 ]

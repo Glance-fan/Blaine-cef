@@ -68,7 +68,8 @@ vue_app.component('colorpicker-template', {
                         Tuning.setColorCost([getIdx(idx, 'main'), getIdx(idx, 'extra')]);
                     else {
                         Tuning.setColorCost(idx); 
-                        if (Tuning.choices[idx] == '#000000') Tuning.clearColor();
+                        if (Tuning.choices[idx] == Tuning.default_color) 
+                            Tuning.money_block.style.visibility = 'hidden';
                     }
                     mp.trigger('Shop::UpdateColor', whoInvoked.getAttribute('source-id'), hex)
                     break;

@@ -23,7 +23,7 @@ vue_app.component('salon-template', {
         </div>
         <div id="salon-right-side">
             <div></div>
-            <div style="width: 305px">
+            <div style="width: 305px;display: flex; flex-direction:column;justify-content: space-between;height: 525px;">
                 <div id="salon-right-scrollable">
                     <div class="salon-bg" id="salonvar-container"></div>
                 </div>
