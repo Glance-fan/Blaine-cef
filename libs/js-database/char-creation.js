@@ -308,19 +308,19 @@ var left_data = {
 }
 
 for (var i = 1; i < 44; i++)
-    left_data.hair.girl_hair.push([`libs/img/char-creation/hair/hair/girl/Screenshot_${i}.png`]);
+    left_data.hair.girl_hair.push([`libs/img/char-creation/hair/hair/girl/${i}.png`]);
 
 for (var i = 1; i < 42; i++)
-    left_data.hair.boy_hair.push([`libs/img/char-creation/hair/hair/boy/Screenshot_${i}.png`]);
+    left_data.hair.boy_hair.push([`libs/img/char-creation/hair/hair/boy/${i}.png`]);
 
 for (var i = 1; i < 35; i++)
-    left_data.hair.eyebrows.push([`libs/img/char-creation/hair/eyebrows/Screenshot_${i}.png`]);
+    left_data.hair.eyebrows.push([`libs/img/char-creation/hair/eyebrows/${i}.png`]);
 
 for (var i = 1; i < 30; i++)
-    left_data.hair.beard.push([`libs/img/char-creation/hair/beard/Screenshot_${i}.png`]);
+    left_data.hair.beard.push([`libs/img/char-creation/hair/beard/${i}.png`]);
 
-for (var i = 2; i < 19; i++)
-    left_data.hair.chest.push([`libs/img/char-creation/hair/chest/Screenshot_${i}.png`]);
+for (var i = 1; i < 18; i++)
+    left_data.hair.chest.push([`libs/img/char-creation/hair/chest/${i}.png`]);
 
 for (var i = 1; i < 37; i++)
     left_data.appearance.features.fuzz.push("Вариант #" + i);

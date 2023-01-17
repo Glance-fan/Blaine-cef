@@ -43,6 +43,7 @@ const vue_app = Vue.createApp({
                 trade: false,
                 tuning: false,
                 salon: false,
+                tattoo_salon: false, 
             },
             render: {
                 actionbox: false,
@@ -78,6 +79,7 @@ const vue_app = Vue.createApp({
                 start_place: false,
                 tuning: false,
                 salon: false,
+                tattoo_salon: false, 
             }
         }
     },
@@ -169,6 +171,7 @@ function resizeAll() {
     if (shop_tmpl) resizeBigger(shop_tmpl);
     if (tuning_tmpl) resizeBigger(tuning_tmpl);
     if (salon_tmpl) resizeBigger(salon_tmpl);
+    if (tattoo_tmpl) resizeBigger(tattoo_tmpl);
     if (retail_tmpl) resizeBigger(retail_tmpl);
     if (death_tmpl) Death.resize(death_tmpl);
     if (hud_top) hud_top.style.zoom = clHeight;

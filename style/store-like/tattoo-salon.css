@@ -1,0 +1,187 @@
+.tattoo-bg {
+    background: linear-gradient(268.24deg, rgba(34, 34, 34, 0.8) 0.37%, rgba(41, 41, 41, 0.8) 53.3%, rgba(34, 34, 34, 0.8) 100%);
+    border-radius: 3px;
+}
+
+.dark-gray {
+    background: linear-gradient(250.85deg, #303030 5.14%, #414141 52.26%, #303030 92.13%) 0% 0% / 300% 100%;
+}
+
+.dark-gray:hover {
+    animation: 5s ease 0s infinite normal none running selected;
+}
+
+.tattoo-selected {
+    background: linear-gradient(225.72deg, #C81212 0%, #851717 100%) 0% 0% / 300% 100%;
+    animation: 5s ease 0s infinite normal none running selected;
+}
+
+#tattoo-left-side,
+#tattoo-right-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 680px;
+    position: absolute;
+    left: 20px;
+    top: calc(50% - 435px);
+}
+
+#tattoo-right-side {
+    right: 20px;
+    left: unset;
+    height: unset;
+}
+
+#tattoo-left-side>div:first-child {
+    width: 300px;
+    height: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 5px;
+}
+
+#tattoo-left-scrollable,
+#tattoo-right-scrollable {
+    width: 305px;
+    height: 525px;
+    margin-right: 15px;
+    direction: rtl;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#tattoo-right-scrollable {
+    direction: ltr;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#tattoo-container,
+#tattoovar-container {
+    width: 300px;
+    min-height: 525px;
+}
+
+#tattoo-container>div:not(:first-child),
+#tattoovar-container>div:not(:first-child) {
+    margin-top: 5px
+}
+
+#tattoo-left-scrollable::-webkit-scrollbar,
+#tattoo-right-scrollable::-webkit-scrollbar {
+    width: 4px;
+    background: #2F2F2F;
+    border-radius: 16px;
+}
+
+#tattoo-left-scrollable::-webkit-scrollbar-thumb,
+#tattoo-right-scrollable::-webkit-scrollbar-thumb {
+    background: linear-gradient(225.72deg, #C81212 0%, #851717 100%);
+    border-radius: 16px;
+}
+
+#tattoo-left-side>div:nth-child(2) {
+    display: flex;
+    width: 525px;
+
+}
+
+#tattoo-left-side>div:nth-child(3) {
+    width: 300px;
+    height: 40px;
+}
+
+#tattoo-right-side>div:first-child {
+    width: 300px;
+    height: 140px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+#tattoo-menu {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    width: 300px;
+    height: 170px;
+}
+
+#tattoo-menu>div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#tattoo-menu>div:last-child {
+    justify-content: center;
+}
+
+#tattoo-menu>div:first-child>div,
+#tattoo-menu .dark-gray {
+    color: white;
+    width: 180px;
+    height: 80px;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+}
+
+#tattoo-menu .dark-gray {
+    width: 80px;
+}
+
+#tattoo-menu p {
+    margin-top: 10px;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.tattoo-choice {
+    width: 300px;
+    height: 39px;
+    color: #BBBBBB;
+    font-weight: 600;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tattoo-choice:hover {
+    color: #DDDDDD;
+}
+
+
+.shop-search-block {
+    align-items: center;
+    width: 300px;
+    height: 40px;
+    border-radius: 3px;
+}
+
+.shop-search-block svg {
+    margin: 0 15px;
+}
+
+.shop-search-block input {
+    height: 100%;
+    width: 100%;
+    outline: none;
+    border: none;
+    background: none;
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.shop-search-block input::placeholder {
+    font-weight: 600;
+    font-size: 12px;
+    color: #BBBBBB;
+}

@@ -42,6 +42,7 @@ var scripts = {
     shop: ['libs/svgs/shop.js', 'libs/js-database/shop.js', 'script/store-like/shop.js', 'style/store-like/shop.css'],
     tuning: ['libs/svgs/tuning.js', 'script/store-like/tuning.js', 'style/store-like/tuning.css'],
     salon: ['libs/svgs/salon.js', 'script/store-like/salon.js', 'style/store-like/salon.css'],
+    tattoo_salon: ['libs/svgs/salon.js', 'script/store-like/tattoo-salon.js', 'style/store-like/tattoo-salon.css'],
 
     /*no category*/
     hud: ['libs/frameworks/speedometer.js', 'script/hud.js', 'style/quest-grads.css', 'style/hud.css'],

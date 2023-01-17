@@ -73,7 +73,7 @@ var Salon = class Salon {
             if (!(hair_id in this.overlay_choices)) this.overlay_choices[hair_id] = overlay;
         }
         this.container.innerHTML += /*html*/
-            `<div id="${hair_id}" class="salon-pic-elem" onclick="Salon.selectPicElem(this)" style="background: url(libs/img/char-creation/hair/${path || id}/Screenshot_${idx}.png);background-size: cover;" cost="${prettyUSD(price)}"><div></div></div>`;
+            `<div id="${hair_id}" class="salon-pic-elem" onclick="Salon.selectPicElem(this)" style="background: url(libs/img/char-creation/hair/${path || id}/${idx}.png);background-size: cover;" cost="${prettyUSD(price)}"><div></div></div>`;
     }
 
     /*choices-elems*/
@@ -397,8 +397,11 @@ var Salon = class Salon {
         mp.trigger('Shop::Choose', 'opacity', value, this.lastChoiceId);
     }
 
-    static colorRequest(id) {
-        mp.trigger('Shop::Choose', 'colour', id, this.lastChoiceId);
+    static colorRequest(id, prior) {
+		if (!!prior)
+			mp.trigger('Shop::Choose', 'colour', id, this.lastChoiceId, prior);
+		else
+			mp.trigger('Shop::Choose', 'colour', id, this.lastChoiceId);
     }
 
     static payRequest(pay_method) {
