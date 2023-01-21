@@ -165,9 +165,6 @@ var Shop = class Shop {
 
         this.navigationRequest(parseInt(index));
         var shop_selection = container.parentElement.parentElement;
-        var blur_heigth = container.lastElementChild.offsetTop - 155;
-        if (blur_heigth > 525) container.parentElement.style.height = `${blur_heigth}px`;
-        else container.parentElement.style.height = `525px`;
         if (!!choice) {
             choice.click();
             shop_selection.scrollTo({
@@ -211,6 +208,9 @@ var Shop = class Shop {
         if (this.vehshop && !this.in_search) container.firstElementChild.click();
         if (Array.from(container.parentElement.children).length == 1)
             document.getElementById('0-shop-nav').click();
+
+        var blur_heigth = items.length > 0 ? container.lastElementChild.offsetTop - 155 : 0;
+        container.parentElement.style.height = blur_heigth > 525 ? `${blur_heigth}px` : `525px`;
     }
 
     static newChoiceElem(parent, id, name, params) {

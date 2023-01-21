@@ -93,7 +93,7 @@ var Inventory = class Inventory {
         } catch (e) {}
         slot.querySelector('.item-standart').style.display = 'flex';
         slot.classList.remove('inventory-filled');
-        if (parent == 'pockets' || (parent == 'weapon' && slot.id != '3-inv-weapon'))
+        if ((parent == 'pockets' && !slot.id.includes('wb')) || (parent == 'weapon' && slot.id != '3-inv-weapon'))
             slot.querySelector('.item-tooltip').setAttribute('data', "0,Бинд");
     }
 
@@ -125,15 +125,15 @@ var Inventory = class Inventory {
                 } else top_text.innerHTML = /*html*/ `<span>${(item_data[3]*item_data[4]).toFixed(2)} кг</span> </br> <span>x${item_data[3]}</span>`;
             }
 
-            slot = `-${slot.split('-')[2]}`;
+            var id = `-${slot.split('-')[2]}`;
             if (item_data[2] != undefined)
-                if (slot == slots[0][1] || slot == slots[1][1])
+                if (id == slots[0][1] || id == slots[1][1] && !slot.includes('wb'))
                     tooltip.setAttribute('data', item_data[2] + ",0,Бинд");
-                else if (slot == slots[2][1] || slot == slots[3][1] || slot == slots[5][1] || slot == slots[6][1])
+                else if ([slots[1][1], slots[2][1], slots[3][1], slots[5][1], slots[6][1], slots[9][1], slots[10][1], slots[11][1]].includes(id))
                 tooltip.setAttribute('data', item_data[2]);
         }
         else {
-            this.setPercent(item, item_data[3])
+            this.setPercent(item, item_data[3]);
             if (item_data[2] != undefined) tooltip.setAttribute('data', item_data[2]);
         }
 
@@ -150,7 +150,7 @@ var Inventory = class Inventory {
             span.style.marginTop = (27 - span.scrollHeight > 0 ? 27 - span.scrollHeight : 0) + 'px';
             span.style.marginBottom = '3px';
         }
-        
+
         if (span.scrollWidth > span.offsetWidth || span.scrollHeight > span.offsetHeight) {
             while (span.scrollWidth > span.offsetWidth || span.scrollHeight > span.offsetHeight) {
                 span.style.fontSize = (parseInt(span.style.fontSize) - 1) + "px";
@@ -243,7 +243,7 @@ var Inventory = class Inventory {
         if (where == 'crate') inventory_class = '.crates-Inventory';
         else inventory_class = '.Inventory';
         var bag_class = `.${where}-bag`;
-        var bag_container = `${where}-${containers[9]}`;
+        var bag_container = `${where}-${containers[13]}`;
         var bag_id = `-${where}${slots[5][1]}`
 
         if (items == undefined) {
@@ -251,7 +251,6 @@ var Inventory = class Inventory {
             return;
         }
         this.switchBag(true, bag_class);
-        //console.log(bag_container)
         document.getElementById(bag_container).innerHTML = '';
         var bagColumns = this.calcColumns(items.length);
         for (var i = 0; i < bagColumns.length; i++)
@@ -291,10 +290,10 @@ var Inventory = class Inventory {
     //items[i] = [svg, 'name', [enum, 'action-i'], amount, weight]
     static fillCrate(name, items, maxWeight) {
         document.querySelector('.crate').querySelector('.h1-text').innerHTML = name;
-        document.getElementById(containers[10]).innerHTML = '';
+        document.getElementById(containers[14]).innerHTML = '';
         var crateColumns = this.calcColumns(items.length);
         for (var i = 0; i < crateColumns.length; i++)
-            this.drawTable([containers[10], crateColumns[i], 1])
+            this.drawTable([containers[14], crateColumns[i], 1])
         this.fillWeight('crate', items, maxWeight)
         for (var i = 0; i < items.length; i++)
             this.updateCrateSlot(i, items[i]);
@@ -351,6 +350,19 @@ var Inventory = class Inventory {
         }
     }
 
+    //item = [svg, 'name', [enum, 'action-i'], amount, weight]
+    static fillWbCraft(name, items) {
+        document.querySelector('.wb-craft').querySelector('.h1-text').innerHTML = name;
+        for (var i = 0; i < slots[9][0]; i++)
+            this.updateCraftSlot(i, items[i])
+    }
+
+    //item = id, где id = 'wbi_0', ..
+    static fillWbTools(items) {
+        for (var i = 0; i < slots[11][0]; i++)
+            this.updateToolSlot(i, items[i])
+    }
+
     static arrayW = Array(3).fill([]);
     static fillWeight(id, items, max) {
         var maxW = document.querySelector('.' + id).querySelector('.max-weight');
@@ -393,13 +405,13 @@ var Inventory = class Inventory {
     static updateTooltip(slot, newTooltip) {
         var item = document.getElementById(slot);
         var tooltip = item.querySelector('.item-tooltip');
-        slot = '-' + slot.split('-')[2];
-        if (newTooltip != undefined) {
-            if (slot == slots[0][1] || slot == slots[1][1])
-                tooltip.setAttribute('data', newTooltip + ",0,Бинд");
-            else if (slot == slots[2][1] || slot == slots[3][1] || slot == slots[5][1] || slot == slots[6][1])
-                tooltip.setAttribute('data', newTooltip);
-        }
+
+        var id = `-${slot.split('-')[2]}`;
+        if (newTooltip)
+            if (id == slots[0][1] || id == slots[1][1] && !slot.includes('wb'))
+                tooltip.setAttribute('data', item_data[2] + ",0,Бинд");
+            else if ([slots[1][1], slots[2][1], slots[3][1], slots[5][1], slots[6][1], slots[9][1], slots[10][1], slots[11][1]].includes(id))
+            tooltip.setAttribute('data', item_data[2]);
     }
 
     //item = [svg, 'name', [enum, 'action-i']]
@@ -435,6 +447,40 @@ var Inventory = class Inventory {
     //item = [svg, 'name', null, amount, weight]
     static updateReceiveSlot(slot, item) {
         this.updateSlot(`${slot}-trade${slots[8][1]}`, item);
+    }
+
+    //item = [svg, 'name', [enum, 'action-i'], amount, weight] 
+    static updateCraftSlot(slot, item) {
+        this.updateSlot(`${slot}-wb${slots[9][1]}`, item);
+    }
+
+    //item = [svg, 'name', [enum, 'action-i'], amount, weight]
+    static updateResultSlot(item) {
+        var id;
+        if (item) id = item[0];
+        this.updateSlot('0-wb-result', item);
+        var slot_ch = document.getElementById('0-wb-result');
+        var slot_p = slot_ch.parentElement;
+        if (!slot_p.querySelector('.item-tooltip').getAttribute('data')) { //not finish - info ttp
+            slot_p.setAttribute('onmouseover', `Inventory.infoTooltip(this.firstElementChild, '${id}');`);
+            slot_p.onmouseout = () => {
+                if (document.querySelector('.info-tooltip')) 
+                    document.querySelector('.info-tooltip').remove();
+            }
+            slot_p.classList.remove('wb-result-finished');
+            slot_ch.style.pointerEvents = 'none';
+        } else {
+            slot_p.onmouseout = null;
+            slot_p.onmouseover = null;
+            slot_ch.style.pointerEvents = 'unset';
+            slot_p.classList.add('wb-result-finished'); //finished - default ttp
+        } 
+
+    }
+
+    //item = [svg, 'name', [enum, 'action-i']]
+    static updateToolSlot(slot, item) {
+        this.updateSlot(`${slot}-wb${slots[11][1]}`, item);
     }
 
     //value -> int
@@ -494,7 +540,7 @@ var Inventory = class Inventory {
     static isLBM = false;
 
     static clickSlot(event, slot) {
-        slot.removeAttribute('style')
+        slot.style.zIndex = 'unset';
         if (slot.id.split('-')[2] == 'status') return;
         if (!!Inventory.curSlot) Inventory.defaultSlot()
         Inventory.isLBM = true;
@@ -517,7 +563,7 @@ var Inventory = class Inventory {
     static clickRBM(event, slot) {
         event.preventDefault();
         if (slot == this.curSlot && this.curTTP) {
-            this.removeTooltip(curSlot);
+            this.removeTooltip(this.curSlot);
             this.curTTP = false;
             return;
         }
@@ -534,7 +580,7 @@ var Inventory = class Inventory {
         document.documentElement.removeAttribute('onmouseup');
         slot.classList.remove('inventory-selected');
         slot.removeAttribute('onmouseup');
-        slot.removeAttribute('style');
+        slot.style.zIndex = 'unset';
         Inventory.isLBM = false;
     }
 
@@ -606,11 +652,6 @@ var Inventory = class Inventory {
 
 
             document.onmouseup = function (e) {
-                // var sw = mountedApp.show;
-                // if (!sw['inventory'] && !sw['crates_inventory'] && !sw['trade']) {
-                //     Inventory.destroyDragable(item);
-                //     return;
-                // }
                 if (Inventory.checkInContainer(e, Inventory.elementsUnder)) {
                     move_request: for (var i = 0; i < Inventory.elementsUnder.length; i++)
                         if (Inventory.elementsUnder[i].classList.contains('inventory-item')) {
@@ -649,7 +690,6 @@ var Inventory = class Inventory {
     }
 
     static destroyDragable(item) {
-        // document.getElementById(item.getAttribute('name')).classList.remove('inventory-selected');
         item.remove();
         this.dragItem = null;
     }
@@ -658,9 +698,11 @@ var Inventory = class Inventory {
 
     /*ttp-funcs*/
     static showTooltip(slot) {
-        var data = slot.lastElementChild.getAttribute('data')
         if (slot.id.includes('trade')) return;
+
+        var data = slot.lastElementChild.getAttribute('data');
         if (data == 'undefined' || data == undefined) return;
+
         this.createTooltip(slot, data);
         this.curTTP = true;
     }
@@ -695,6 +737,19 @@ var Inventory = class Inventory {
         Inventory.curTTP = false;
     }
 
+    static infoTooltip(elem, id) {
+        if (document.querySelector('.info-tooltip') != null || !itemDescriptions[id])
+            return;
+        var ttp = document.createElement('div');
+        ttp.classList.add('info-tooltip');
+        ttp.innerHTML = /*html*/ `
+            <div class="info-tooltip-arrow"></div>
+            <div class="info-tooltip-block">${itemDescriptions[id]}</div>`
+        elem.parentElement.append(ttp);
+
+        ttp.style.top = `${ elem.getBoundingClientRect().y - document.querySelector('.workbench').getBoundingClientRect().y}px`;
+        ttp.style.left = `${elem.getBoundingClientRect().x + elem.getBoundingClientRect().width - document.querySelector('.workbench').getBoundingClientRect().x}px`;
+    }
 
 
     /*bind-funcs*/
@@ -816,6 +871,10 @@ var Inventory = class Inventory {
         mp.trigger("Trade::UpdateLocal", 3);
     }
 
+    static requestCraft() {
+        mp.trigger('Workbench::TryCraft');
+    }
+
 
 
     /*misc-funcs*/
@@ -864,18 +923,6 @@ var Inventory = class Inventory {
         }
     }
 
-    static animateSlot(slot) {
-        if (slot.classList.contains('inventory-selected') || slot.id.split('-')[2] == 'status') return
-        slot.style = `border: 1px solid rgba(255, 255, 255, 0.5);background: linear-gradient(-45deg, #222222, #222222, #303030,  #303030);background-size: 400% 400%;animation: slot-MO .3s ease 1`
-        setTimeout(this.defaultBG, 300, slot)
-    }
-
-    static defaultBG(slot) {
-        slot.style = 'background: rgba(34, 34, 34, 0.9);border: 1px solid rgba(255, 255, 255, 0.5);'
-        if (!!this.lastSlot) this.lastSlot.removeAttribute('style')
-        this.lastSlot = slot;
-    }
-
     static calcColumns(amount) {
         var columns = [];
         var whole = parseInt(amount / 5)
@@ -903,6 +950,7 @@ var Inventory = class Inventory {
                 return 0;
             case 'crate-pockets':
             case 'inv-pockets':
+            case 'wb-pockets':
                 return 1;
             case 'crate-crate':
                 return 2;
@@ -926,7 +974,7 @@ var Inventory = class Inventory {
             for (var i = 0; i < children.length; i++)
                 children[i].style.display = 'block';
         } else {
-            document.getElementById(`${where}-${containers[9]}`).innerHTML = '';
+            document.getElementById(`${where}-${containers[13]}`).innerHTML = '';
             for (var i = 0; i < children.length; i++)
                 children[i].style.display = 'none';
         }
@@ -960,4 +1008,15 @@ var Inventory = class Inventory {
             trade_btn.style.opacity = 0;
         }
     }
+
+    static fillCraftBtn(params) {
+        var btn = document.getElementById('craft-btn');
+        if (Array.isArray(params)) { //craft ready 
+            btn.className = 'red-button craft-btn-ready'; 
+            btn.innerHTML = params[1];
+        } else { //craft in progress
+            btn.className = 'grey-button craft-btn-cancel'; 
+            btn.innerHTML = /*html*/ `${params}<span>(Отменить)</span>`;
+        }
+    } 
 }

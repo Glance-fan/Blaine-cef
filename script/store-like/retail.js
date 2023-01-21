@@ -64,7 +64,7 @@ var Retail = class Retail {
         elem.weight = weight;
         elem.cost = cost * this.coef;
         elem.wearable = wearable;
-        elem.descr = retailDescriptions[id];
+        elem.descr = itemDescriptions[id];
         elem.innerHTML = /*html*/ `
             <span style="font-size:12px">${name}</span>${id in inventoryItems ? inventoryItems[id] : inventoryItems["NotAssigned"]}
             <span>${prettyUSD(elem.cost)}</span>`;

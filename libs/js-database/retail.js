@@ -55,11 +55,6 @@ var retails = {
     ]
 }
 
-var retailDescriptions =
-{
-	
-}
-
 test_data = [
     [
         [['cola-0', 'Cola'], 'КолаКолаКолаКола КолаКолаКола', '300', '1', '1.17', false],

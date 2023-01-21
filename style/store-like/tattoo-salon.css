@@ -54,9 +54,6 @@
 
 #tattoo-right-scrollable {
     direction: ltr;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
 }
 
 #tattoo-container,

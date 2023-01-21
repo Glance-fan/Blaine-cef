@@ -325,3 +325,85 @@
     opacity: 0;
     transition: .3s;
 }
+
+#workbench-inv {
+    color: white;
+    display: flex;
+    position: absolute;
+}
+
+.wb-craft {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 50px;
+}
+
+.wb-craft>div:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.wb-result-finished {
+    pointer-events: unset;
+}
+
+#wb-result-container>div:first-child>div:first-child {
+    margin: 0;
+    pointer-events: none;
+}
+
+
+.info-tooltip {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    backdrop-filter: blur(4px);
+}
+
+.info-tooltip-block {
+    word-wrap: break-word;
+    line-height: 12px;
+    font-size: 12px;
+    border-radius: 5px;
+    width: 140px;
+    height: fit-content;
+    padding: 10px 15px;
+    background: linear-gradient(264.65deg, rgba(63, 63, 63, 0.5) 12.34%, rgba(44, 44, 44, 0.5) 53.29%, rgba(63, 63, 63, 0.5) 96.87%);
+}
+
+.info-tooltip-arrow {
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    width: 14px;
+    height: 16px;
+    background-image: linear-gradient(264.65deg, rgba(63, 63, 63, 0.5) 12.34%, rgba(44, 44, 44, 0.5) 53.29%, rgba(63, 63, 63, 0.5) 96.87%);
+    transform: rotate(-90deg);
+}
+
+#craft-btn {
+    position: absolute;
+    width: 150px;
+    height: 40px;
+    left: calc(50% - 75px);
+    top: calc(100% + 45px);
+    font-weight: 500;
+    font-size: 16px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.craft-btn-ready {
+    justify-content: center;
+}
+
+.craft-btn-cancel {
+    justify-content: space-evenly;
+}
+
+#craft-btn span {
+    font-weight: 400;
+font-size: 10px;
+}

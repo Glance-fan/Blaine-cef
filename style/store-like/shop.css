@@ -33,6 +33,7 @@
 .shop-selection {
     display: flex;
     flex-direction: row;
+    height: 540px;
 }
 
 .shop-containers {

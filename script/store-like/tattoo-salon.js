@@ -88,6 +88,11 @@ var Tattoo = class TattooSalon {
         this.fillVariants(this.variants_arr[choice.id]);
         this.selectVariant(document.getElementById(this.choices[choice.id]));
         this.drawSearch(this.variants_arr[choice.id]);
+
+        this.var_container.parentElement.scrollTo({
+            top: this.var_container.querySelector('.tattoo-selected').offsetTop - 155,
+            behavior: 'smooth'
+        });
     }
 
     static selectVariant(variant) {
@@ -139,7 +144,7 @@ var Tattoo = class TattooSalon {
 
     /*requests*/
     static choiceRequest(id) {
-        mp.trigger("Shop::Change", id);
+        mp.trigger("Shop::NavChange", Object.keys(this.variants_arr).indexOf(id));
     }
 
     static variantRequest(variant) {

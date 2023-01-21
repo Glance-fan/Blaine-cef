@@ -2,6 +2,8 @@ var inventoryItems = [];
 
 inventoryItems["NotAssigned"] = `<img src="libs/img/items/NotAssigned.svg">`;
 
+inventoryItems["fire"] = `<img src="libs/img/items/fire.svg">`;
+
 // ARMOURS
 inventoryItems["arm_m_s"] = `<img src="libs/img/items/arm_grey.svg">`;
 
@@ -89,6 +91,11 @@ inventoryItems["Ring"] = `<img src="libs/img/items/Ring.svg">`;
 inventoryItems["Gloves"] = `<img src="libs/img/items/Gloves.svg">`;
 inventoryItems["Bag"] = `<img src="libs/img/items/Bag.svg">`;
 inventoryItems["Holster"] = `<img src="libs/img/items/Holster.svg">`;
+
+var itemDescriptions =
+{
+	rod_0: 'Это ж удочка',
+}
 
 // FURNITURE
 inventoryItems['furn_0'] = `<img src="libs/img/furniture/apa_mp_h_acc_artwalll_01.png">`;

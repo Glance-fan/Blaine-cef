@@ -47,8 +47,7 @@
         <menu-garage-template v-show="show.menu_gar" v-if="render.menu_gar"></menu-garage-template>
         <menu-home-template v-show="show.menu_home" v-if="render.menu_home"></menu-home-template>
         <actionbox-template v-show="show.actionbox" v-if="render.actionbox"></actionbox-template>
-        <inventory-template v-show="show.inventory || show.crates_inventory || show.trade" v-if="render.full_inventory">
-        </inventory-template>
+        <inventory-template v-show="show.inventory || show.crates_inventory || show.trade || show.workbench" v-if="render.full_inventory"></inventory-template>
         <shop-template v-show="show.shop" v-if="render.shop"></shop-template>
         <retail-template v-show="show.retail" v-if="render.retail"></retail-template>
         <death-template v-show="show.death" v-if="render.death"></death-template>

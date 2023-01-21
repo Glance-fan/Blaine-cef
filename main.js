@@ -41,6 +41,7 @@ const vue_app = Vue.createApp({
                 shop: false,
                 start_place: false,
                 trade: false,
+                workbench: false,
                 tuning: false,
                 salon: false,
                 tattoo_salon: false, 
@@ -108,6 +109,12 @@ const vue_app = Vue.createApp({
                 setTimeout(Inventory.position, 0, '.trade')
             } else trade_tmpl.style.display = 'none';
         },
+        'show.workbench': function () {
+            if (this.show.workbench) {
+                wb_tmpl.style.display = 'flex'
+                setTimeout(Inventory.position, 0, '.workbench')
+            } else wb_tmpl.style.display = 'none';
+        }
 
     }
 })
@@ -166,6 +173,7 @@ function resizeAll() {
         resizeSmaller(inv_tmpl);
         resizeSmaller(crinv_tmpl);
         resizeBigger(trade_tmpl);
+        resizeBigger(wb_tmpl);
         resizeBigger(document.querySelector('.inv-help'));
     }
     if (shop_tmpl) resizeBigger(shop_tmpl);
