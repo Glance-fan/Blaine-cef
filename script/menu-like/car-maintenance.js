@@ -78,7 +78,7 @@ var CarMaint = class CarMaintenance {
         var percent = (slider.value - slider.min) * 100 / (slider.max - slider.min);
         slider.style.backgroundSize = percent + '% 100%';
         CarMaint.curData = document.getElementById('car-maint-range').value;
-        if (!!this.price) document.getElementById('car-maint-price').innerHTML = prettyUSD(this.price * this.curData * this.coef);
+        if (!!this.price) document.getElementById('car-maint-price').innerHTML = prettyUSD(parseInt((this.price * this.curData * this.coef).toFixed(2)));
     }
 
     static onrangeinput(input) {

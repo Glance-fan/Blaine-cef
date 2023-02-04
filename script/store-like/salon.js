@@ -73,7 +73,7 @@ var Salon = class Salon {
             if (!(hair_id in this.overlay_choices)) this.overlay_choices[hair_id] = overlay;
         }
         this.container.innerHTML += /*html*/
-            `<div id="${hair_id}" class="salon-pic-elem" onclick="Salon.selectPicElem(this)" style="background: url(libs/img/char-creation/hair/${path || id}/${idx}.png);background-size: cover;" cost="${prettyUSD(price)}"><div></div></div>`;
+            `<div id="${hair_id}" class="salon-pic-elem" onclick="Salon.selectPicElem(this)" style="background: url(libs/img/char-creation/hair/${path || id}/${idx}.png);background-size: cover;" cost="${price}"><div></div></div>`;
     }
 
     /*choices-elems*/
@@ -152,7 +152,7 @@ var Salon = class Salon {
     }
 
     static newVariantElem(id, cost, name) {
-        this.var_container.innerHTML += /*html*/ `<div cost="${prettyUSD(cost)}" id="${id}" class="salon-choice dark-gray" onclick="Salon.selectVariantElem(this)">${name}</div>`;
+        this.var_container.innerHTML += /*html*/ `<div cost="${cost}" id="${id}" class="salon-choice dark-gray" onclick="Salon.selectVariantElem(this)">${name}</div>`;
     }
 
     static fillHairVariants(data) {
@@ -294,7 +294,7 @@ var Salon = class Salon {
     static updateVariantMoney(variant) {
         if (JSON.stringify(this.initial_choices[this.lastChoiceId]) === JSON.stringify(this.choices[this.lastChoiceId]))
             this.setMoney('Приобретено');
-        else this.setMoney(variant.getAttribute('cost'))
+        else this.setMoney(prettyUSD(parseInt((parseInt(variant.getAttribute('cost')) * this.coef).toFixed(2))))
     }
 
     static setMoney(val) {
@@ -304,6 +304,18 @@ var Salon = class Salon {
             if (val == 'Приобретено') el.parentElement.style.pointerEvents = 'none';
             else el.parentElement.style.pointerEvents = 'unset';
         });
+    }
+
+    static coef = 1;
+    static priceCoef(new_coef) {
+        this.coef = new_coef;
+        var el;
+        try {
+            el = this.container.querySelector('.salon-pic-selected').parentElement
+        } catch (e) {
+            el = this.var_container.querySelector('.salon-selected')  
+        }
+        this.updateVariantMoney(el)
     }
 
     static colorNav(elem) {

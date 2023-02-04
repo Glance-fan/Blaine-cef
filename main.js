@@ -24,6 +24,7 @@ const vue_app = Vue.createApp({
                 hud_quest: false,
                 hud_spd: false,
                 hud_top: false,
+                phone: false,
                 inventory: false,
                 iv_interaction: false,
                 login: false,
@@ -63,6 +64,7 @@ const vue_app = Vue.createApp({
                 estate: false,
                 full_inventory: false,
                 hud: false,
+                phone: false,
                 inter_drawed: false,
                 interaction: false,
                 inv_drawed: false,
@@ -176,6 +178,7 @@ function resizeAll() {
         resizeBigger(wb_tmpl);
         resizeBigger(document.querySelector('.inv-help'));
     }
+    if (phone_tmpl) resizeBigger(phone_tmpl);
     if (shop_tmpl) resizeBigger(shop_tmpl);
     if (tuning_tmpl) resizeBigger(tuning_tmpl);
     if (salon_tmpl) resizeBigger(salon_tmpl);

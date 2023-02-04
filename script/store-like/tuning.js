@@ -78,7 +78,7 @@ var Tuning = class Tuning {
                     row.classList.add('tuning-color-row');
                     document.querySelector('.tuning-many-color').lastElementChild.append(row);
                     for (var j = 0; j < 16; j++) {
-                        row.innerHTML += /*html*/ `<div style="background: ${tuning_colors[index]}" id="${index}-tuning-color" onclick="Tuning.oncolor('${choice.id}', this)" class="tuning-color-elem" cost="${prettyUSD(data[1])}"></div>`;
+                        row.innerHTML += /*html*/ `<div style="background: ${tuning_colors[index]}" id="${index}-tuning-color" onclick="Tuning.oncolor('${choice.id}', this)" class="tuning-color-elem" cost="${data[1]}"></div>`;
                         index++;
                     }
                 }
@@ -90,7 +90,7 @@ var Tuning = class Tuning {
 
         function addDelete(parent, id, cost) {
             parent.innerHTML += /*html*/ `
-                <div class="tuning-delete-color dark-gray" style="margin-top: 15px;" onclick="Tuning.deleteRequest('${id}')">${tuning_svgs.cross}Удалить (${prettyUSD(cost)})</div>`;
+                <div class="tuning-delete-color dark-gray" style="margin-top: 15px;" onclick="Tuning.deleteRequest('${id}')">${tuning_svgs.cross}Удалить (${parseInt((cost * Tuning.coef).toFixed(2))})</div>`;
         }
 
         function addColorPicker(parent, id, title, hex, cost) {
@@ -98,7 +98,7 @@ var Tuning = class Tuning {
             <div class="tuning-color-picker">
                 <div>
                     <span>${title}</span>
-                    <div hex="${hex}"  class="colorpicker" id="tuning-${id}-colorpicker" source-id="${id}" parent="tuning" cost="${prettyUSD(cost)}" onclick="Tuning.oncolorcircle(this)" style="background: ${hex}"></div>
+                    <div hex="${hex}"  class="colorpicker" id="tuning-${id}-colorpicker" source-id="${id}" parent="tuning" cost="${cost}" onclick="Tuning.oncolorcircle(this)" style="background: ${hex}"></div>
                 </div>
             </div>`;
             if (Tuning.initial_choices[id] == null) Tuning.initial_choices[id] = (hex ?? this.default_color).toUpperCase();
@@ -122,7 +122,7 @@ var Tuning = class Tuning {
     }
 
     static newVariantElem(id, index, cost, name) {
-        this.var_container.innerHTML += /*html*/ `<div cost="${prettyUSD(cost)}" id="${id}" class="tuning-choice dark-gray" onclick="Tuning.selectVariantElem(this)">${name != null ? name : `Вариант #${index + 1}`}</div>`;
+        this.var_container.innerHTML += /*html*/ `<div cost="${cost}" id="${id}" class="tuning-choice dark-gray" onclick="Tuning.selectVariantElem(this)">${name != null ? name : `Вариант #${index + 1}`}</div>`;
     }
 
     static fillMenu() {
@@ -178,7 +178,7 @@ var Tuning = class Tuning {
                 Tuning.choices[key] = null;
             });
         if (this.initial_choices[index] == variant.id) this.setMoney('Приобретено');
-        else this.setMoney(variant.getAttribute('cost'));
+        else this.setMoney(prettyUSD(parseInt((parseInt(variant.getAttribute('cost')) * this.coef).toFixed(2))));
         this.choices[index] = variant.id;
         this.variantRequest(variant.id)
     }
@@ -195,7 +195,7 @@ var Tuning = class Tuning {
             document.getElementById(this.choices[source_id]).classList.remove(`tuning-color-selected`);
         elem.classList.add(`tuning-color-selected`);
         if (this.initial_choices[source_id] == parseInt(elem.id)) this.setMoney('Приобретено');
-        else this.setMoney(elem.getAttribute('cost'));
+        else this.setMoney(prettyUSD(parseInt((parseInt(elem.getAttribute('cost')) * this.coef).toFixed(2))));
         this.choices[source_id] = elem.id;
         this.colorRequest(source_id, parseInt(elem.id));
     }
@@ -264,11 +264,11 @@ var Tuning = class Tuning {
         if (Array.isArray(id)) {
             if (this.choices[id[0]] == this.initial_choices[id[0]] && this.choices[id[1]] == this.initial_choices[id[1]])
                 this.setMoney('Приобретено');
-            else this.setMoney(document.querySelector(`[source-id="${id[0]}"]`).getAttribute('cost'));
+            else this.setMoney(prettyUSD(parseInt((parseInt(document.querySelector(`[source-id="${id[0]}"]`).getAttribute('cost')) * this.coef).toFixed(2))));
         } else {
             if (this.choices[id] == this.initial_choices[id])
                 this.setMoney('Приобретено');
-            else this.setMoney(document.querySelector(`[source-id="${id}"]`).getAttribute('cost'));
+            else this.setMoney(prettyUSD(parseInt((parseInt(document.querySelector(`[source-id="${id}"]`).getAttribute('cost')) * this.coef).toFixed(2))));
         }
     }
 
@@ -279,6 +279,13 @@ var Tuning = class Tuning {
             if (val == 'Приобретено') el.parentElement.style.pointerEvents = 'none';
             else el.parentElement.style.pointerEvents = 'unset';
         });
+    }
+
+    static coef = 1;
+    static priceCoef(new_coef) {
+        this.coef = new_coef;
+        document.getElementById(this.lastChoiceId).click();
+        // this.updateVariantMoney(el)
     }
 
     static clear() {

@@ -37,7 +37,7 @@ var Tattoo = class TattooSalon {
     }
 
     static newVariant(id, name, cost) {
-        this.var_container.innerHTML += /*html*/ `<div id="${id}" class="tattoo-choice dark-gray" onclick="Tattoo.selectVariant(this)" cost="${prettyUSD(cost)}">${name}</div>`;
+        this.var_container.innerHTML += /*html*/ `<div id="${id}" class="tattoo-choice dark-gray" onclick="Tattoo.selectVariant(this)" cost="${cost}">${name}</div>`;
     }
 
     static fillMenu() {
@@ -119,7 +119,7 @@ var Tattoo = class TattooSalon {
     static updateMoney(variant) {
         if (this.initial_choices[this.lastChoiceId] == this.choices[this.lastChoiceId])
             this.setMoney('Приобретено');
-        else this.setMoney(variant.getAttribute('cost'))
+        else this.setMoney(prettyUSD(parseInt((parseInt(variant.getAttribute('cost')) * this.coef).toFixed(2))))
     }
 
     static setMoney(val) {
@@ -128,6 +128,12 @@ var Tattoo = class TattooSalon {
             if (val == 'Приобретено') el.parentElement.style.pointerEvents = 'none';
             else el.parentElement.style.pointerEvents = 'unset';
         });
+    }
+
+    static coef = 1;
+    static priceCoef(new_coef) {
+        this.coef = new_coef;
+        this.updateMoney(this.var_container.querySelector('.tattoo-selected'))
     }
 
     static checkNone() {

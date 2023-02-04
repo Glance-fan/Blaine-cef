@@ -62,7 +62,7 @@ var Retail = class Retail {
         } else elem.id = `${id}-retail`;
         elem.instock = instock;
         elem.weight = weight;
-        elem.cost = cost * this.coef;
+        elem.cost = parseInt((cost * this.coef).toFixed(2));
         elem.wearable = wearable;
         elem.descr = itemDescriptions[id];
         elem.innerHTML = /*html*/ `
@@ -72,6 +72,7 @@ var Retail = class Retail {
         setTimeout(Retail.setTextSize, 0, elem);
         if (this.isPersonal) elem.setAttribute('onclick', `Retail.clickPersonalElem(this)`);
         else elem.setAttribute('onclick', `Retail.clickElem(this)`);
+        elem.setAttribute('oncontextmenu', `mp.trigger('Retail::Action', '${id}')`)
         elem.setAttribute('onmouseover', `Retail.onmouseover(this)`);
         elem.setAttribute('onmouseout', `Retail.onmouseout()`);
         return elem;

@@ -8,6 +8,7 @@ vue_app.component('documents-template', {
     unmounted: function () {
         remove_source(scripts.documents);
         docs_tmpl = null;
+        switchTemplate(false, 'docs')
     },
     template: /*html*/ `
     <div id="all-documents">

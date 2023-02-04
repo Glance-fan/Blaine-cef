@@ -328,7 +328,7 @@
 
 #workbench-inv {
     color: white;
-    display: flex;
+    display: none;
     position: absolute;
 }
 

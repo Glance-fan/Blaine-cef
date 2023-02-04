@@ -409,9 +409,9 @@ var Inventory = class Inventory {
         var id = `-${slot.split('-')[2]}`;
         if (newTooltip)
             if (id == slots[0][1] || id == slots[1][1] && !slot.includes('wb'))
-                tooltip.setAttribute('data', item_data[2] + ",0,Бинд");
+                tooltip.setAttribute('data', newTooltip + ",0,Бинд");
             else if ([slots[1][1], slots[2][1], slots[3][1], slots[5][1], slots[6][1], slots[9][1], slots[10][1], slots[11][1]].includes(id))
-            tooltip.setAttribute('data', item_data[2]);
+            tooltip.setAttribute('data', newTooltip);
     }
 
     //item = [svg, 'name', [enum, 'action-i']]
@@ -1013,7 +1013,8 @@ var Inventory = class Inventory {
         var btn = document.getElementById('craft-btn');
         if (Array.isArray(params)) { //craft ready 
             btn.className = 'red-button craft-btn-ready'; 
-            btn.innerHTML = params[1];
+            btn.innerHTML = params[0];
+            if (params[1]) btn.innerHTML += /*html*/ `<span>(${params[1]})</span>`;
         } else { //craft in progress
             btn.className = 'grey-button craft-btn-cancel'; 
             btn.innerHTML = /*html*/ `${params}<span>(Отменить)</span>`;

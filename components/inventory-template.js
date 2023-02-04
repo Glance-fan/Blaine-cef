@@ -172,38 +172,40 @@ vue_app.component('inventory-template', {
                 </div>
             </div>
             <div id="workbench-inv" class="workbench">
-                <div class="wb-pockets">
-                    <h1>
-                        <div class="h1-text">карманы</div>
-                        <div class="underline"></div>
-                        <div class="weight">
-                            <span class="actual-weight"></span>
-                            <span class="max-weight"></span>
+                <div style="display:flex">
+                    <div class="wb-pockets">
+                        <h1>
+                            <div class="h1-text">карманы</div>
+                            <div class="underline"></div>
+                            <div class="weight">
+                                <span class="actual-weight"></span>
+                                <span class="max-weight"></span>
+                            </div>
+                        </h1>
+                        <div id="wb-pockets-container"></div>
+                    </div>
+                    <div class="wb-craft">
+                        <div>
+                            <h1>
+                                <div class="h1-text">lorem</div>
+                                <div class="underline"></div>
+                            </h1>
+                            <div id="wb-craft-container"></div>
                         </div>
-                    </h1>
-                    <div id="wb-pockets-container"></div>
-                </div>
-                <div class="wb-craft">
-                    <div>
-                        <h1>
-                            <div class="h1-text">lorem</div>
-                            <div class="underline"></div>
-                        </h1>
-                        <div id="wb-craft-container"></div>
-                    </div>
-                    <div>
-                        <h1>
-                            <div class="h1-text">итог</div>
-                            <div class="underline"></div>
-                        </h1>
-                        <div id="wb-result-container"></div>
-                    </div>
-                    <div>
-                        <h1>
-                            <div class="h1-text">вспомогательное</div>
-                            <div class="underline"></div>
-                        </h1>
-                        <div id="wb-tool-container"></div>    
+                        <div>
+                            <h1>
+                                <div class="h1-text">итог</div>
+                                <div class="underline"></div>
+                            </h1>
+                            <div id="wb-result-container"></div>
+                        </div>
+                        <div>
+                            <h1>
+                                <div class="h1-text">вспомогательное</div>
+                                <div class="underline"></div>
+                            </h1>
+                            <div id="wb-tool-container"></div>    
+                        </div>
                     </div>
                 </div>
                <button  id="craft-btn" class="red-button" onclick="Inventory.requestCraft()"></button>

@@ -129,6 +129,7 @@
 }
 
 #menubiz-0-content-0 {
+    position: relative;
     width: 425px;
     height: 480px;
     display: flex;
@@ -145,7 +146,8 @@
 
 #menubiz-0-content-0>div:last-child {
     margin-right: 20px;
-    width: 250px;
+    position: absolute;
+    right: 0;
 }
 
 #menubiz-0-content-0>div div {

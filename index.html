@@ -38,6 +38,7 @@
             <hud-menu-template v-show="show.hud_menu"></hud-menu-template>
             <hud-left-template v-show="show.hud_left"></hud-left-template>
         </div>
+        <phone-template v-show="show.phone" v-if="render.phone"></phone-template>
         <interaction-template
             v-show="show.char_interaction || show.ov_interaction || show.iv_interaction || show.pass_interaction"
             v-if="render.interaction"></interaction-template>
@@ -113,6 +114,7 @@
     <script src="./components/chat-template.js"></script>
     <script src="./components/interaction-template.js"></script>
     <script src="./components/inventory-template.js"></script>
+    <script src="./components/phone-template.js"></script>
     <script>
         const mountedApp = vue_app.mount('#vue_app')
     </script>

@@ -96,15 +96,15 @@ var MenuBiz = class MenuBusiness {
     static setMoneyRegister(value) {
         var container = document.getElementById('menubiz-0-content-0').lastElementChild.children;
         container[6].innerText = prettyUSD(value);
+
+        document.getElementById('menubiz-input-block').querySelector('input').value = value;
+        document.getElementById('menubiz-input-block').querySelector('input').max = value;
+        this.curCollect = value;
     }
 
     static setMoneyAccount(value) {
         var container = document.getElementById('menubiz-0-content-0').lastElementChild.children;
         container[7].innerText = prettyUSD(value);
-
-        document.getElementById('menubiz-input-block').querySelector('input').value = value;
-        document.getElementById('menubiz-input-block').querySelector('input').max = value;
-        this.curCollect = value;
     }
 
     static setMaterials(value) {
@@ -360,10 +360,10 @@ var MenuBiz = class MenuBusiness {
 }
 
 
-menubiz_info = ['Магазин 24/7 #1', 'Магазин 24/7', 'Jessica Day', 500000, 15, 10, 950, 100000, 0, 1240, 402336]
-menubiz_manage = [[100, 150], false, false, 5, true, 2000, 'в пути']
-menubiz_chart = [
-    ['27.09', '28.09', '29.09', '30.09', '01.10', '02.10', '03.10', '04.10', '05.10', '06.10', '07.10', '08.10', '09.10', '10.10', '11.10', '12.10', '13.10', '14.10', '15.10', '16.10', '17.10', '18.10', '19.10', '20.10', '21.10', '22.10', '23.10', '24.10', '25.10', '26.10'],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-]
-MenuBiz.draw([menubiz_info, menubiz_manage, menubiz_chart])
+// menubiz_info = ['Магазин премиальной одежды #1', 'Магазин премиальной одежды', 'Jessica Day', 500000, 15, 10, 950, 100000, 0, 1240, 402336]
+// menubiz_manage = [[100, 150], false, false, 5, true, 2000, 'в пути']
+// menubiz_chart = [
+//     ['27.09', '28.09', '29.09', '30.09', '01.10', '02.10', '03.10', '04.10', '05.10', '06.10', '07.10', '08.10', '09.10', '10.10', '11.10', '12.10', '13.10', '14.10', '15.10', '16.10', '17.10', '18.10', '19.10', '20.10', '21.10', '22.10', '23.10', '24.10', '25.10', '26.10'],
+//     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+// ]
+// MenuBiz.draw([menubiz_info, menubiz_manage, menubiz_chart])
