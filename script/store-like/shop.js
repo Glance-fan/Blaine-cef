@@ -406,7 +406,7 @@ var Shop = class Shop {
         this.coef = new_coef;
         if (document.querySelector('.shop-menu-left').style.opacity != 0) {
             var el = document.querySelector('.shop-selected');
-            var cost = prettyUSD(parseInt(el.getAttribute('cost')) * this.coef);
+            var cost = prettyUSD(parseInt((parseInt(el.getAttribute('cost')) * this.coef).toFixed(2)));
             this.cash.lastElementChild.innerText = cost;
             this.bank.lastElementChild.innerText = cost;
         }

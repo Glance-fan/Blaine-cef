@@ -2,7 +2,7 @@ vue_app.component('phone-template', {
     mounted: async function () {
         phone_tmpl = document.querySelector('#phone');
         await include_source(scripts.phone);
-        // resizeBigger(docs_tmpl);
+        // resizeBigger(phone_tmpl);
         onRenderFinished('phone');
     },
     unmounted: function () {

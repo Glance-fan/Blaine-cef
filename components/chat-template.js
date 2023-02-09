@@ -7,6 +7,7 @@ vue_app.component('chat-template', {
   mounted: async function () {
     await include_source(scripts.chat);
     chat_tmpl = document.getElementById('chat');
+    resizeBigger(chat_tmpl);
     onRenderFinished("chat");
   },
   updated: function () {

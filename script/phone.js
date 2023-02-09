@@ -1,5 +1,11 @@
 var Phone = class Phone {
     static container = document.getElementById('phone-apps-container');
+    static showPhone(status) {
+        phone_tmpl.style.opacity = status ? 0.99999 : 0;
+        phone_tmpl.style.pointerEvents = status ? 'unset' : 'none';
+		
+		phone_tmpl.style.transform = status ? 'translateX(0)' : 'translateX(100%)';
+    }
 
     /*menu*/
     static drawMenu() {
@@ -14,7 +20,10 @@ var Phone = class Phone {
             var row = container.lastElementChild;
             app_row.forEach(app => {
                 row.innerHTML += /*html*/
-                    `<img onclick="Phone.appRequest(this.id)" id="${app}_app" src="libs/svgs/phone/apps/${app}_app.svg">`
+                    `<div class="phone-app">
+                        <div class="${app[0]}-app-grad phone-app-icon" onclick="Phone.appRequest(this.id)" id="${app[0]}_app"><img src="libs/svgs/phone/apps/${app[0]}_app.svg"></div>
+                        <div>${app[1]}</div>
+                    </div>`
             })
         }
     }
@@ -24,9 +33,9 @@ var Phone = class Phone {
         if (status) {
             menu.style.display = 'flex';
             this.container.style.display = 'none';
+            this.container.innerHTML = '';
         } else {
             menu.style.display = 'none';
-            // this.container.innerHTML = '';
             this.container.style.display = 'flex';
         }
     }
@@ -48,8 +57,10 @@ var Phone = class Phone {
         switch (params.length) {
             case 0: //player clicked on phone app
             case 1: //autocomplete phone number
+                this.container.innerHTML += /*html*/ `<div id="phone-list" onclick="mp.trigger('Phone::Tab', 0)"><img src="libs/svgs/phone/list.svg"/></div>${this.container.innerHTML}`;
+                this.cur_phone = document.getElementById('phone-app-number');
                 if (params[0]) this.cur_phone.innerText = params[0];
-                this.container.firstElementChild.innerHTML += /*html*/ `<div id="keys-wrapper"></div>`;
+                this.container.lastElementChild.innerHTML += /*html*/ `<div id="keys-wrapper"></div>`;
                 var keys_wrapper = document.getElementById('keys-wrapper');
                 for (var row = 0; row < this.phone_keys.length; row++) {
                     keys_wrapper.innerHTML += /*html*/ `<div class="phone-keys-row"></div>`;
@@ -82,7 +93,7 @@ var Phone = class Phone {
     static onPhoneKey(key) {
         switch (key) {
             case 'back':
-                this.showMenu(true);
+                this.leaveRequest()
                 break;
             case 'call':
                 this.callRequest();
@@ -91,10 +102,83 @@ var Phone = class Phone {
                 this.cur_phone.innerText = this.cur_phone.innerText.slice(0, -1)
                 break;
             default:
+                if (this.cur_phone.innerText.length == 10) return;
                 this.cur_phone.innerText += key;
         }
     }
 
+    //call_list[i] = [index, phone_number, 'contact' || null]
+    static drawCallList(data) {
+        this.container.innerHTML = /*html*/ `
+            <div class="app-wrapper">
+                <div>
+                    <div class="apps-h1">История вызовов</div>
+                    <div class="app-scrollable empty-container" id="call-list-container" style="height:240px"></div>
+                </div>
+                <div class="phone-bottom-blur">
+                    <img src="libs/svgs/phone/back.svg" style="position: absolute;left: 30px;" onclick="Phone.appRequest('phone_app')">
+                    <img src="libs/svgs/phone/block.svg" onclick="mp.trigger('Phone::Tab', 1)">
+                </div>
+            </div>
+            <div class="phone-ttp-wrapper"></div>`;
+        this.fillCallList(data);
+    }   
+
+    static fillCallList(call_list) {
+        var parent = document.getElementById('call-list-container');
+        parent.classList.remove('empty-container');
+        if (!call_list) {
+            parent.classList.add('empty-container');
+            parent.innerHTML = /*html*/ `<span>Пока что у Вас нет\nни одного вызова</span>`
+        } else {
+            parent.innerHTML = '';
+            for (var index = 0; index < call_list.length; index++)
+                this.addCall(...call_list[index]);
+        }
+    }
+
+    static addCall(index, phone, name) {
+        var parent = document.getElementById('call-list-container');
+        parent.innerHTML += /*html*/
+            `<div id="${parent.childElementCount}-contact-app" onclick="Phone.showTooltip(this, 'contact', ${parent.childElementCount})" class="contact-elem"><img src="libs/svgs/phone/call_status/${index}.svg">${name || phone}</div>`;
+    }
+
+    static drawBlackList(data) {
+        this.container.innerHTML = /*html*/ `
+            <div class="app-wrapper">
+                <div>
+                    <div class="apps-h1">Черный список</div>
+                    <div class="black-list-wrapper">
+                        <div class="app-scrollable empty-container" id="black-list-container" style="height:175px"></div>
+                        <input maxlength="10" placeholder="Ввод" autocomplete="false" spellcheck="false" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
+                        <button class="red-button" onclick="Phone.blacklistRequest()">Добавить</button>
+                    </div>
+                </div>
+                <div class="phone-bottom-blur">
+                    <img src="libs/svgs/phone/back.svg" onclick="Phone.appRequest('phone_app')">
+                </div>
+            </div>`;
+        this.fillBlackList(data);
+    }
+
+    static fillBlackList(call_list) {
+        var parent = document.getElementById('black-list-container');
+        parent.classList.remove('empty-container');
+        if (!call_list) {
+            parent.classList.add('empty-container');
+            parent.innerHTML = /*html*/ `<span> Пока что Вы не добавили в черный список ни один номер</span>`
+        } else {
+            parent.innerHTML = '';
+            for (var index = 0; index < call_list.length; index++)
+                this.addBlackList(...call_list[index]);
+        }
+    }
+
+    static addBlackList(phone, name) {
+        var parent = document.getElementById('black-list-container');
+        parent.innerHTML += /*html*/
+            `<div id="${parent.childElementCount}-contact-app" class="contact-elem">${name || phone}<img onclick="Phone.tooltipRequest('black-list', 0, ${phone})" src="libs/svgs/phone/cross.svg"></div>`;
+    }
 
 
     /*contacts-app*/
@@ -107,11 +191,11 @@ var Phone = class Phone {
                     <div class="contact-inputs">
                         <div>
                             <div>Имя</div>
-                            <input placeholder="Ввод">
+                            <input placeholder="Ввод" maxlength="24">
                         </div>
                         <div>
                             <div>Номер телефона</div>
-                            <input placeholder="Ввод">
+                            <input placeholder="Ввод" maxlength="10" autocomplete="false" spellcheck="false" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
                         </div>
                     </div>
                 </div>
@@ -141,7 +225,7 @@ var Phone = class Phone {
     static addContact(name, phone) {
         var parent = document.getElementById('contacts-container');
         parent.innerHTML += /*html*/
-            `<div id="${parent.childElementCount}-contact-app" onclick="Phone.showTooltip(this, 'contact')" class="contact-elem">${name} [${phone}]</div>`
+            `<div id="${parent.childElementCount}-contact-app" onclick="Phone.showTooltip(this, 'contact', ${phone})" class="contact-elem">${name} [${phone}]</div>`
     }
 
     static contactEdit(contact) {
@@ -158,11 +242,11 @@ var Phone = class Phone {
     static setBottomContacts(isEdit) {
         var bottom = this.container.querySelector('.phone-bottom-blur');
         if (isEdit) bottom.innerHTML = /*html*/ `
-            <img src="libs/svgs/phone/back.svg" style="position: absolute;left: 30px;" onclick="Phone.backEdit()">
+            <img src="libs/svgs/phone/back.svg" style="position: absolute;left: 30px;" onclick="Phone.appRequest('contacts_app')">
             <img src="libs/svgs/phone/confirm.svg" onclick="Phone.confirmRequest()">`;
         else bottom.innerHTML = /*html*/ `
-            <img src="libs/svgs/phone/back.svg" style="position: absolute;left: 30px;" onclick="Phone.showMenu(true)">
-            <img src="libs/svgs/phone/add.svg" onclick="Phone.addRequest()">`;
+            <img src="libs/svgs/phone/back.svg" style="position: absolute;left: 30px;" onclick="Phone.leaveRequest()">
+            <img src="libs/svgs/phone/add.svg" onclick="Phone.tabRequest(0)">`;
     }
 
     static backEdit() {
@@ -218,19 +302,37 @@ var Phone = class Phone {
     }
 
     static addNewMessage(isOwner, text, date) {
-        document.getElementById('full-sms-container').innerHTML += /*html*/ `
+		var textDiv = document.createElement('div'),
+		    parent = document.getElementById('full-sms-container');
+		
+		textDiv.className = "sent-sms";
+        text = convertGeo(text);
+		textDiv.innerText = text[0];
+        textDiv.innerHTML += '<br><br>' + text[1];
+
+        parent.innerHTML += /*html*/ `
             <div class="sent-sms-wrapper" style="flex-direction: ${isOwner ? 'row-reverse' : 'row'}">
                 <div class="time-sms" style="${isOwner ? 'margin-left: 5px' : 'margin-right: 5px'}">${date}</div>
-                <div class="sent-sms">${text}</div>
+				${textDiv.outerHTML}
             </div>`;
+        
+        parent.scrollTop = parent.scrollHeight;
+
+        function convertGeo(str) {
+            var coords_str = '';
+            str = str.replace(/<GEOL>([^<]+)<\/GEOL>/g, function (string, coords) {
+                coords_str +=/*html*/ `<div class="geo-link" onclick="mp.trigger('Phone::SendCoords', '${coords}')">Геолокация</div>`;
+                return '';
+            });
+            return [str, coords_str];
+        }
     }
 
-    static fillTyping(phone_number) {
+    static fillTyping(phone_number, text) {
         this.switchTabSms('type-sms', 'Новое сообщение');
         document.getElementById('typing-sms-0').value = phone_number ? phone_number : '';
-        document.getElementById('typing-sms-1').value = '';
+        document.getElementById('typing-sms-1').value = text ? text : '';
     }
-
 
     static switchTabSms(id, h1, param) {
         this.switchTab(id, h1);
@@ -242,7 +344,7 @@ var Phone = class Phone {
         switch (id) {
             case 'last-sms':
                 bottom.innerHTML = /*html*/ `
-                    <img src="libs/svgs/phone/back.svg" style="position: absolute;left: 30px;" onclick="Phone.showMenu(true)">
+                    <img src="libs/svgs/phone/back.svg" style="position: absolute;left: 30px;" onclick="Phone.leaveRequest()">
                     <img src="libs/svgs/phone/sms.svg" onclick="Phone.typingRequest()">`;
                 break;
             case 'full-sms':
@@ -254,7 +356,8 @@ var Phone = class Phone {
             case 'type-sms':
                 bottom.innerHTML = /*html*/ `
                     <img src="libs/svgs/phone/back.svg" style="position: absolute;left: 30px;" onclick="Phone.appRequest('sms_app')">
-                    <img src="libs/svgs/phone/sms.svg" onclick="Phone.sendsmsRequest()">`;
+                    <img src="libs/svgs/phone/sms.svg" onclick="Phone.sendsmsRequest()">
+                    <img src="libs/svgs/phone/marker.svg" style="position: absolute;right: 30px;" onclick="Phone.sendsmsRequest(true)">`;
                 break;
         }
     }
@@ -275,7 +378,7 @@ var Phone = class Phone {
                     <div id="wallpaper-container" class="app-scrollable"></div>
                 </div>
                 <div class="phone-bottom-blur">
-                    <img src="libs/svgs/phone/back.svg" onclick="Phone.showMenu(true)">
+                    <img src="libs/svgs/phone/back.svg" onclick="Phone.leaveRequest()">
                 </div>
             </div>`
         this.fillSettings(this.settings);
@@ -293,11 +396,14 @@ var Phone = class Phone {
                 </div></div>`;
             switch (settings[index][1]) {
                 case 'switch':
+                    var id = settings[index][2];
+                    console.log(id)
                     parent.lastElementChild.innerHTML += /*html*/ `
                     <label class="phone-checkbox">
-                        <input id="${settings[index][2]}" onclick="Phone.onToggle(this)" type="checkbox">
+                        <input id="${id}" onclick="Phone.onToggle(this)" type="checkbox">
                         <span class="phone-checkbox-switch"></span>
                     </label>`;
+                    setTimeout(() => {document.getElementById(id).checked = this.cur_sett[id]}, 0);
                     break;
                 case 'click':
                     parent.lastElementChild.innerHTML += /*html*/ `<img onclick="Phone.tabRequest('${settings[index][2]}')" src="libs/svgs/phone/back.svg">`;
@@ -307,7 +413,10 @@ var Phone = class Phone {
     }
 
     static wp_amount = 12;
-    static cur_wp = 0;
+    static cur_sett = {
+        disturb: false,
+        wp: 0,
+    }
     static drawWallpaperTab() {
         var parent = document.getElementById('wallpaper-container');
         parent.innerHTML = /*html*/ `<div class="wallpaper-row"></div>`;
@@ -320,7 +429,7 @@ var Phone = class Phone {
             }
             row.innerHTML += /*html*/ `<div id="${index}-phonewp" onclick="Phone.wallpaperRequest(${index})"><img src="libs/img/phone_wallpapers/${index}.png"></div>`;
         }
-        this.updateWallpaper(this.cur_wp);
+        this.updateWallpaper(this.cur_sett.wp);
     }
 
     static updateWallpaper(index) {
@@ -333,21 +442,32 @@ var Phone = class Phone {
 
     static setWallpaper(index) {
         phone_tmpl.style.background = `url('libs/img/phone_wallpapers/${index}.png')`;
-        this.cur_wp = index;
+        this.cur_sett.wp = index;
     }
 
     static switchTabSettings(id, h1) {
         this.switchTab(id, h1)
         var back = this.container.querySelector('.phone-bottom-blur').firstElementChild;
-        if (id.includes('settings')) back.setAttribute('onclick', 'Phone.showMenu(true)');
+        if (id.includes('settings')) back.setAttribute('onclick', 'Phone.leaveRequest()');
         else back.setAttribute('onclick', 'Phone.switchTabSettings("settings", "Настройки")');
+    }
+
+    static updateDisturb(status) {
+        this.setToggleState('disturb', status);
+        this.setDisturb(status);
+    }
+
+    static setDisturb(status) {
+        var status_bar = document.getElementById('phone-top').lastChild;
+        if (status) status_bar.innerHTML = /*html*/ `<img src="libs/svgs/phone/disturb.svg">${status_bar.innerHTML}`;
+        else status_bar.firstChild.remove();
+        this.cur_sett.disturb = status;
     }
 
 
 
     /*veh-app*/
     static drawVehApp(data) {
-        this.showMenu(false)
         this.container.innerHTML = /*html*/
             `<div class="app-wrapper">
                 <div class="app-scrollable empty-container">
@@ -364,7 +484,7 @@ var Phone = class Phone {
                     </div>
                 </div>
                 <div class="phone-bottom-blur">
-                    <img src="libs/svgs/phone/back.svg" onclick="Phone.showMenu(true)">
+                    <img src="libs/svgs/phone/back.svg" onclick="Phone.leaveRequest()">
                 </div>
             </div>
             <div class="phone-ttp-wrapper"></div>`;
@@ -379,7 +499,7 @@ var Phone = class Phone {
         var parent = document.getElementById(pid);
         parent.innerHTML = '';
         for (var index = 0; index < vehs.length; index++)
-            parent.innerHTML += /*html*/ `<div id="${index}-${from}-veh-app" class="veh-app-elem" onclick="Phone.showTooltip(this, '${from}')">${vehs[index].join('<br>')}</div>`
+            parent.innerHTML += /*html*/ `<div id="${index}-${from}-veh-app" class="veh-app-elem" onclick="Phone.showTooltip(this, '${from}', ${vehs[index][0]})">${propertyIcons[vehs[index][2]]}<div>${vehs[index][1]}</div></div>`
     }
 
 
@@ -405,7 +525,7 @@ var Phone = class Phone {
                     </div>
                 </div>
                 <div class="phone-bottom-blur">
-                    <img src="libs/svgs/phone/back.svg" onclick="Phone.showMenu(true)">
+                    <img src="libs/svgs/phone/back.svg" onclick="Phone.leaveRequest()">
                 </div>
             </div>`;
         this.fillInfo('bank-tariff-info', data, ['Пакет услуг', 'Баланс (дебет.)', 'Баланс (сберег.)']);
@@ -424,7 +544,7 @@ var Phone = class Phone {
             }
             this.stored_menu = parent.innerHTML;
         }
-        document.querySelector('.phone-bottom-blur').firstElementChild.setAttribute('onclick', 'Phone.showMenu(true)');
+        document.querySelector('.phone-bottom-blur').firstElementChild.setAttribute('onclick', 'Phone.leaveRequest()');
     }
 
     // params = [balance, rent]
@@ -439,7 +559,8 @@ var Phone = class Phone {
                 <div class="phone-app-input">
                         $<input maxlength="10" autocomplete="false" spellcheck="false" placeholder="Сумма" value="${params[1] - params[0] > 0 ? params[1] - params[0] : params[1]}"/>
                 </div>`;
-            this.fillInfo('bank-tab-info', params, ['Баланс', 'Аренда (в час)']);
+            var static_data = [1, 2].includes(which) ? ['Баланс', 'Аренда (в час)'] : ['Баланс', 'Налог (в час)']
+            this.fillInfo('bank-tab-info', params, static_data);
             /* */
         } else { //перевод игроку
             parent.children[1].innerHTML = /*html*/ `
@@ -482,12 +603,41 @@ var Phone = class Phone {
                     </div>
                 </div>
                 <div class="phone-bottom-blur">
-                    <img src="libs/svgs/phone/back.svg" onclick="Phone.showMenu(true)">
+                    <img src="libs/svgs/phone/back.svg" onclick="Phone.leaveRequest()">
                 </div>
             </div>`;
         this.fillInfo('bsim-app-info', data, ['Ваш номер', 'Ваш баланс', '1 мин. разговора', '1 символ SMS']);
     }
 
+    
+    /*cab-app*/
+    static cab_types = [
+        ['Закажите такси прямо сейчас!', ['Ваш ID', 'Улица'], ['Заказать']],
+        ['У вас есть активный заказ', ['Статус', 'Дата'], ['Отменить']],
+        ['У вас есть активный заказ', ['Статус', 'ID водителя'], ['Написать', 'Позвонить']]
+    ] 
+    static drawCabApp(type, data) {
+        var static_data = this.cab_types[type];
+        this.container.innerHTML = /*html*/
+            `<div class="app-wrapper">
+                <div>
+                    <div class="apps-h1">Такси</div>
+                    <div id="cab-container">
+                        <div>${static_data[0]}</div>
+                        <div class="phone-app-info" id="cab-app-info"></div>                        
+                    </div>
+                    <div id="cab-buttons"></div>
+                </div>
+                <div class="phone-bottom-blur">
+                    <img src="libs/svgs/phone/back.svg" onclick="Phone.leaveRequest()">
+                </div>
+            </div>`;
+        this.fillInfo('cab-app-info', data, static_data[1]);
+        var parent = document.getElementById('cab-buttons');
+        static_data[2].forEach(btn => {
+            parent.innerHTML += /*html*/ `<button onclick="mp.trigger('Phone::CabAction', ${parent.childElementCount})" class="red-button">${btn}</button>`
+        })
+    }
 
     /*tooltip*/
     static tooltips = {
@@ -496,29 +646,29 @@ var Phone = class Phone {
             ['Позвонить', 'Сообщение', 'Изменить', 'Удалить']
         ],
         owned: [
-            [0, 1, 2, 3],
-            ['Позвонить', 'Сообщение', 'Изменить', 'Удалить']
+            [0, 1],
+            ['Найти', 'Эвакуировать']
         ],
         rented: [
-            [0, 1, 2, 3],
-            ['Позвонить', 'Сообщение', 'Изменить', 'Удалить']
+            [0, 1],
+            ['Найти', 'Отказаться от аренды']
         ]
     }
 
     static inTTP = false;
     static ttp_el;
-    static showTooltip(el, from) {
+    static showTooltip(el, from, uid) {
         if (this.inTTP) return;
         this.ttp_el = el;
-        this.createTooltip(el, this.tooltips[from], from)
+        this.createTooltip(el, this.tooltips[from], from, uid)
     }
 
-    static createTooltip(elem, data, from) {
+    static createTooltip(elem, data, from, uid) {
         var tooltip = this.container.querySelector('.phone-ttp-wrapper')
         tooltip.innerHTML = /*html*/ `<span class="phone-tooltip-arrow"></span><p class="phone-tooltip"></p>`
         for (var index = 0; index < data[0].length; index++)
             tooltip.lastElementChild.innerHTML += /*html*/ ` 
-                <span onclick="Phone.tooltipRequest('${from}', ${data[0][index]}, parseInt(Phone.ttp_el.id))">${data[1][index]}</span>`;
+                <span onclick="Phone.tooltipRequest('${from}', ${data[0][index]}, ${uid})">${data[1][index]}</span>`;
         this.inTTP = true;
 
         elem.onmouseleave = () => {
@@ -562,9 +712,9 @@ var Phone = class Phone {
         }
     }
 
-    // pid = 'bank-tariff-info' || 'bank-tab-info' || 'bsim-app-info'
+    // pid = 'bank-tariff-info' || 'bank-tab-info' || 'bsim-app-info' || 'cab-app-info'
     static updateInfoLine(pid, which, value) {
-        document.getElementById(pid).lastChild.children[which].innerText = typeof value === 'string' ? params[index] : prettyUSD(params[index]);
+        document.getElementById(pid).lastChild.children[which].innerText = typeof value === 'string' ? value : prettyUSD(value);
     }
 
     static timeInterval = setInterval(() => {
@@ -641,25 +791,29 @@ var Phone = class Phone {
         // -> action == 3: Phone.fillContacts(data);
     }
 
+    static leaveRequest() {
+        mp.trigger('Phone::OpenApp', null);
+        /*response*/ // -> Phone.showMenu(false)
+    }
+
     // phone-app-requests
     static callRequest() {
         mp.trigger('Phone::Call', this.cur_phone.innerText)
     }
 
     static declineRequest() {
-        mp.trigger('Phone::DropCall')
+        mp.trigger('Phone::ReplyCall', false);
     }
 
     static acceptRequest() {
-        mp.trigger('Phone::AcceptCall')
+        mp.trigger('Phone::ReplyCall', true);
+    }
+
+    static blacklistRequest() {
+        mp.trigger('Phone::AddToBlackList', this.container.querySelector('input').value);
     }
 
     // contact-app-requests
-    static addRequest() {
-        mp.trigger('Phone::ContactAdd');
-        /*response*/ // -> Phone.contactEdit();
-    }
-
     static confirmRequest() {
         mp.trigger('Phone::ContactConfrim', ...Array.from(this.container.querySelectorAll('input')).map(i => i.value));
         /*response*/
@@ -672,6 +826,7 @@ var Phone = class Phone {
         mp.trigger('Phone::Tab', id);
         /*response*/ // -> Phone.drawBankTab(params);
         /*response*/ // -> Phone.switchTabSettings('wallpaper', 'Выбор обоев');
+        /*response*/ // -> Phone.contactEdit();
     }
 
     // settings request 
@@ -688,18 +843,18 @@ var Phone = class Phone {
 
     // sms request
     static fullsmsRequest(phone_number) {
-        mp.trigger('Phone::ShowFullSms', phone_number)
+        mp.trigger('Phone::Tab', 1, phone_number)
         /*response*/ // -> Phone.fillFullSms(data)
     }
 
     static typingRequest(phone_number) {
-        mp.trigger('Phone::SmsTyping', phone_number)
+        mp.trigger('Phone::Tab', 0, phone_number)
         /*response*/ // -> Phone.fillTyping(phone_number)
     }
 
-    static sendsmsRequest() {
+    static sendsmsRequest(geo) {
         var inputs = [document.getElementById('typing-sms-0'), document.getElementById('typing-sms-1')]
-        mp.trigger('Phone::SmsSend', ...inputs.map(i => i.value));
+        mp.trigger('Phone::SmsSend', ...inputs.map(i => i.value), geo);
         // раскомментируй если хочешь, чтоб инпут очищался после реквеста
         // inputs.forEach(i => {
         //     i.value = '';
@@ -712,10 +867,26 @@ var Phone = class Phone {
 }
 
 apps = [
-    ['phone', 'contacts', 'sms', 'browser'],
-    ['settings', 'veh', 'bank', 'bsim'],
-    ['camera', 'gps', 'music', 'cab']
-];
+    [
+        ['phone', 'Телефон'],
+        ['contacts', 'Контакты'],
+        ['sms', 'Сообщения'],
+        ['browser', 'Браузер']
+    ],
+    [
+        ['settings', 'Настройки'],
+        ['veh', 'Транспорт'],
+        ['bank', 'Банк'],
+        ['bsim', 'BSim']
+    ],
+    [
+        ['camera', 'Камера'],
+        ['gps', 'Навигатор'],
+        ['music', 'Музыка'],
+        ['cab', 'Такси']
+    ]
+]
 
 Phone.drawMenu();
-Phone.setWallpaper(9)
+Phone.setWallpaper(9);
+Phone.showPhone(true);

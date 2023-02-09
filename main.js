@@ -45,7 +45,7 @@ const vue_app = Vue.createApp({
                 workbench: false,
                 tuning: false,
                 salon: false,
-                tattoo_salon: false, 
+                tattoo_salon: false,
             },
             render: {
                 actionbox: false,
@@ -82,7 +82,7 @@ const vue_app = Vue.createApp({
                 start_place: false,
                 tuning: false,
                 salon: false,
-                tattoo_salon: false, 
+                tattoo_salon: false,
             }
         }
     },
@@ -136,8 +136,28 @@ function renderTemplate(isRender, template) {
     mountedApp.render[`${template}`] = isRender;
 }
 
+var lastFocusElem;
+
+setInterval(() => {
+    var elem = document.querySelector(':focus');
+
+    if (elem == lastFocusElem)
+        return;
+
+    lastFocusElem = elem;
+
+    mp.trigger("Browser::OnFocusElem", elem == null ? null : elem.type);
+}, 250);
+
 function switchTemplate(visibility, template) {
     mountedApp.show[`${template}`] = visibility;
+
+    if (!visibility) {
+        var elem = document.querySelector(':focus');
+
+        if (elem != null)
+            elem.blur();
+    }
 }
 
 function onRenderFinished(template) {
@@ -178,7 +198,7 @@ function resizeAll() {
         resizeBigger(wb_tmpl);
         resizeBigger(document.querySelector('.inv-help'));
     }
-    if (phone_tmpl) resizeBigger(phone_tmpl);
+    // if (phone_tmpl) resizeBigger(phone_tmpl);
     if (shop_tmpl) resizeBigger(shop_tmpl);
     if (tuning_tmpl) resizeBigger(tuning_tmpl);
     if (salon_tmpl) resizeBigger(salon_tmpl);
@@ -194,7 +214,10 @@ function resizeAll() {
     if (hud_help) hud_help.style.zoom = clHeight;
     if (hud_spd) hud_spd.style.zoom = clHeight;
     if (hud_interact) hud_interact.style.bottom = (document.body.clientHeight / 100 * (312 / 10.8)) + 'px';
-    if (npc_tmpl) {}
+    if (npc_tmpl) {
+        npc_tmpl.firstElementChild.style.top = document.body.clientHeight / 100 * (572/10.8) + 'px';
+        resizeBigger(npc_tmpl)
+    }
     if (notific_tmpl) resizeBigger(notific_tmpl);
     if (anims_tmpl) {
         anims_tmpl.style.bottom = (document.body.clientHeight / 100 * (300 / 10.8)) + 'px';
