@@ -327,7 +327,7 @@ var Shop = class Shop {
         }
 
         this.switchMoney(true);
-        var cost = prettyUSD(parseInt((parseInt(el.getAttribute('cost')) * this.coef).toFixed(2)));
+        var cost = prettyUSD(parseInt((parseInt(choice.getAttribute('cost')) * this.coef).toFixed(2)));
         this.cash.lastElementChild.innerText = cost;
         this.bank.lastElementChild.innerText = cost;
     }

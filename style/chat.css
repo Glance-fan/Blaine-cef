@@ -91,18 +91,23 @@
 }
 
 /*div + input message blocks*/
-#chat-message {
+#chat form {
+  display: flex;
+  position: relative;
+  background: rgba(22, 22, 22, 0.7);
   position: absolute;
   bottom: 70px;
-  right: 30px;
-  background: rgba(22, 22, 22, 0.7);
-  border-radius: 0 0px 0px 0;
-  width: 373.4107131958008px;
+  border-radius: 5px;
   height: 55px;
-  padding-left: 5px;
+  width: 493px;
+  align-items: center;
+}
+
+#chat-message {
+  background: none;
+  padding: 0 35px 0 5px;
+  width: 100%;
   border: 0;
-  outline: none;
-  font-style: normal;
   font-weight: 400;
   color: white;
   font-size: 16px;
@@ -110,31 +115,20 @@
 
 #chat-message::placeholder {
   font-family: 'Montserrat';
-  font-style: normal;
   font-weight: 400;
   color: #6B7887;
   font-size: 14px;
-  line-height: 17px;
-  user-select: none;
 }
 
 .chat-type {
-  background: rgba(22, 22, 22, 0.7);
-  border-radius: 5px 0 0 5px;
   width: fit-content;
-  height: 57px;
-  position: absolute;
-  bottom: 70px;
-  left: 0px;
   display: flex;
   align-items: center;
   text-shadow: 1px 1px 1.5px #000;
 }
 
 .chat-type span {
-  margin-left: 10px;
-  margin-right: 5px;
-  font-style: normal;
+  margin: 0 5px 0 10px;
   font-weight: 400;
   color: white;
   font-size: 16px;
@@ -142,16 +136,9 @@
   user-select: none;
 }
 
-.send-arrow-wrapper {
+#send-arrow {
   position: absolute;
-  bottom: 70px;
-  right: 0px;
-  width: 30px;
-  height: 57px;
-  background: rgba(22, 22, 22, 0.7);
-  border-radius: 0 5px 5px 0;
-  display: flex;
-  align-items: center;
+  right: 15px;
 }
 
 /*The actual chat design*/

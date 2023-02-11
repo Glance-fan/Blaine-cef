@@ -43,7 +43,7 @@ var Chat = class Chat {
     if (status) {
       this.message.disabled = false;
       hideable.classList.add('showChatInput');
-      this.inputWidth();
+      this.message.value = '';
       hideable.classList.remove('hideChatInput');
       this.message.focus();
     } else {
@@ -52,12 +52,6 @@ var Chat = class Chat {
       hideable.classList.remove('showChatInput');
       this.blurInput();
     }
-  }
-
-  static inputWidth() {
-    var width = 493 - document.getElementById('chat-block-text').getBoundingClientRect().width - 37;
-    this.message.style.width = width + 'px';
-    this.message.value = "";
   }
 
   static blurInput() {

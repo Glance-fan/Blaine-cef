@@ -797,6 +797,20 @@
     margin-top: 20px;
     padding: 0 5px;
     height: 230px;
+    width: 200px;
+}
+
+
+#full-sms-container::-webkit-scrollbar {
+    display: unset;
+    width: 4px;
+    background: #2F2F2F;
+    border-radius: 16px;
+}
+
+#full-sms-container::-webkit-scrollbar-thumb {
+    background: linear-gradient(225.72deg, #C81212 0%, #851717 100%);
+    border-radius: 16px;
 }
 
 .sent-sms-wrapper {
@@ -809,6 +823,7 @@
 
 
 .time-sms {
+    width: 21px;
     color: #D3CFCF;
     display: flex;
     align-items: flex-end;
@@ -879,6 +894,57 @@
     background: linear-gradient(225.72deg, #FFE600 0%, #C29B10 100%) 0% 0% / 300% 100%;
 }
 
+/*gps-app*/
+#cur-route-container {
+    display: none;
+    padding: 10px 0;
+    height: 60px;
+    background: rgba(31, 27, 27, 0.55);
+    font-weight: 500;
+    font-size: 10px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#cur-route-container>div:nth-child(2) {
+    font-weight: 700;
+}
+
+#gps-container {
+    margin-top: 10px;
+    font-weight: 500;
+    font-size: 10px;
+    height: 240px;
+}
+
+.gps-route-h1 {
+    padding: 10px 0 5px;
+    text-align: center;
+}
+
+.gps-route-elem {
+    height: 30px;
+    width: 195px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    background: rgba(31, 27, 27, 0.55);
+}
+
+.gps-route-elem:not(:first-child) {
+    margin-top: 5px;
+}
+
+.gps-route-elem:hover {
+    background: rgba(31, 27, 27, 0.85);
+}
+
+.gps-route-elem:active {
+    background: rgba(31, 27, 27, 1);
+}
+
 /*cab-app*/
 #cab-container {
     margin-top: 10px;
@@ -903,4 +969,127 @@
     height: 60px;
     justify-content: space-between;
     align-items: center;
+}
+
+
+
+
+i.phone-icons {
+    font-size: 2.5rem;
+    position: relative;
+    border-radius: 50%;
+    padding: 5px;
+    transition: color 0.2s ease, background-color 0.2s ease, transform 0.3s ease;
+}
+
+i.phone-icons:after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    border: solid 2px;
+    transform: scale(0.8);
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+i.phone-icons:hover:after {
+    transform: scale(1);
+    box-shadow: 10px 0 20px rgba(0, 0, 0, 0.19), 6px 0 6px rgba(0, 0, 0, 0.23);
+}
+
+i.phone-icons:hover {
+    background-color: rgba(31, 27, 27, 0.55);
+    cursor: pointer;
+    box-shadow: none;
+}
+
+i.mini-icon {
+    font-size: 2em;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+i.green-icon {
+    background-color: #34da51;
+}
+
+i.green-icon:hover {
+    color: #34da51;
+}
+
+i.green-icon:after {
+    border-color: #34da51;
+}
+
+i.green-icon:active:after {
+    border-color: #01B41F;
+}
+
+i.green-icon:active {
+    color: #01B41F;
+}
+
+i.red-icon {
+    background-color: #a71515;
+}
+
+i.red-icon:hover {
+    color: #a71515;
+}
+
+i.red-icon:after {
+    border-color: #a71515;
+}
+
+i.red-icon:active:after {
+    border-color: #851717;
+}
+
+i.red-icon:active {
+    color: #851717;
+}
+
+i.white-icon {
+    background-color: transparent;
+}
+
+i.white-icon:hover {
+    color: white;
+}
+
+i.white-icon:after {
+    border-color: transparent;
+}
+
+i.white-icon:hover:after {
+    border-color: white;
+}
+
+i.white-icon:active:after {
+    border-color: white;
+    opacity: 0.7;
+}
+
+i.white-icon:active {
+    color: white;
+    opacity: 0.7;
+}
+
+i.right-icon {
+    position: absolute;
+    right: 15px;
+    font-size: 2em;
+}
+
+i.left-icon {
+    position: absolute;
+    left: 15px;
+    font-size: 2em;
 }

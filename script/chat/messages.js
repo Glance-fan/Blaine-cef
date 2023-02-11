@@ -48,7 +48,7 @@ var Messages = class ChatMessages {
                     `5s ease 0s infinite normal none running selected`;
             }
         document.getElementById('chat-text').innerHTML = channel_data[2];
-        Chat.inputWidth();
+        Chat.message.value = '';
     }
 
     static defaultChannels() {

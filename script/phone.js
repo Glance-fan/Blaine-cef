@@ -3,8 +3,8 @@ var Phone = class Phone {
     static showPhone(status) {
         phone_tmpl.style.opacity = status ? 0.99999 : 0;
         phone_tmpl.style.pointerEvents = status ? 'unset' : 'none';
-		
-		phone_tmpl.style.transform = status ? 'translateX(0)' : 'translateX(100%)';
+
+        phone_tmpl.style.transform = status ? 'translateX(0)' : 'translateX(100%)';
     }
 
     /*menu*/
@@ -19,11 +19,11 @@ var Phone = class Phone {
             container.innerHTML += /*html*/ `<div class="app-row"></div>`;
             var row = container.lastElementChild;
             app_row.forEach(app => {
-                row.innerHTML += /*html*/
-                    `<div class="phone-app">
+                row.innerHTML += app ? /*html*/ `
+                    <div class="phone-app">
                         <div class="${app[0]}-app-grad phone-app-icon" onclick="Phone.appRequest(this.id)" id="${app[0]}_app"><img src="libs/svgs/phone/apps/${app[0]}_app.svg"></div>
                         <div>${app[1]}</div>
-                    </div>`
+                    </div>` : /*html*/ `<div class="phone-app"><div class="phone-app-icon"></div></div>`;
             })
         }
     }
@@ -48,10 +48,11 @@ var Phone = class Phone {
         [4, 5, 6],
         [7, 8, 9],
         ['*', 0, '#'],
-        ['back', 'call', 'erase']
+        ['back', 'call-icon', 'erase']
     ]
     static cur_phone;
     static drawPhoneApp(params) {
+        //Phone.showMenu(false);
         this.container.innerHTML = /*html*/ `<div id="phone-app"><div id="phone-app-number"></div></div>`;
         this.cur_phone = document.getElementById('phone-app-number');
         switch (params.length) {
@@ -65,10 +66,7 @@ var Phone = class Phone {
                 for (var row = 0; row < this.phone_keys.length; row++) {
                     keys_wrapper.innerHTML += /*html*/ `<div class="phone-keys-row"></div>`;
                     for (var column = 0; column < this.phone_keys[row].length; column++)
-                        if (row != 4)
-                            keys_wrapper.lastElementChild.innerHTML += /*html*/ `<div onclick="Phone.onPhoneKey(this.innerText)">${this.phone_keys[row][column]}</div>`;
-                        else
-                            keys_wrapper.lastElementChild.innerHTML += /*html*/ `<div onclick="Phone.onPhoneKey('${this.phone_keys[row][column]}')"><img src="libs/svgs/phone/${this.phone_keys[row][column]}.svg"></div>`;
+                        newKey(row, column);
                 }
                 break;
             case 2: //someone is calling player
@@ -78,12 +76,22 @@ var Phone = class Phone {
                 this.container.firstElementChild.innerHTML += /*html*/ `
                     <div id="phone-status">${params[0] ? `Входящий вызов` : params[2]}</div>
                     <div id="phone-buttons" style="top: 245px;">
-                        <img src="libs/svgs/phone/decline.svg" onclick="Phone.declineRequest()">
-                        ${params[0] ? /*html*/ `<img src="libs/svgs/phone/call.svg" style="margin-left: 50px;" onclick="Phone.acceptRequest()">` : ``}
+                        <i class="material-icons phone-icons red-icon" onclick="Phone.declineRequest()">call_end</i>
+                        ${params[0] ? /*html*/ `<i class="material-icons phone-icons green-icon" style="margin-left: 50px;" onclick="Phone.acceptRequest()">call</i>` : ``}
                     </div>`;
                 break;
         }
         this.cur_phone = document.getElementById('phone-app-number');
+
+        function newKey(row, column) {
+            var parent = document.getElementById('keys-wrapper').lastElementChild;
+            var key = Phone.phone_keys[row][column].toString();
+            if (row != 4)
+                parent.innerHTML += /*html*/ `<div onclick="Phone.onPhoneKey(${key})">${key}</div>`;
+            else
+                parent.innerHTML += key.includes('icon') ? /*html*/ `<i class="material-icons phone-icons green-icon" onclick="Phone.onPhoneKey('${key.replace('-icon', '')}')">${key.replace('-icon', '')}</i>` : /*html*/ `<div onclick="Phone.onPhoneKey('${key}')"><img src="libs/svgs/phone/${key}.svg"></div>`;
+
+        }
     }
 
     static updatePhoneStatus(status) {
@@ -107,7 +115,7 @@ var Phone = class Phone {
         }
     }
 
-    //call_list[i] = [index, phone_number, 'contact' || null]
+    //call_list[i] = [index, phone_number, 'contact' || null, isBlocked]
     static drawCallList(data) {
         this.container.innerHTML = /*html*/ `
             <div class="app-wrapper">
@@ -116,13 +124,13 @@ var Phone = class Phone {
                     <div class="app-scrollable empty-container" id="call-list-container" style="height:240px"></div>
                 </div>
                 <div class="phone-bottom-blur">
-                    <img src="libs/svgs/phone/back.svg" style="position: absolute;left: 30px;" onclick="Phone.appRequest('phone_app')">
-                    <img src="libs/svgs/phone/block.svg" onclick="mp.trigger('Phone::Tab', 1)">
+                    <i class="material-icons phone-icons white-icon material-symbols-rounded left-icon" onclick="Phone.appRequest('phone_app')">undo</i>
+                    <i class="material-icons phone-icons red-icon" onclick="mp.trigger('Phone::Tab', 1)">block</i>
                 </div>
             </div>
             <div class="phone-ttp-wrapper"></div>`;
         this.fillCallList(data);
-    }   
+    }
 
     static fillCallList(call_list) {
         var parent = document.getElementById('call-list-container');
@@ -137,10 +145,10 @@ var Phone = class Phone {
         }
     }
 
-    static addCall(index, phone, name) {
+    static addCall(index, phone, name, isBlocked) {
         var parent = document.getElementById('call-list-container');
         parent.innerHTML += /*html*/
-            `<div id="${parent.childElementCount}-contact-app" onclick="Phone.showTooltip(this, 'contact', ${parent.childElementCount})" class="contact-elem"><img src="libs/svgs/phone/call_status/${index}.svg">${name || phone}</div>`;
+            `<div id="${parent.childElementCount}-contact-app" onclick="Phone.showTooltip(this, '${name ? isBlocked ? 'callhist_nc_b' : 'callhist_nc' : isBlocked ? 'callhist_b' : 'callhist'}', ${parent.childElementCount})" class="contact-elem"><img src="libs/svgs/phone/call_status/${index}.svg">${name || phone}</div>`;
     }
 
     static drawBlackList(data) {
@@ -155,7 +163,7 @@ var Phone = class Phone {
                     </div>
                 </div>
                 <div class="phone-bottom-blur">
-                    <img src="libs/svgs/phone/back.svg" onclick="Phone.appRequest('phone_app')">
+                    <i class="material-icons phone-icons white-icon material-symbols-rounded" onclick="Phone.appRequest('phone_app')">undo</i>
                 </div>
             </div>`;
         this.fillBlackList(data);
@@ -177,12 +185,14 @@ var Phone = class Phone {
     static addBlackList(phone, name) {
         var parent = document.getElementById('black-list-container');
         parent.innerHTML += /*html*/
-            `<div id="${parent.childElementCount}-contact-app" class="contact-elem">${name || phone}<img onclick="Phone.tooltipRequest('black-list', 0, ${phone})" src="libs/svgs/phone/cross.svg"></div>`;
+            `<div id="${parent.childElementCount}-contact-app" class="contact-elem">${name || phone}<img onclick="Phone.blacklistRequest(${phone})" src="libs/svgs/phone/cross.svg"></div>`;
     }
+
 
 
     /*contacts-app*/
     static drawContactsApp(data) {
+        //Phone.showMenu(false);
         this.container.innerHTML = /*html*/
             `<div class="app-wrapper">
                 <div id="contact-app">
@@ -203,7 +213,7 @@ var Phone = class Phone {
             </div>
             <div class="phone-ttp-wrapper"></div>`;
         this.fillContacts(data);
-        this.showSubContainer('contact-app', false);
+        this.showSubContainer('contact-app', false, 'block');
     }
 
     // data[i] = ['name', 'phone']
@@ -230,33 +240,35 @@ var Phone = class Phone {
 
     static contactEdit(contact) {
         this.showSubContainer('contact-app', true);
-        this.container.querySelector('.apps-h1').innerText = contact ? 'Изменение контакта' : 'Новый контакт';
+        this.container.querySelector('.apps-h1').innerText = contact && contact[0] ? 'Изменение контакта' : 'Новый контакт';
         this.setBottomContacts(true);
         if (contact) {
             var inputs = document.querySelector('.contact-inputs').querySelectorAll('input');
-            inputs[0].value = contact[0];
-            inputs[1].value = contact[1];
+            inputs[0].value = contact[0] ? contact[0] : '';
+            inputs[1].value = contact[1] ? contact[1] : '';
         }
     }
 
     static setBottomContacts(isEdit) {
         var bottom = this.container.querySelector('.phone-bottom-blur');
         if (isEdit) bottom.innerHTML = /*html*/ `
-            <img src="libs/svgs/phone/back.svg" style="position: absolute;left: 30px;" onclick="Phone.appRequest('contacts_app')">
-            <img src="libs/svgs/phone/confirm.svg" onclick="Phone.confirmRequest()">`;
+            <i class="material-icons phone-icons white-icon material-symbols-rounded left-icon" onclick="Phone.appRequest('contacts_app')">undo</i>
+            <i class="material-icons phone-icons green-icon material-symbols-rounded" onclick="Phone.confirmRequest()">check</i>`;
         else bottom.innerHTML = /*html*/ `
-            <img src="libs/svgs/phone/back.svg" style="position: absolute;left: 30px;" onclick="Phone.leaveRequest()">
-            <img src="libs/svgs/phone/add.svg" onclick="Phone.tabRequest(0)">`;
+            <i class="material-icons phone-icons white-icon material-symbols-rounded left-icon" onclick="Phone.leaveRequest()">undo</i>
+            <i class="material-icons phone-icons green-icon material-symbols-rounded" onclick="Phone.tabRequest(0)">add</i>`;
     }
 
     static backEdit() {
-        this.showSubContainer('contact-app', false);
+        this.showSubContainer('contact-app', false, 'block');
         this.setBottomContacts(false);
     }
 
 
+
     /*sms-app*/
     static drawSmsApp(data) {
+        //Phone.showMenu(false);
         this.container.innerHTML = /*html*/ `
             <div class="app-wrapper">
                 <div>
@@ -272,7 +284,6 @@ var Phone = class Phone {
             </div>`;
         this.fillLastMessages(data);
     }
-
 
     //messages[i] = [phone_number, 'contact' || null, 'date', 'message']
     static fillLastMessages(messages) {
@@ -299,29 +310,32 @@ var Phone = class Phone {
         data[1].forEach(message => {
             this.addNewMessage(...message);
         })
+        setTimeout(() => {
+            document.getElementById('full-sms-container').onwheel = this.onscroll;
+        })
     }
 
     static addNewMessage(isOwner, text, date) {
-		var textDiv = document.createElement('div'),
-		    parent = document.getElementById('full-sms-container');
-		
-		textDiv.className = "sent-sms";
+        var textDiv = document.createElement('div'),
+            parent = document.getElementById('full-sms-container');
+
+        textDiv.className = "sent-sms";
         text = convertGeo(text);
-		textDiv.innerText = text[0];
-        textDiv.innerHTML += '<br><br>' + text[1];
+        textDiv.innerText = text[0];
+        textDiv.innerHTML += text[1].length ? '<br><br>' + text[1] : '';
 
         parent.innerHTML += /*html*/ `
             <div class="sent-sms-wrapper" style="flex-direction: ${isOwner ? 'row-reverse' : 'row'}">
                 <div class="time-sms" style="${isOwner ? 'margin-left: 5px' : 'margin-right: 5px'}">${date}</div>
 				${textDiv.outerHTML}
             </div>`;
-        
         parent.scrollTop = parent.scrollHeight;
+        Phone.cur_scroll = parent.scrollHeight - parent.clientHeight;
 
         function convertGeo(str) {
             var coords_str = '';
             str = str.replace(/<GEOL>([^<]+)<\/GEOL>/g, function (string, coords) {
-                coords_str +=/*html*/ `<div class="geo-link" onclick="mp.trigger('Phone::SendCoords', '${coords}')">Геолокация</div>`;
+                coords_str += /*html*/ `<div class="geo-link" onclick="mp.trigger('Phone::SendCoords', '${coords}')">Геолокация</div>`;
                 return '';
             });
             return [str, coords_str];
@@ -344,20 +358,20 @@ var Phone = class Phone {
         switch (id) {
             case 'last-sms':
                 bottom.innerHTML = /*html*/ `
-                    <img src="libs/svgs/phone/back.svg" style="position: absolute;left: 30px;" onclick="Phone.leaveRequest()">
-                    <img src="libs/svgs/phone/sms.svg" onclick="Phone.typingRequest()">`;
+                    <i class="material-icons phone-icons white-icon material-symbols-rounded left-icon" onclick="Phone.leaveRequest()">undo</i>
+                    <i class="material-icons phone-icons green-icon material-symbols-rounded mini-icon" onclick="Phone.typingRequest()">sms</i>`;
                 break;
             case 'full-sms':
                 bottom.innerHTML = /*html*/ `
-                    <img src="libs/svgs/phone/back.svg" style="position: absolute;left: 30px;" onclick="Phone.appRequest('sms_app')">
-                    <img src="libs/svgs/phone/sms.svg" onclick="Phone.typingRequest(${phone_number})">
-                    <img src="libs/svgs/phone/delete.svg" style="position: absolute;right: 30px;" onclick="Phone.deletesmsRequest(${phone_number})">`;
+                    <i class="material-icons phone-icons white-icon material-symbols-rounded left-icon" onclick="Phone.appRequest('sms_app')">undo</i>
+                    <i class="material-icons phone-icons green-icon material-symbols-rounded mini-icon" onclick="Phone.typingRequest(${phone_number})">sms</i>
+                    <i class="material-icons phone-icons red-icon material-symbols-rounded right-icon" onclick="Phone.deletesmsRequest(${phone_number})">delete</i>`;
                 break;
             case 'type-sms':
                 bottom.innerHTML = /*html*/ `
-                    <img src="libs/svgs/phone/back.svg" style="position: absolute;left: 30px;" onclick="Phone.appRequest('sms_app')">
-                    <img src="libs/svgs/phone/sms.svg" onclick="Phone.sendsmsRequest()">
-                    <img src="libs/svgs/phone/marker.svg" style="position: absolute;right: 30px;" onclick="Phone.sendsmsRequest(true)">`;
+                    <i class="material-icons phone-icons white-icon material-symbols-rounded left-icon" onclick="Phone.appRequest('sms_app')">undo</i>
+                    <i class="material-icons phone-icons green-icon material-symbols-rounded mini-icon" onclick="Phone.sendsmsRequest(false)">sms</i>
+                    <i class="material-icons phone-icons white-icon material-symbols-rounded right-icon" onclick="Phone.sendsmsRequest(true)">pin_drop</i>`;
                 break;
         }
     }
@@ -378,7 +392,7 @@ var Phone = class Phone {
                     <div id="wallpaper-container" class="app-scrollable"></div>
                 </div>
                 <div class="phone-bottom-blur">
-                    <img src="libs/svgs/phone/back.svg" onclick="Phone.leaveRequest()">
+                    <i class="material-icons phone-icons white-icon material-symbols-rounded" onclick="Phone.leaveRequest()">undo</i>
                 </div>
             </div>`
         this.fillSettings(this.settings);
@@ -403,10 +417,12 @@ var Phone = class Phone {
                         <input id="${id}" onclick="Phone.onToggle(this)" type="checkbox">
                         <span class="phone-checkbox-switch"></span>
                     </label>`;
-                    setTimeout(() => {document.getElementById(id).checked = this.cur_sett[id]}, 0);
+                    setTimeout(() => {
+                        document.getElementById(id).checked = this.cur_sett[id]
+                    }, 0);
                     break;
                 case 'click':
-                    parent.lastElementChild.innerHTML += /*html*/ `<img onclick="Phone.tabRequest('${settings[index][2]}')" src="libs/svgs/phone/back.svg">`;
+                    parent.lastElementChild.innerHTML += /*html*/ `<i class="material-icons phone-icons white-icon material-symbols-rounded" onclick="Phone.tabRequest('${settings[index][2]}')">undo</i>`;
                     break;
             }
         }
@@ -458,9 +474,13 @@ var Phone = class Phone {
     }
 
     static setDisturb(status) {
+        var icon = document.getElementById('disturb-icon')
         var status_bar = document.getElementById('phone-top').lastChild;
-        if (status) status_bar.innerHTML = /*html*/ `<img src="libs/svgs/phone/disturb.svg">${status_bar.innerHTML}`;
-        else status_bar.firstChild.remove();
+        if (status) {
+            if (!icon) status_bar.innerHTML = /*html*/ `<img id="disturb-icon" src="libs/svgs/phone/disturb.svg">${status_bar.innerHTML}`;
+        } else {
+            if (icon) status_bar.firstChild.remove();
+        }
         this.cur_sett.disturb = status;
     }
 
@@ -484,7 +504,7 @@ var Phone = class Phone {
                     </div>
                 </div>
                 <div class="phone-bottom-blur">
-                    <img src="libs/svgs/phone/back.svg" onclick="Phone.leaveRequest()">
+                    <i class="material-icons phone-icons white-icon material-symbols-rounded" onclick="Phone.leaveRequest()">undo</i>
                 </div>
             </div>
             <div class="phone-ttp-wrapper"></div>`;
@@ -525,7 +545,7 @@ var Phone = class Phone {
                     </div>
                 </div>
                 <div class="phone-bottom-blur">
-                    <img src="libs/svgs/phone/back.svg" onclick="Phone.leaveRequest()">
+                    <i class="material-icons phone-icons white-icon material-symbols-rounded" onclick="Phone.leaveRequest()">undo</i>
                 </div>
             </div>`;
         this.fillInfo('bank-tariff-info', data, ['Пакет услуг', 'Баланс (дебет.)', 'Баланс (сберег.)']);
@@ -577,6 +597,7 @@ var Phone = class Phone {
             input.setAttribute('onfocus', 'Phone.onfocus(this)');
             input.setAttribute('onblur', 'this.parentElement.style.animation = ""');
             input.setAttribute('onkeydown', 'javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32');
+            input.style.paddingLeft = '4px';
         })
         document.querySelector('.phone-bottom-blur').firstElementChild.setAttribute('onclick', 'Phone.fillBankMenu(Phone.stored_menu)');
     }
@@ -603,19 +624,78 @@ var Phone = class Phone {
                     </div>
                 </div>
                 <div class="phone-bottom-blur">
-                    <img src="libs/svgs/phone/back.svg" onclick="Phone.leaveRequest()">
+                    <i class="material-icons phone-icons white-icon material-symbols-rounded" onclick="Phone.leaveRequest()">undo</i>
                 </div>
             </div>`;
         this.fillInfo('bsim-app-info', data, ['Ваш номер', 'Ваш баланс', '1 мин. разговора', '1 символ SMS']);
     }
 
-    
+
+
+    /*gps-app*/
+    static drawGpsApp(cur_route, data) {
+        //Phone.showMenu(false)
+        this.container.innerHTML = /*html*/
+            `<div class="app-wrapper">
+                <div>
+                    <div class="apps-h1">Навигатор</div>
+                    <div id="cur-route-container"></div>
+                    <div id="gps-container" class="app-scrollable"></div>
+                </div>
+                <div class="phone-bottom-blur">
+                    <i class="material-icons phone-icons white-icon material-symbols-rounded">undo</i>
+                </div>
+            </div>`;
+
+            this.fillGpsRoutes(data, false);
+            if (cur_route) drawCurRoute(cur_route);
+
+        function drawCurRoute(cur_route) {
+            document.getElementById('gps-container').style.height = '160px';
+            var parent = document.getElementById('cur-route-container');
+            parent.style.display = 'flex';
+            var data = ['Текущий маршрут'].concat(cur_route);
+            data.forEach(text => {
+                parent.innerHTML += /*html*/ `<div>${text}</div>`;
+            });
+        }
+    }
+
+    // routes_section = ['name', [['id', 'name'], ['id', 'name'], ['id', 'name']]]
+    static fillGpsRoutes(data, isTab) {
+        if (isTab) {
+            document.getElementById('cur-route-container').style.display = 'none';
+            document.querySelector('.phone-bottom-blur').firstElementChild.setAttribute('onclick', 'Phone.appRequest("gps_app")');
+        } else document.querySelector('.phone-bottom-blur').firstElementChild.setAttribute('onclick', 'Phone.leaveRequest()');
+        
+        var parent = document.getElementById('gps-container');
+        parent.innerHTML = '';
+        parent.style = '';
+        data.forEach(routes_section => {
+            parent.innerHTML += /*html*/ `<div class="gps-route-h1">${routes_section[0]}</div>`;
+            var routes = routes_section[1].reduce((obj, val) => {
+                obj[val[0]] = val[1];
+                return obj;
+            }, {});
+            for (var id in routes)
+                parent.innerHTML += /*html*/ `<div class="gps-route-elem" onclick="${isTab ? `mp.trigger('Phone::ShowRoute', '${id}')` : `Phone.tabRequest('${id}')`}">${routes[id]}</div>`;
+        })
+    }
+
+
+
     /*cab-app*/
     static cab_types = [
-        ['Закажите такси прямо сейчас!', ['Ваш ID', 'Улица'], ['Заказать']],
-        ['У вас есть активный заказ', ['Статус', 'Дата'], ['Отменить']],
-        ['У вас есть активный заказ', ['Статус', 'ID водителя'], ['Написать', 'Позвонить']]
-    ] 
+        ['Закажите такси прямо сейчас!', ['Ваш ID', 'Улица'],
+            ['Заказать']
+        ],
+        ['У вас есть активный заказ', ['Статус', 'Дата'],
+            ['Отменить']
+        ],
+        ['У вас есть активный заказ', ['Статус', 'ID водителя'],
+            ['Написать', 'Позвонить']
+        ]
+    ]
     static drawCabApp(type, data) {
         var static_data = this.cab_types[type];
         this.container.innerHTML = /*html*/
@@ -629,7 +709,7 @@ var Phone = class Phone {
                     <div id="cab-buttons"></div>
                 </div>
                 <div class="phone-bottom-blur">
-                    <img src="libs/svgs/phone/back.svg" onclick="Phone.leaveRequest()">
+                    <i class="material-icons phone-icons white-icon material-symbols-rounded" onclick="Phone.leaveRequest()">undo</i>
                 </div>
             </div>`;
         this.fillInfo('cab-app-info', data, static_data[1]);
@@ -638,6 +718,8 @@ var Phone = class Phone {
             parent.innerHTML += /*html*/ `<button onclick="mp.trigger('Phone::CabAction', ${parent.childElementCount})" class="red-button">${btn}</button>`
         })
     }
+
+
 
     /*tooltip*/
     static tooltips = {
@@ -652,7 +734,23 @@ var Phone = class Phone {
         rented: [
             [0, 1],
             ['Найти', 'Отказаться от аренды']
-        ]
+        ],
+        callhist: [
+            [0, 1, 2, 3],
+            ['Позвонить', 'Сообщение', 'Добавить в контакты', 'Заблокировать']
+        ],
+        callhist_b: [
+            [0, 1, 2, 3],
+            ['Позвонить', 'Сообщение', 'Добавить в контакты', 'Разблокировать']
+        ],
+        callhist_nc: [
+            [0, 1, 3],
+            ['Позвонить', 'Сообщение', 'Заблокировать']
+        ],
+        callhist_nc_b: [
+            [0, 1, 3],
+            ['Позвонить', 'Сообщение', 'Разблокировать']
+        ],
     }
 
     static inTTP = false;
@@ -671,34 +769,27 @@ var Phone = class Phone {
                 <span onclick="Phone.tooltipRequest('${from}', ${data[0][index]}, ${uid})">${data[1][index]}</span>`;
         this.inTTP = true;
 
-        elem.onmouseleave = () => {
-            setTimeout(() => {
-                var under = document.elementsFromPoint(...Object.values(mousePos));
-                for (var index = 0; index < under.length; index++)
-                    if (under[index].className == 'phone-ttp-wrapper') return;
-                defaultTTP(tooltip);
-            }, 100)
-        }
-        tooltip.onmouseleave = () => {
-            defaultTTP(tooltip);
-        }
         document.querySelector('.app-scrollable').onscroll = () => {
-            defaultTTP(tooltip);
+            this.defaultTTP();
         }
-
+        document.documentElement.onmouseup = this.defaultTTP;
 
         var dims = elem.getBoundingClientRect();
         var p_dims = tooltip.getBoundingClientRect();
         tooltip.style.top = dims.top + dims.height / 2 - p_dims.top + 'px';
         tooltip.style.left = dims.width / 2 - p_dims.width / 2 + 'px';
 
-        function defaultTTP(ttp) {
-            ttp.innerHTML = '';
-            ttp.style = '';
-            Phone.inTTP = false;
-            ttp.onmouseleave = null;
-            document.querySelector('.app-scrollable').onscroll = null;
-        }
+    }
+
+    static defaultTTP() {
+        Phone.inTTP = false;
+        document.documentElement.onmouseup = null;
+        var tooltip = document.querySelector('.phone-ttp-wrapper');
+        if (!tooltip) return;
+        document.querySelector('.app-scrollable').onscroll = null;
+        tooltip.innerHTML = '';
+        tooltip.style = '';
+        tooltip.onmouseleave = null;
     }
 
 
@@ -741,12 +832,27 @@ var Phone = class Phone {
         if (input.value > 999999999) input.value = 999999999;
     }
 
-    static showSubContainer(pid, status) {
+    static cur_scroll = 0;
+    static scroll_step = 30;
+    static onscroll(event) {
+        try {
+            event.preventDefault()
+        } catch (e) {}
+
+        var container = document.getElementById('full-sms-container');
+        if (event.deltaY < 0) { //wheel up
+            if (Phone.cur_scroll < 0) Phone.cur_scroll = 0;
+            if (Phone.cur_scroll != 0) Phone.cur_scroll -= Phone.scroll_step;
+        } else if (!(Math.abs(container.scrollHeight - container.clientHeight - container.scrollTop) < 1)) Phone.cur_scroll += Phone.scroll_step;
+        container.scrollTo(0, Phone.cur_scroll);
+    }
+
+    static showSubContainer(pid, status, display) {
         if (status) {
             document.getElementById(pid).children[1].style.display = 'none';
-            document.getElementById(pid).children[2].style.display = 'flex';
+            document.getElementById(pid).children[2].style.display = display ? display : 'flex';
         } else {
-            document.getElementById(pid).children[1].style.display = 'flex';
+            document.getElementById(pid).children[1].style.display = display ? display : 'flex';
             document.getElementById(pid).children[2].style.display = 'none';
         }
     }
@@ -768,7 +874,7 @@ var Phone = class Phone {
     static appRequest(app_id) {
         mp.trigger('Phone::OpenApp', app_id);
         /*response*/
-        // Phone.showMenu(false)
+        // //Phone.showMenu(false)
         // -> Phone.draw***App(params);
     }
 
@@ -780,9 +886,6 @@ var Phone = class Phone {
 
     static tooltipRequest(from, action, elem_id) {
         mp.trigger('Phone::Tooltip', from, action, elem_id);
-        setTimeout(() => {
-            this.inTTP = false;
-        }, 1000);
         /*response*/
         // from == 'contact'
         // -> action == 0: Phone.drawPhoneApp([phone_number]);
@@ -793,7 +896,7 @@ var Phone = class Phone {
 
     static leaveRequest() {
         mp.trigger('Phone::OpenApp', null);
-        /*response*/ // -> Phone.showMenu(false)
+        /*response*/ // -> //Phone.showMenu(false)
     }
 
     // phone-app-requests
@@ -809,8 +912,11 @@ var Phone = class Phone {
         mp.trigger('Phone::ReplyCall', true);
     }
 
-    static blacklistRequest() {
-        mp.trigger('Phone::AddToBlackList', this.container.querySelector('input').value);
+    static blacklistRequest(number) {
+        if (number)
+            mp.trigger('Phone::BlacklistChange', number, false);
+        else
+            mp.trigger('Phone::BlacklistChange', this.container.querySelector('input').value, true);
     }
 
     // contact-app-requests
@@ -831,7 +937,7 @@ var Phone = class Phone {
 
     // settings request 
     static onToggle(setting) {
-        mp.trigger('Phone::UpdateSetting', setting.id, setting.checked);
+        mp.trigger('Phone::UpdateToggle', setting.id, setting.checked);
         setting.checked = !setting.checked;
         /*response*/ // -> Phone.setToggleState('id', state);
     }
@@ -888,5 +994,5 @@ apps = [
 ]
 
 Phone.drawMenu();
-Phone.setWallpaper(9);
-Phone.showPhone(true);
+// Phone.setWallpaper(9);
+// Phone.showPhone(true);
