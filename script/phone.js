@@ -313,6 +313,7 @@ var Phone = class Phone {
         })
         setTimeout(() => {
             parent.onwheel = this.onscroll;
+            parent.onmouseup = () => {Phone.cur_scroll = parseInt(parent.scrollTop);}
         }, 0)
     }
 
