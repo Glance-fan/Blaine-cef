@@ -306,13 +306,14 @@ var Phone = class Phone {
     //messages_arr[i] = [isOwner, 'text-message', 'date']
     static fillFullSms(data) {
         this.switchTabSms('full-sms', data[2] || data[0], data[0]);
-        document.getElementById('full-sms-container').innerHTML = '';
+        var parent = document.getElementById('full-sms-container');
+        parent.innerHTML = '';
         data[1].forEach(message => {
             this.addNewMessage(...message);
         })
         setTimeout(() => {
-            document.getElementById('full-sms-container').onwheel = this.onscroll;
-        })
+            parent.onwheel = this.onscroll;
+        }, 0)
     }
 
     static addNewMessage(isOwner, text, date) {
@@ -422,7 +423,7 @@ var Phone = class Phone {
                     }, 0);
                     break;
                 case 'click':
-                    parent.lastElementChild.innerHTML += /*html*/ `<i class="material-icons phone-icons white-icon material-symbols-rounded" onclick="Phone.tabRequest('${settings[index][2]}')">undo</i>`;
+                    parent.lastElementChild.innerHTML += /*html*/ `<img onclick="Phone.tabRequest('${settings[index][2]}')" src="libs/svgs/phone/back.svg">`;
                     break;
             }
         }
@@ -766,7 +767,7 @@ var Phone = class Phone {
         tooltip.innerHTML = /*html*/ `<span class="phone-tooltip-arrow"></span><p class="phone-tooltip"></p>`
         for (var index = 0; index < data[0].length; index++)
             tooltip.lastElementChild.innerHTML += /*html*/ ` 
-                <span onclick="Phone.tooltipRequest('${from}', ${data[0][index]}, ${uid})">${data[1][index]}</span>`;
+                <span onmousedown="Phone.tooltipRequest('${from}', ${data[0][index]}, ${uid})">${data[1][index]}</span>`;
         this.inTTP = true;
 
         document.querySelector('.app-scrollable').onscroll = () => {
@@ -994,5 +995,5 @@ apps = [
 ]
 
 Phone.drawMenu();
-// Phone.setWallpaper(9);
-// Phone.showPhone(true);
+Phone.setWallpaper(9);
+Phone.showPhone(true);

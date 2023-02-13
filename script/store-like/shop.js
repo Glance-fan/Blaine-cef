@@ -187,30 +187,24 @@ var Shop = class Shop {
 
     //items[i] = [id, 'name', cost, variants || maxspeed, chageable(t|f) || [slots, weight] || maxtank, cruise, autopilot, maxtrunk, maxweight]  
     static fillContainer(id, items, refill) {
-        var container = document.getElementById(`variants-container`);
-        container.parentElement.style.height = `525px`;
+        var var_container = document.getElementById(`variants-container`);
+        var_container.parentElement.style.height = `525px`;
+        var_container.innerHTML = '';
         document.querySelector('.shop-right-side').querySelector('.top-rect').style.opacity = 0;
-        container.innerHTML = '';
-        container = document.getElementById(`${id}-shop-container`);
+        var container = document.getElementById(`${id}-shop-container`);
         container.innerHTML = '';
         for (var i = 0; i < items.length; i++) {
             if (!refill) this.items_data[id].push(items[i]);
             this.newChoiceElem(container, items[i][0], items[i][1], items[i].slice(2, items[i].length));
         }
-        try {
-            var blur_heigth = container.lastElementChild.offsetTop - 155;
-            if (blur_heigth > 525) container.parentElement.style.height = `${blur_heigth}px`;
-            else container.parentElement.style.height = `525px`;
-            container.parentElement.parentElement.scrollTo({
-                top: 0
-            })
-        } catch (error) {}
         if (this.vehshop && !this.in_search) container.firstElementChild.click();
         if (Array.from(container.parentElement.children).length == 1)
             document.getElementById('0-shop-nav').click();
-
-        var blur_heigth = items.length > 0 ? container.lastElementChild.offsetTop - 155 : 0;
-        container.parentElement.style.height = blur_heigth > 525 ? `${blur_heigth}px` : `525px`;
+        
+        setTimeout(()=>{
+            var blur_heigth = items.length > 0 ? container.lastElementChild.offsetTop - 155 : 0;
+            container.parentElement.style.height = blur_heigth > 525 ? `${blur_heigth}px` : `525px`;
+        }, 0)
     }
 
     static newChoiceElem(parent, id, name, params) {

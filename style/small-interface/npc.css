@@ -1,4 +1,12 @@
-#npc-wrapper>div:last-child {
+#npc {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    background: rgba(0, 0, 0, 0.25);
+}
+
+#npc>div:last-child {
     width: 520px;
     border-radius: 10px;
     font-weight: 700;
@@ -7,14 +15,14 @@
     color: white;
     position: absolute;
     left: calc(50% - 260px);
+    text-align: center;
     bottom: 50px;
 }
 
-#npc-choice-container {
+#npc-wrapper {
     position: absolute;
     width: 395px;
     right: 125px;
-    /* top: 25%; */
     padding: 20px 0;
     border-radius: 5px;
     font-weight: 600;
@@ -24,6 +32,14 @@
 
 #npc-choice-container>div:not(:first-child) {
     margin-top: 12px;
+}
+
+#npc-choice-container {
+    background: rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(1.5px);
+    border-radius: 10px;
+    width: fit-content;
+    padding: 20px 10px;
 }
 
 #npc-choice-container>div {
