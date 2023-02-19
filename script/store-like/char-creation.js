@@ -480,7 +480,7 @@ var ChCreate = class Char_Creation {
     static picRequest(elem) {
         if (this.loading || this.drawing || this.sex_change) return;
         var data = chcreate_senders.pic[elem.id.split('-')[1]];
-        mp.trigger(`CharacterCreation::Update::${data[0]}Color`, parseInt(elem.id), data[1]);
+        mp.trigger(`CharacterCreation::Update::${data[0]}`, parseInt(elem.id), data[1]);
     }
 
     static frameRequest(idx, key) {
