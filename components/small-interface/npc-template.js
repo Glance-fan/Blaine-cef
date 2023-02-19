@@ -5,10 +5,8 @@ vue_app.component('npc-template', {
         resizeBigger(npc_tmpl);
         onRenderFinished('npc');
     },
-    updated: function () {
-        document.documentElement.onkeydown = null;
-    },
     unmounted: function () {
+        document.documentElement.removeEventListener("keydown", NPC.onkeydown);
         remove_source(scripts.npc);
         npc_tmpl = null;
         switchTemplate(false, 'npc')

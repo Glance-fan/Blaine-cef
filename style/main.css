@@ -21,6 +21,10 @@ a {
     outline: none
 }
 
+img {
+    pointer-events: none;
+}
+
 #vue_app {
     font-family: 'Montserrat';
     height: 100%;

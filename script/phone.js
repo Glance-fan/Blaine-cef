@@ -313,7 +313,9 @@ var Phone = class Phone {
         })
         setTimeout(() => {
             parent.onwheel = this.onscroll;
-            parent.onmouseup = () => {Phone.cur_scroll = parseInt(parent.scrollTop);}
+            parent.onmouseup = () => {
+                Phone.cur_scroll = parseInt(parent.scrollTop);
+            }
         }, 0)
     }
 
@@ -649,8 +651,8 @@ var Phone = class Phone {
                 </div>
             </div>`;
 
-            this.fillGpsRoutes(data, false);
-            if (cur_route) drawCurRoute(cur_route);
+        this.fillGpsRoutes(data, false);
+        if (cur_route) drawCurRoute(cur_route);
 
         function drawCurRoute(cur_route) {
             document.getElementById('gps-container').style.height = '160px';
@@ -669,7 +671,7 @@ var Phone = class Phone {
             document.getElementById('cur-route-container').style.display = 'none';
             document.querySelector('.phone-bottom-blur').firstElementChild.setAttribute('onclick', 'Phone.appRequest("gps_app")');
         } else document.querySelector('.phone-bottom-blur').firstElementChild.setAttribute('onclick', 'Phone.leaveRequest()');
-        
+
         var parent = document.getElementById('gps-container');
         parent.innerHTML = '';
         parent.style = '';

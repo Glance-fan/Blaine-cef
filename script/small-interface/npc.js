@@ -19,11 +19,12 @@ var NPC = class NPC {
 			</div>`;
 		}
 		this.lastChoice = container.firstElementChild;
-		document.documentElement.onkeydown = this.onkeydown;
+		document.documentElement.removeEventListener("keydown", this.onkeydown);
+		document.documentElement.addEventListener("keydown", this.onkeydown);
 
 		this.interval = setInterval(() => {
 			if (parent.offsetParent) {
-				while (parent.getBoundingClientRect().bottom > window.innerHeight) 
+				while (parent.getBoundingClientRect().bottom > window.innerHeight)
 					parent.style.top = parseInt(parent.style.top) * 0.99 + 'px';
 				clearInterval(this.interval);
 			}
@@ -42,20 +43,15 @@ var NPC = class NPC {
 	}
 
 	static onkeydown(event) {
-		if (event.which == 13) { //enter
+		if (event.keyCode == 13) { //enter
 			event.preventDefault();
 			NPC.lastChoice.click();
-		}
-
-
-		if (event.which == 38) { //arrow-up
+		} else if (event.keyCode == 38) { //arrow-up
 			event.preventDefault();
 			var container = document.getElementById('npc-choice-container');
 			var idx = Array.from(container.children).indexOf(NPC.lastChoice);
 			if (idx > 0) NPC.onmouseover(container.children[idx - 1]);
-		}
-
-		if (event.which == 40) { //arrow-down
+		} else if (event.keyCode == 40) { //arrow-down
 			event.preventDefault();
 			var container = document.getElementById('npc-choice-container');
 			var idx = Array.from(container.children).indexOf(NPC.lastChoice);
