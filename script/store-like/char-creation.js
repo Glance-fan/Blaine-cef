@@ -466,7 +466,7 @@ var ChCreate = class Char_Creation {
     /*requests*/
     static sexRequest(sex) {
         mp.trigger('CharacterCreation::SetSex', sex == 'boy' ? true : false);
-        ChCreate.sexApply(sex);
+        // ChCreate.sexApply(sex);
     }
 
     static playRequest() {
