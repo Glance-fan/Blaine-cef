@@ -495,7 +495,7 @@ var ChCreate = class Char_Creation {
         if (params[1] == 'makeup' && this.cur_sex == 'boy') return;
         var data = chcreate_senders.slider[params[1]];
         if (!data)
-            mp.trigger('CharacterCreation::Update::Parents', `mix-${params[0]}`, JSON.stringify(parseFloat(Math.abs(elem.value - 1).toFixed(2))));
+            mp.trigger('CharacterCreation::Update::Parents', JSON.stringify(parseFloat(Math.abs(elem.value - 1).toFixed(2))), `mix-${params[0]}`);
         else mp.trigger(`CharacterCreation::Update::${data.at(-1)}`, data[parseInt(params[0])][1] ? JSON.stringify(-elem.value) : JSON.stringify(+elem.value), data[parseInt(params[0])][0]);
     }
 
