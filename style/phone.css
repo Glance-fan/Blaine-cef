@@ -886,7 +886,7 @@
 
 }
 
-.music-app-grad {
+.radio-app-grad {
     background: linear-gradient(225.72deg, #FC5BC4 0%, #A644FF 100%) 0% 0% / 300% 100%;
 }
 
@@ -943,6 +943,84 @@
 
 .gps-route-elem:active {
     background: rgba(31, 27, 27, 1);
+}
+
+/*radio-app*/
+#radio-container {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 180px;
+    padding: 0 15px;
+}
+
+#radio-station {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    font-weight: 500;
+    font-size: 10px;
+}
+
+#radio-station>div {
+    width: 100px;
+}
+
+#radio-station>div>div:nth-child(2) {
+    margin: 10px 0 5px;
+}
+
+#radio-volume-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 60px;
+    justify-content: space-between
+}
+
+#radio-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 25px;
+}
+
+#radio-nav>div {
+    width: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#radio-volume-wrapper>div:last-child {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#radio-volume-wrapper>div:last-child img {
+    height: 10px;
+}
+
+#radio-volume-wrapper input[type="range"] {
+    margin: 0;
+    width: 85%;
+    -webkit-appearance: none;
+    height: 2px;
+    background: #DADADA;
+    border-radius: 4px;
+    background-image: linear-gradient(86.42deg, #C81212 0%, #851717 100%);
+    background-repeat: no-repeat;
+}
+
+#radio-volume-wrapper input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    background: white;
+    cursor: ew-resize;
 }
 
 /*cab-app*/

@@ -192,7 +192,7 @@ var Phone = class Phone {
 
     /*contacts-app*/
     static drawContactsApp(data) {
-        //Phone.showMenu(false);
+        // Phone.showMenu(false);
         this.container.innerHTML = /*html*/
             `<div class="app-wrapper">
                 <div id="contact-app">
@@ -213,6 +213,10 @@ var Phone = class Phone {
             </div>
             <div class="phone-ttp-wrapper"></div>`;
         this.fillContacts(data);
+        if (!data) {
+            document.getElementById('contacts-container').style.display = 'flex';
+            return;
+        }
         this.showSubContainer('contact-app', false, 'block');
     }
 
@@ -688,6 +692,66 @@ var Phone = class Phone {
 
 
 
+    /*radio-app*/
+    static drawRadioApp(data) {
+        // Phone.showMenu(false)
+        this.container.innerHTML = /*html*/
+            `<div class="app-wrapper">
+                <div>
+                    <div class="apps-h1">Радио</div>
+                    <div id="radio-container"></div>
+                </div>
+                <div class="phone-bottom-blur">
+                    <i class="material-icons phone-icons white-icon material-symbols-rounded">undo</i>
+                </div>
+            </div>`;
+        this.fillRadioApp(data);
+    }
+
+    static fillRadioApp(data) {
+        var parent = document.getElementById('radio-container');
+        parent.innerHTML = /*html*/ `
+            <div id="radio-station"></div>
+            <div id="radio-volume-wrapper">
+                <div id="radio-nav">
+                    <div onclick="Phone.rewindRequest(${data[0]}, -1)"><img style="transform: scale(-1, 1)" src="libs/svgs/phone/radio/rewind.svg"></div>
+                    <div id="radio-play"><img src="libs/svgs/phone/radio/resume.svg"></div>
+                    <div onclick="Phone.rewindRequest(${data[0]}, 1)"><img src="libs/svgs/phone/radio/rewind.svg"></div>
+                </div>
+                <div>
+                    <img src="libs/svgs/phone/radio/less.svg">
+                    <input id="phone-value" type="range" min="0" max="1" step="0.1" oninput="Phone.fillSlider(this.id)">
+                    <img src="libs/svgs/phone/radio/more.svg">
+                </div>
+            </div>`;
+        this.updateRadioStation(...data);
+        this.updateRadioPlay(data[4]);
+        this.setSliderVal('phone-value', data[5]);
+    }
+
+    static updateRadioStation(id, name, song1, song2) {
+        var parent = document.getElementById('radio-station');
+        parent.innerHTML = /*html*/ `
+            <img src="libs/svgs/phone/radio/${id}.png">
+            <div>
+                <div style="font-size: 12px">${name}</div>
+                <div id="radio-song-author"></div>
+                <div id="radio-song-name"></div>
+            </div>`;
+        this.updateRadioSong(song1, song2);
+    }
+    
+    static updateRadioSong(song1, song2) {
+        document.getElementById('radio-song-author').innerText = song1;
+        document.getElementById('radio-song-name').innerText = song2;
+    }
+
+    static updateRadioPlay(is_paused) {
+        var el = document.getElementById('radio-play');
+        el.lastChild.src = is_paused ? el.lastChild.src.replace('resume', 'pause') : el.lastChild.src.replace('pause', 'resume');
+        el.setAttribute('onclick', `Phone.playRequest(${is_paused})`)
+    }
+
     /*cab-app*/
     static cab_types = [
         ['Закажите такси прямо сейчас!', ['Ваш ID', 'Улица'],
@@ -873,12 +937,25 @@ var Phone = class Phone {
         document.getElementById(id).checked = state;
     }
 
+    static fillSlider(id) {
+        var slider = document.getElementById(id);
+        var percent = (slider.value - slider.min) * 100 / (slider.max - slider.min);
+        slider.style.backgroundSize = percent + '% 100%';
+        this.sliderRequest(id, slider.value);
+    }
+
+    static setSliderVal(id, value) {
+        var slider = document.getElementById(id);
+        slider.value = value;
+        this.fillSlider(id);
+    }
+
 
     /*requests*/
     static appRequest(app_id) {
         mp.trigger('Phone::OpenApp', app_id);
         /*response*/
-        // //Phone.showMenu(false)
+        // Phone.showMenu(false)
         // -> Phone.draw***App(params);
     }
 
@@ -974,6 +1051,20 @@ var Phone = class Phone {
     static deletesmsRequest(phone_number) {
         mp.trigger('Phone::SmsDelete', phone_number);
     }
+
+    //radio request
+    static playRequest(current) {
+        mp.trigger('Phone::', current);
+        // this.updateRadioPlay(!current);
+    }
+
+    static rewindRequest(id, next) {
+        mp.trigger('Phone::', id, next);
+    }
+
+    static sliderRequest(id, value) {
+        mp.trigger('Phone::', id, value)
+    }
 }
 
 apps = [
@@ -992,7 +1083,7 @@ apps = [
     [
         ['camera', 'Камера'],
         ['gps', 'Навигатор'],
-        ['music', 'Музыка'],
+        ['radio', 'Радио'],
         ['cab', 'Такси']
     ]
 ]
