@@ -22,6 +22,7 @@
     <!-- <style> body { background: url('bg.jpg'); } </style> -->
 
     <div id="vue_app">
+        <npc-template v-show="show.npc" v-if="render.npc"></npc-template>
         <colorpicker-template v-if="render.colorpicker"></colorpicker-template>
         <chat-template v-show="show.chat" v-if="render.chat"></chat-template>
         <notifications-template v-show="show.notifications" v-if="render.notifications"></notifications-template>
@@ -54,7 +55,6 @@
         <retail-template v-show="show.retail" v-if="render.retail"></retail-template>
         <death-template v-show="show.death" v-if="render.death"></death-template>
         <documents-template v-show="show.docs" v-if="render.docs"></documents-template>
-        <npc-template v-show="show.npc" v-if="render.npc"></npc-template>
         <animations-template v-show="show.anims" v-if="render.anims"></animations-template>
         <estate-template v-show="show.estate" v-if="render.estate"></estate-template>
         <estate-agency-template v-show="show.est_agency" v-if="render.est_agency"></estate-agency-template>
@@ -65,6 +65,8 @@
         <salon-template v-show="show.salon" v-if="render.salon"></salon-template>
         <tattoo-template v-show="show.tattoo_salon" v-if="render.tattoo_salon"></tattoo-template>
         <atm-template v-show="show.atm" v-if="render.atm"></atm-template>
+        <note-template v-show="show.note" v-if="render.note"></note-template>
+        <music-player-template v-show="show.music_player" v-if="render.music_player"></music-player-template>
     </div>
 
     <!-- Import App -->
@@ -95,6 +97,7 @@
     <script src="./components/menu-like/menu-garage-template.js"></script>
     <script src="./components/menu-like/menu-home-template.js"></script>
     <script src="./components/menu-like/menu-template.js"></script>
+    <script src="./components/menu-like/music-player-template.js"></script>
     <!-- SMALL-INTERFACE -->
     <script src="./components/small-interface/actionbox-template.js"></script>
     <script src="./components/small-interface/atm-template.js"></script>
@@ -102,6 +105,7 @@
     <script src="./components/small-interface/documents-template.js"></script>
     <script src="./components/small-interface/elevator-template.js"></script>
     <script src="./components/small-interface/notifications-template.js"></script>
+    <script src="./components/small-interface/note-template.js"></script>
     <script src="./components/small-interface/npc-template.js"></script>
     <script src="./components/colorpicker-template.js"></script>
     <!-- STORE-LIKE -->

@@ -46,6 +46,8 @@ const vue_app = Vue.createApp({
                 tuning: false,
                 salon: false,
                 tattoo_salon: false,
+                note: false,
+                music_player: false,
             },
             render: {
                 actionbox: false,
@@ -83,6 +85,8 @@ const vue_app = Vue.createApp({
                 tuning: false,
                 salon: false,
                 tattoo_salon: false,
+                note: false, 
+                music_player: false,
             }
         }
     },
@@ -190,6 +194,7 @@ function resizeAll() {
     if (menubiz_tmpl) resizeBigger(menubiz_tmpl);
     if (menugar_tmpl) resizeBigger(menugar_tmpl);
     if (menuhome_tmpl) resizeBigger(menuhome_tmpl);
+    if (mplayer_tmpl) resizeBigger(mplayer_tmpl);
     if (actionbox) resizeBigger(actionbox);
     if (inv_tmpl) {
         resizeSmaller(inv_tmpl);
@@ -230,6 +235,7 @@ function resizeAll() {
     if (docs_tmpl) resizeBigger(docs_tmpl);
     if (atm_tmpl) resizeBigger(atm_tmpl);
     if (estagency_tmpl) resizeBigger(estagency_tmpl);
+    if (note_tmpl) resizeBigger(note_tmpl);
 }
 
 function resizeSmaller(elem) {
