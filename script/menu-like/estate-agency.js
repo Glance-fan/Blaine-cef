@@ -14,7 +14,7 @@ var EstAgency = class Real_Estate_Agency {
     static defaultFilters = {
         'Дома': [0, 999999999, 0, 99, 0, 99],
         'Квартиры': [0, 999999999, 0, 99],
-        'Гаражи': [0, 999999999, 0, 99],
+        'Гаражи': [0, 999999999, 0, 99, 0, 99],
     }
 
     static curFilters = {}
@@ -99,7 +99,7 @@ var EstAgency = class Real_Estate_Agency {
         this.output.innerHTML = '';
         this.container.style = '';
         for (var index = 0; index < data.length; index++)
-            this.storeElems(data[index][0], data[index][1], data[index][2], data[index][3], data[index][4], data[index][5]);
+            this.storeElems(...data[index]);
 
         if (data.length > 10) {
             this.container.style.height = `${this.container.parentElement.scrollHeight}px`;
@@ -131,13 +131,7 @@ var EstAgency = class Real_Estate_Agency {
     static stored_elems = [];
     static storeElems(uid, name, cost, tax, param_3, param_4) {
         this.stored_elems.push(/*html*/ `
-            <div uid="${typeof uid == 'number' ? `${uid}-estagelem` : uid}"
-                onclick="EstAgency.onEstate(this)"
-                param_1="${prettyUSD(cost)}"
-                param_2="${prettyUSD(tax, true)}"
-                param_3="${param_3}"
-                param_4="${param_4}"
-                class="estagency-elem">${name}</div>`);
+            <div uid="${typeof uid == 'number' ? `${uid}-estagelem` : uid}" onclick="EstAgency.onEstate(this)" param_1="${prettyUSD(cost)}" param_2="${prettyUSD(tax, true)}" param_3="${param_3}" param_4="${param_4}" class="estagency-elem">${name}</div>`);
     }
 
     static drawElems(amount) {
@@ -200,7 +194,7 @@ var EstAgency = class Real_Estate_Agency {
         search_arr = search_arr.filter(elem => elem[2] <= filters[1]);
         search_arr = search_arr.filter(elem => elem[4] >= filters[2]);
         search_arr = search_arr.filter(elem => elem[4] <= filters[3]);
-        if (this.curOpen == 'Дома') {
+        if (['Дома', 'Гаражи'].includes(this.curOpen)) {
             search_arr = search_arr.filter(elem => elem[5] >= filters[4]);
             search_arr = search_arr.filter(elem => elem[5] <= filters[5]);
         }
@@ -1197,8 +1191,8 @@ estag_data = [
         ['uid#16632', 'Квартира#2', 200000, 100, 3],
     ],
     [
-        ['uid#5', 'Гараж#1', 500000, 130, 6],
-        ['uid#6', 'Гараж#2', 600000, 140, 7],
+        ['uid#5', 'Гараж#1', 500000, 130, 6, 5],
+        ['uid#6', 'Гараж#2', 600000, 140, 7, 2],
     ],
     [3000, 450, 210]
 ]

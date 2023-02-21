@@ -53,10 +53,14 @@ var Anims = class Animations {
         var startIndex = Array.isArray(data[0]) ? 0 : 1;
         if (startIndex == 1)
             this.container.innerHTML += /*html*/ `<div class="anims-section">${data[0]}</div>`;
-        for (var index = startIndex; index < data.length; index++)
-            this.newAnimation(data[index][0], data[index][1]);
-    }
+        load(data, startIndex);
 
+        async function load (data, start) { 
+            for (var index = start; index < data.length; index++) 
+                Anims.newAnimation(...data[index])
+        }
+    }
+    
     static newAnimation(id, name) {
         var elem = document.createElement('div');
         elem.parentId = parseInt(this.lastNav.id);
@@ -217,7 +221,7 @@ var Anims = class Animations {
                 return this.anims_data[index];
         }
     }
-    
+
 
     /*misc*/
     static selectOption(index) {
@@ -263,7 +267,7 @@ var Anims = class Animations {
     }
 
     static removeSelection(id) {
-        id = id.replace('-fav', ''); 
+        id = id.replace('-fav', '');
         var index = this.anims_dict[1][id];
         if (index < 3) {
             this.lastAnims[0] = null;
@@ -351,7 +355,7 @@ var Anims = class Animations {
     static requestAnimation(id, isPlaying) {
         mp.trigger('Anims::Menu::Choose', parseInt(this.lastNav.id), id.replace('-fav', ''), isPlaying);
         /*response-imitation*/
-        // this.colorAnim(id.replace('-fav', ''), !isPlaying);
+        this.colorAnim(id.replace('-fav', ''), !isPlaying);
     }
 
     static requestStar(id, wasFav) {
@@ -359,5 +363,61 @@ var Anims = class Animations {
     }
 }
 
-anims_fill = [[['Раздел#1',[['Jump-Anim', 'Jump'],['Dance-Anim', 'Dance'],['Drink#2-Anim', 'Drink#2'],]],['Раздел#2',[['Drink#3-Anim', 'Drink#3'],['Drink#4-Anim', 'Drink#4'],['Drink#5-Anim', 'Drink#5'],['Drnk-Anim', 'Drnk'],]],['Раздел#3',[['Draw#13-Anim', 'Draw#13'],['Draw#14-Anim', 'Draw#14'],['Draw#15-Anim', 'Draw#15'],['Draw-Anim', 'Draw'],]]],[['Специальные',[['Eat-Anim', 'Eat'],['Smoke-Anim', 'Smoke'],['Read-Anim', 'Read'],]],['Дополнительные',[['Seat#1-Anim', 'Seat#1'],['Seat#2-Anim', 'Seat#2'],['Feed-Anim', 'Feed'],['Enjoy-Anim', 'Enjoy'],['Enter-Anim', 'Enter'],]],['раздел#69',[['Exit-Anim', 'Exit'],['Fight-Anim', 'Fight'],['Fry-Anim', 'Fry'],['Cook-Anim', 'Cook'],['Expand-Anim', 'Expand'],]],],[[['Walk-Anim', 'Walk'],['Stand-Anim', 'Stand'],['Fly-Anim', 'Fly'],]],[[['Anger-Anim', 'Anger'],['Fear-Anim', 'Fear'],['Laugh-Anim', 'Laugh'],]],['Jump-Anim', 'Drink#2-Anim', 'Drink#4-Anim', 'Draw#14-Anim', 'Smoke-Anim', 'Enjoy-Anim', 'Exit-Anim', 'Fry-Anim']];
-// Anims.draw(anims_fill)
+anims_fill = [
+    [
+        ['Раздел#1', [
+            ['Jump-Anim', 'Jump'],
+            ['Dance-Anim', 'Dance'],
+            ['Drink#2-Anim', 'Drink#2'],
+        ]],
+        ['Раздел#2', [
+            ['Drink#3-Anim', 'Drink#3'],
+            ['Drink#4-Anim', 'Drink#4'],
+            ['Drink#5-Anim', 'Drink#5'],
+            ['Drnk-Anim', 'Drnk'],
+        ]],
+        ['Раздел#3', [
+            ['Draw#13-Anim', 'Draw#13'],
+            ['Draw#14-Anim', 'Draw#14'],
+            ['Draw#15-Anim', 'Draw#15'],
+            ['Draw-Anim', 'Draw'],
+        ]]
+    ],
+    [
+        ['Специальные', [
+            ['Eat-Anim', 'Eat'],
+            ['Smoke-Anim', 'Smoke'],
+            ['Read-Anim', 'Read'],
+        ]],
+        ['Дополнительные', [
+            ['Seat#1-Anim', 'Seat#1'],
+            ['Seat#2-Anim', 'Seat#2'],
+            ['Feed-Anim', 'Feed'],
+            ['Enjoy-Anim', 'Enjoy'],
+            ['Enter-Anim', 'Enter'],
+        ]],
+        ['раздел#69', [
+            ['Exit-Anim', 'Exit'],
+            ['Fight-Anim', 'Fight'],
+            ['Fry-Anim', 'Fry'],
+            ['Cook-Anim', 'Cook'],
+            ['Expand-Anim', 'Expand'],
+        ]],
+    ],
+    [
+        [
+            ['Walk-Anim', 'Walk'],
+            ['Stand-Anim', 'Stand'],
+            ['Fly-Anim', 'Fly'],
+        ]
+    ],
+    [
+        [
+            ['Anger-Anim', 'Anger'],
+            ['Fear-Anim', 'Fear'],
+            ['Laugh-Anim', 'Laugh'],
+        ]
+    ],
+    ['Jump-Anim', 'Drink#2-Anim', 'Drink#4-Anim', 'Draw#14-Anim', 'Smoke-Anim', 'Enjoy-Anim', 'Exit-Anim', 'Fry-Anim']
+];
+Anims.draw(anims_fill)
