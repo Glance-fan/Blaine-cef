@@ -5,27 +5,39 @@ var ChCreate = class Char_Creation {
     static drawing = true;
     static is_full;
 
-    static draw(full){
+    static draw(full, choice_obj){
         this.is_full = full;
         if (full) {
             Object.keys(chcreate_navs.full).forEach(key => {
-                ChCreate.drawNavigation(...chcreate_navs.full[key]);
+                this.drawNavigation(...chcreate_navs.full[key]);
             })
-            ChCreate.drawHair();
-            ChCreate.navReverseTraverse();
-            ChCreate.default_choices = JSON.parse(JSON.stringify(chcreate_choices));
+            this.drawHair();
+            this.navReverseTraverse();
+            this.default_choices = JSON.parse(JSON.stringify(chcreate_choices));
             
-            ChCreate.cur_sex = null;
+            this.cur_sex = null;
             document.getElementById('chcreate-boy').click();
         } else {
             Object.keys(chcreate_navs.partial).forEach(key => {
-                ChCreate.drawNavigation(...chcreate_navs.partial[key]);
+                this.drawNavigation(...chcreate_navs.partial[key]);
             })
+            this.navReverseTraverse();
+            this.setChoices(choice_obj);
             chcreate_tmpl.querySelector('.chcreate-menu').children[0].style.display = 'none';
             chcreate_tmpl.querySelector('.chcreate-menu').children[1].innerText = 'Применить';
         }
-        ChCreate.loading = false;
+        this.loading = false;
         setTimeout(document.getElementById('char-creation').style.opacity = 1, 0);
+    }
+
+    static setChoices(obj) {
+        chcreate_choices = JSON.parse(obj);
+        Object.keys(chcreate_choices.slider).forEach(key => {
+            this.setSliderVal(key, chcreate_choices.slider[key]);
+        })
+        Object.keys(chcreate_choices.frame).forEach(key => {
+            eval(document.getElementById(`${key}-fname`).getAttribute('reset').replace('0', parseInt(chcreate_choices.frame[key])));
+        })
     }
 
     static last_navs = {};
@@ -462,6 +474,9 @@ var ChCreate = class Char_Creation {
         this.showFrame(id, chcreate_choices.frame[id] -= 1, from, draw, sex);
     }
 
+    static setHairFuzz(n) {
+        this.showFrame('fuzz', n, 'chcreate_content.left_data.frames.appearance.features.fuzz.', false);
+    }
 
     /*requests*/
     static sexRequest(sex) {

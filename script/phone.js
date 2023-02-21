@@ -213,11 +213,7 @@ var Phone = class Phone {
             </div>
             <div class="phone-ttp-wrapper"></div>`;
         this.fillContacts(data);
-        if (!data) {
-            document.getElementById('contacts-container').style.display = 'flex';
-            return;
-        }
-        this.showSubContainer('contact-app', false, 'block');
+        this.showSubContainer('contact-app', false, data ? 'block' : null);
     }
 
     // data[i] = ['name', 'phone']
@@ -754,14 +750,11 @@ var Phone = class Phone {
 
     /*cab-app*/
     static cab_types = [
-        ['Закажите такси прямо сейчас!', ['Ваш ID', 'Улица'],
-            ['Заказать']
+        ['Закажите такси прямо сейчас!', ['Ваш ID', 'Улица'], ['Заказать']
         ],
-        ['У вас есть активный заказ', ['Статус', 'Дата'],
-            ['Отменить']
+        ['У вас есть активный заказ', ['Статус', 'Дата'], ['Отменить']
         ],
-        ['У вас есть активный заказ', ['Статус', 'ID водителя'],
-            ['Написать', 'Позвонить']
+        ['У вас есть активный заказ', ['Статус', 'ID водителя'], ['Написать', 'Позвонить']
         ]
     ]
     static drawCabApp(type, data) {
@@ -1089,5 +1082,5 @@ apps = [
 ]
 
 Phone.drawMenu();
-// Phone.setWallpaper(9);
-// Phone.showPhone(true);
+Phone.setWallpaper(9);
+Phone.showPhone(true);

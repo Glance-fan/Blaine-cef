@@ -9,7 +9,6 @@ var chcreate_navs = {
         left: ['chcreate-left-nav', ['parents', 'appearance'], 'left-nav/', 0],
         right: ['chcreate-right-nav', ['eyes', 'nose', 'eyebrows', 'chin', 'lips'], 'right-nav/', 1],
     }
-    
 }
 
 var chcreate_choices = {
@@ -308,8 +307,8 @@ var chcreate_senders = {
         extra_hair: ['Hair', false],
         lipstick: ['HeadOverlay', 8],
         blush: ['HeadOverlay', 5],
-        beard: ['HeadOverlay', 1],
         eyebrows: ['HeadOverlay', 2],
+        beard: ['HeadOverlay', 1],
         chest: ['HeadOverlay', 10]
     }
 }
