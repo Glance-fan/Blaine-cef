@@ -35,7 +35,6 @@
 }
 
 #npc-choice-container {
-    backdrop-filter: blur(1.5px);
     border-radius: 10px;
     width: fit-content;
     padding: 20px 10px;
