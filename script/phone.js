@@ -1082,5 +1082,5 @@ apps = [
 ]
 
 Phone.drawMenu();
-Phone.setWallpaper(9);
-Phone.showPhone(true);
+// Phone.setWallpaper(9);
+// Phone.showPhone(true);
