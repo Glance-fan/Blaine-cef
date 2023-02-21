@@ -2,6 +2,7 @@ vue_app.component('creation-template', {
     mounted: async function () {
         chcreate_tmpl = document.getElementById('char-creation');
         await include_source(scripts.char_creation);
+        resizeBigger(chcreate_tmpl);
         onRenderFinished('char_creation');
     },
     unmounted: function () {
