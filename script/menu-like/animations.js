@@ -420,4 +420,4 @@ anims_fill = [
     ],
     ['Jump-Anim', 'Drink#2-Anim', 'Drink#4-Anim', 'Draw#14-Anim', 'Smoke-Anim', 'Enjoy-Anim', 'Exit-Anim', 'Fry-Anim']
 ];
-Anims.draw(anims_fill)
+// Anims.draw(anims_fill)
