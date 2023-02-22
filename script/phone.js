@@ -185,7 +185,7 @@ var Phone = class Phone {
     static addBlackList(phone, name) {
         var parent = document.getElementById('black-list-container');
         parent.innerHTML += /*html*/
-            `<div id="${parent.childElementCount}-contact-app" class="contact-elem">${name || phone}<img onclick="Phone.blacklistRequest(${phone})" src="libs/svgs/phone/cross.svg"></div>`;
+            `<div id="${parent.childElementCount}-contact-app" class="contact-elem" onclick="Phone.blacklistRequest(${phone})">${name || phone}<img src="libs/svgs/phone/cross.svg"></div>`;
     }
 
 
@@ -415,7 +415,6 @@ var Phone = class Phone {
             switch (settings[index][1]) {
                 case 'switch':
                     var id = settings[index][2];
-                    console.log(id)
                     parent.lastElementChild.innerHTML += /*html*/ `
                     <label class="phone-checkbox">
                         <input id="${id}" onclick="Phone.onToggle(this)" type="checkbox">
@@ -426,7 +425,7 @@ var Phone = class Phone {
                     }, 0);
                     break;
                 case 'click':
-                    parent.lastElementChild.innerHTML += /*html*/ `<img onclick="Phone.tabRequest('${settings[index][2]}')" src="libs/svgs/phone/back.svg">`;
+                    parent.lastElementChild.innerHTML += /*html*/ `<div onclick="Phone.tabRequest('${settings[index][2]}')"><img src="libs/svgs/phone/back.svg"></div>`;
                     break;
             }
         }
@@ -564,7 +563,7 @@ var Phone = class Phone {
         else {
             for (var index = 0; index < this.bank_tabs.length; index++) {
                 child = index < 3 ? parent.firstElementChild : parent.lastElementChild;
-                child.innerHTML += /*html*/ `<div><img onclick="Phone.tabRequest(${index})" src="libs/svgs/phone/bank_app/${index}.svg"><div>${this.bank_tabs[index]}</div></div>`;
+                child.innerHTML += /*html*/ `<div onclick="Phone.tabRequest(${index})"><img src="libs/svgs/phone/bank_app/${index}.svg"><div>${this.bank_tabs[index]}</div></div>`;
             }
             this.stored_menu = parent.innerHTML;
         }
@@ -789,8 +788,8 @@ var Phone = class Phone {
             ['Позвонить', 'Сообщение', 'Изменить', 'Удалить']
         ],
         owned: [
-            [0, 1],
-            ['Найти', 'Эвакуировать']
+            [0, 1, 2],
+            ['Найти', 'Эвакуировать в дом [$1 000]', 'Эвакуировать в гараж [$1 000]']
         ],
         rented: [
             [0, 1],
