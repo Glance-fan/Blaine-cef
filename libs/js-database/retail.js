@@ -52,7 +52,11 @@ var retails = {
     market: [
         [retail_svgs.market, 'торговая<br>точка'],
         ['', '']
-    ]
+    ],
+	creation: [
+		[retail_svgs.creation, 'создание<br>предметов<br>из материалов'],
+		['', '']
+	],
 }
 
 test_data = [

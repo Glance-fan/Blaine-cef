@@ -1,11 +1,13 @@
 var Retail = class Retail {
     static isFurniture = false;
+    static isCreation = false;
     static isPersonal = false;
     static draw(which, data, name, personal) {
         if (which.includes('furniture')) {
             this.isFurniture = true; 
             var furn_id = which.split('-');
         }
+        if (which.includes('creation')) this.isCreation = true;
         this.drawNavigation(this.isFurniture ?  [retails[furn_id[0]][0], retails[furn_id[0]][1][parseInt(furn_id[1])]] : retails[which], data);
         this.fillBottom();
         if (name) document.getElementById('assortment-title').innerText = `Товары ${name}`;
@@ -67,7 +69,7 @@ var Retail = class Retail {
         elem.descr = itemDescriptions[id];
         elem.innerHTML = /*html*/ `
             <span style="font-size:12px">${name}</span>${id in inventoryItems ? inventoryItems[id] : inventoryItems["NotAssigned"]}
-            <span>${prettyUSD(elem.cost)}</span>`;
+            <span>${this.isCreation ? `${elem.cost} ед. мат.` : prettyUSD(elem.cost)}</span>`;
         if (this.isPersonal) elem.lastElementChild.innerHTML = ``;
         setTimeout(Retail.setTextSize, 0, elem);
         if (this.isPersonal) elem.setAttribute('onclick', `Retail.clickPersonalElem(this)`);
@@ -177,8 +179,6 @@ var Retail = class Retail {
         Retail.lastNav = opt;
     }
 
-
-
     static onmouseover(elem) {
         Retail.retailTTP(elem);
     }
@@ -228,8 +228,14 @@ var Retail = class Retail {
         this.assortment_amount[0].style.opacity = 0;
         if (parseInt(Retail.assortment_amount[1].max) == 1) return;
         var buttons = bottom.children[4];
-        buttons.firstElementChild.innerHTML = retail_svgs.misc.cash;
-        buttons.lastElementChild.innerHTML = retail_svgs.misc.bank;
+        if (this.isCreation) {
+            var parent = document.getElementById('retail-money-wrapper')
+            parent.innerHTML = /*html*/`<button class="retail-btn red-button" id="retail-create" onmouseover="Retail.onmouseover(this)" onmouseout="Retail.onmouseout(this)" onclick="Retail.createRequest()">Создать</button>`;
+            parent.style.justifyContent = 'center';
+        } else {
+            buttons.firstElementChild.innerHTML = retail_svgs.misc.cash;
+            buttons.lastElementChild.innerHTML = retail_svgs.misc.bank;
+        }
 
     }
 
@@ -305,12 +311,16 @@ var Retail = class Retail {
             Retail.assortment_amount[2].style.opacity = 0;
         }
         document.getElementById('retail-weight').innerText = (Retail.assortment_amount[1].weight * Retail.assortment_amount[1].value).toFixed(2) + ' кг.';
-        document.getElementById('retail-cost').innerText = '$' + (Retail.assortment_amount[1].cost * Retail.assortment_amount[1].value).toLocaleString('ru');
+        document.getElementById('retail-cost').innerText = this.isCreation ? `${Retail.assortment_amount[1].cost * Retail.assortment_amount[1].value} ед. мат.`: prettyUSD(Retail.assortment_amount[1].cost * Retail.assortment_amount[1].value);
     }
 
     /*requests*/
     static payRequest(pay_method) {
         mp.trigger('Shop::Buy', pay_method, Retail.lastElem.id.replace('-retail', ''), parseInt(Retail.assortment_amount[1].value));
+    }
+
+    static createRequest() {
+        mp.trigger('Shop::Create', Retail.lastElem.id.replace('-retail', ''), parseInt(Retail.assortment_amount[1].value));
     }
 
     static requestTry() {

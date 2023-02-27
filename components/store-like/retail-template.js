@@ -39,9 +39,9 @@ vue_app.component('retail-template', {
                        </div>
                        <div style="width:100px">
                            Стоимость
-                           <span id="retail-cost">$</span>
+                           <span id="retail-cost" style="white-space: nowrap;">$</span>
                        </div>
-                       <div style="flex-direction:row;width:200px">
+                       <div style="flex-direction:row;width:200px" id="retail-money-wrapper">
                            <button class="retail-btn red-button" id="retail-cash" onmouseover="Retail.onmouseover(this)" onmouseout="Retail.onmouseout(this)" onclick="Retail.payRequest(true)"></button>
                            <button class="retail-btn grey-button" id="retail-bank" onmouseover="Retail.onmouseover(this)" onmouseout="Retail.onmouseout(this)" onclick="Retail.payRequest(false)"></button>
                        </div>
