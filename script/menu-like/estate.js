@@ -118,6 +118,9 @@ var Estate = class Estate {
                     owner ? this.buttons.innerHTML = /*html*/ `<button class="red-button" onclick="Estate.onbutton('manage')">Управление</button>` :
                     this.buttons.innerHTML = ``
                 break;
+            case 'veh_info':
+                this.buttons.innerHTML = ``;
+                return;
         }
         if (this.buttons.children.length == 1) this.buttons.style.justifyContent = 'center';
         else this.buttons.style.justifyContent = 'space-between';
@@ -178,7 +181,16 @@ var Estate = class Estate {
     static where;
     static postRender(which, indexes) {
         this.where = this.container.lastElementChild.children;
-        if (which == 'veh') {
+        if (which == 'veh_info') {
+            this.where[1].innerText = `#${this.where[1].innerText}`;
+            this.where[2].innerText = `${this.where[2].innerText} улуч.`;
+            [3, 4, 5].forEach(idx => {
+                this.where[idx].innerText = this.where[idx].innerText == 'true' ? 'есть' : 'нет';
+            })
+            this.where[6].innerText = `${this.where[6].innerText} л.`;
+            this.where[7].innerText = `${this.where[7].innerText} слотов`;
+        }
+        else if (which == 'veh') {
             this.where[indexes[0] + 1].innerText = prettyUSD(this.where[indexes[0] + 1].innerText);
             this.where[indexes[1] + 1].innerText = `#${this.where[indexes[1] + 1].innerText}`;
         } else {
@@ -198,6 +210,7 @@ var Estate = class Estate {
 // Estate.draw('info', 'house', 4694, ['Jessica Day', 500000, 90, 2, '0'], true)
 // Estate.draw('info','biz', null, ['Store #1', 'Weapon', null, 500000, 15, 10])
 // Estate.draw('info','flat', 231, ['Jessica Day', 500000, 90, 10], false)
+// Estate.draw('info','veh_info', null, ['Bravado Buffalo', '123123', 4, true, true, false, 100, 25]) 
 
 // Estate.draw('offer', 'house', 4694, ['Jessica Day', 750000, 500000, 90, 2, 0])
 // Estate.draw('offer', 'biz', null, ['Jessica Day', 750000, 'Weapon', 500000, 90, 10])

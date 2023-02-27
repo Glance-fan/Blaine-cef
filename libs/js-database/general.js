@@ -1,4 +1,4 @@
-var death_tmpl, login_tmpl, chselect_tmpl, reg_tmpl, start_tmpl, shop_tmpl, actionbox, inv_tmpl, chat_tmpl, crinv_tmpl, trade_tmpl, wb_tmpl, chcreate_tmpl, menu_tmpl, menubank_tmpl, menubiz_tmpl, menugar_tmpl, menuhome_tmpl, retail_tmpl, chinteract_tmpl, ovinteract_tmpl, ivinteract_tmpl, passengers_tmpl, hud_left, hud_top, hud_quest, hud_help, hud_spd, hud_interact, npc_tmpl, notific_tmpl, anims_tmpl, hud_menu, estate_tmpl, estagency_tmpl, elevator_tmpl, tattoo_tmpl, carmaint_tmpl, blips_tmpl, docs_tmpl, tuning_tmpl, salon_tmpl, atm_tmpl, whoInvoked, picker_tmpl, phone_tmpl, note_tmpl, mplayer_tmpl;
+var death_tmpl, login_tmpl, chselect_tmpl, reg_tmpl, start_tmpl, shop_tmpl, actionbox, inv_tmpl, chat_tmpl, crinv_tmpl, trade_tmpl, wb_tmpl, chcreate_tmpl, menu_tmpl, menubank_tmpl, menubiz_tmpl, menugar_tmpl, menuhome_tmpl, retail_tmpl, chinteract_tmpl, ovinteract_tmpl, ivinteract_tmpl, passengers_tmpl, hud_left, hud_top, hud_quest, hud_help, hud_spd, hud_interact, npc_tmpl, notific_tmpl, anims_tmpl, hud_menu, estate_tmpl, estagency_tmpl, elevator_tmpl, tattoo_tmpl, carmaint_tmpl, blips_tmpl, docs_tmpl, tuning_tmpl, salon_tmpl, atm_tmpl, whoInvoked, picker_tmpl, phone_tmpl, note_tmpl, mplayer_tmpl, school_tmpl;
 
 var clHeight, clWidth;
 
@@ -17,6 +17,7 @@ var scripts = {
 
     /*menu-like*/
     anims: ['libs/svgs/animations.js', 'script/menu-like/animations.js', 'style/menu-like/animations.css'],
+    autoschool: ['libs/js-database/autoschool.js', 'script/menu-like/autoschool.js', 'style/menu-like/autoschool.css'],
     blips: ['libs/svgs/blips.js', 'script/menu-like/blips.js', 'style/menu-like/blips.css'],
     car_maint: ['libs/svgs/car-maintenance.js', 'script/menu-like/car-maintenance.js', 'style/menu-like/car-maintenance.css'],
     est_agency: ['libs/svgs/estate-agency.js', 'script/menu-like/estate-agency.js', 'style/menu-like/estate-agency.css'],

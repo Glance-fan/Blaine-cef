@@ -1,7 +1,7 @@
 vue_app.component('menu-garage-template', {
     mounted: async function () {
-        await include_source(scripts.menu_gar);
         menugar_tmpl = document.querySelector('#menu-garage');
+        await include_source(scripts.menu_gar);
         resizeBigger(menugar_tmpl);
         onRenderFinished('menu_gar');
     },
@@ -14,7 +14,7 @@ vue_app.component('menu-garage-template', {
     <div id="menu-garage">
         <div></div>
         <div>
-            <div class="close-template" onclick="mp.trigger('MenuGar::Close')"></div>
+            <div class="close-template" onclick="mp.trigger('MenuGar::Close')">${close_svg}</div>
             <div id="menugar-wrapper">
                 <div>
                     <div style="font-weight:700" id="menugar-amount"></div>

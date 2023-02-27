@@ -87,7 +87,7 @@ var Phone = class Phone {
             var parent = document.getElementById('keys-wrapper').lastElementChild;
             var key = Phone.phone_keys[row][column].toString();
             if (row != 4)
-                parent.innerHTML += /*html*/ `<div onclick="Phone.onPhoneKey(${key})">${key}</div>`;
+                parent.innerHTML += /*html*/ `<div onclick="Phone.onPhoneKey('${key}')">${key}</div>`;
             else
                 parent.innerHTML += key.includes('icon') ? /*html*/ `<i class="material-icons phone-icons green-icon" onclick="Phone.onPhoneKey('${key.replace('-icon', '')}')">${key.replace('-icon', '')}</i>` : /*html*/ `<div onclick="Phone.onPhoneKey('${key}')"><img src="libs/svgs/phone/${key}.svg"></div>`;
 

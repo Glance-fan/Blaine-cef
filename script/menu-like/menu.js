@@ -721,15 +721,13 @@ var Menu = class Menu {
 
     static fillHelpRules(parent, data) {
         for (var index = 0; index < data.length; index++)
-            this.newRule(parent, data[index][0], data[index][1]);
+            this.newRule(parent, ...data[index]);
     }
 
-    static newRule(parent, headline, fulltext) {
-        var rule = document.createElement('div');
-        rule.classList.add('menu-help-rule');
-        rule.innerText = headline;
-        rule.setAttribute('onclick', `Menu.openRule(${parent}, this.innerText, '${fulltext}')`);
-        document.getElementById(`menu-help-${parent}`).append(rule);
+    static newRule(idx, headline, fulltext) {
+        console.log(headline);
+        document.querySelectorAll(`.menu-help-block`)[idx].innerHTML += /*html*/ `<div class="menu-help-rule">${headline}</div>`;
+        document.querySelectorAll(`.menu-help-block`)[idx].lastChild.setAttribute('onclick', `Menu.openRule(${idx}, this.innerText, '${fulltext}')`)
     }
 
     static help_blocks = ['Помощь - ', ' Правила - ']

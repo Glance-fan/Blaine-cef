@@ -1,0 +1,278 @@
+#autoschool {
+    position: absolute;
+    top: calc(50% - 325px);
+    left: calc(50% - 555px);
+    height: 650px;
+    width: 1110px;
+    color: white;
+}
+
+#autoschool button {
+    width: 100px;
+    height: 35px;
+    border-radius: 3px;
+    font-weight: 500;
+    font-size: 12px;
+}
+
+#autoschool h2 {
+    font-weight: 700;
+    font-size: 14px;
+    margin: 0;
+    margin-top: -25px;
+    position: absolute;
+}
+
+#autoschool>div:first-child {
+    z-index: 1;
+    position: absolute;
+    left: 0px;
+    width: 235px;
+    height: 650px;
+    background: linear-gradient(268.24deg, #222222 0.37%, #292929 53.3%, #222222 100%);
+    box-shadow: 10.3472px 11.4969px 72.4307px rgba(0, 0, 0, 0.24);
+    border-radius: 30px;
+}
+
+#autoschool>div:last-child {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(268.24deg, rgba(34, 34, 34, 0.98) 0.37%, rgba(41, 41, 41, 0.98) 53.3%, rgba(34, 34, 34, 0.98) 100%);
+    box-shadow: 10.3472px 11.4969px 72.4307px rgba(0, 0, 0, 0.24);
+    border-radius: 0px 30px 30px 0px;
+    width: 905px;
+    height: 650px;
+    position: absolute;
+    right: 0;
+    z-index: 0;
+}
+
+#autoschool>div:last-child>div:not(:first-child) {
+    display: none;
+    width: 775px;
+    height: 480px;
+    margin-left: 80px;
+    margin-top: 85px;
+}
+
+#autoschool-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+#autoschool-title img {
+    width: 35px;
+    height: 35px;
+    margin: 60px 20px 20px 20px;
+}
+
+.autoschool-options>div {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.autoschool-options img {
+    margin: 20px 20px 20px 45px;
+    width: 20px;
+    height: 20px;
+}
+
+.autoschool-line a {
+    display: flex;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.7);
+    position: relative;
+    text-decoration: none;
+}
+
+.autoschool-line a:hover {
+    color: white;
+}
+
+.autoschool-line a:before,
+.autoschool-line a:after {
+    position: absolute;
+    -webkit-transition: all 0.35s ease;
+    transition: all 0.35s ease;
+}
+
+.autoschool-line a:before {
+    display: block;
+    height: 0%;
+    width: 7px;
+    content: "";
+    background: linear-gradient(225.72deg, #C81212 0%, #9c1010 100%);
+}
+
+.autoschool-line a:after {
+    left: 0;
+    top: 0;
+    padding: 0.5em 0;
+    position: absolute;
+    color: #ffffff;
+    white-space: nowrap;
+    max-width: 0%;
+    overflow: hidden;
+}
+
+.autoschool-line a:hover:before,
+.autoschool-line .current a:before {
+    opacity: 1;
+    height: 100%;
+}
+
+.autoschool-line a:hover:after,
+.autoschool-line .current a:after {
+    max-height: 45px;
+}
+
+.autoschool-options>div:not(:first-child) {
+    margin-top: 15px;
+}
+
+.autoschool-section {
+    background: linear-gradient(265.48deg, #282828 2.73%, rgba(44, 44, 44, 0.515625) 48.56%, #282828 97.34%);
+    border-radius: 5px;
+}
+
+.autoschool-scrollable {
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 755px;
+}
+
+.autoschool-rules {
+    word-wrap: break-word;
+    height: 440px;
+    width: 735px;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+#autoschool-0-container {
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+#autoschool-0-container h2 {
+    top: 0;
+    left: 0;
+}
+
+.autoschool-scrollable::-webkit-scrollbar {
+    width: 10px;
+    background: #2F2F2F;
+    border-radius: 16px;
+}
+
+.autoschool-scrollable::-webkit-scrollbar-thumb {
+    background: linear-gradient(225.72deg, #C81212 0%, #851717 100%);
+    border-radius: 16px;
+}
+
+.autoschool-rule-section:first-child{
+    margin-top: 0;
+}
+
+.autoschool-rule-section {
+    font-weight: 700;
+    margin: 14px 0;
+    text-transform: uppercase;
+}
+
+.autoschool-rule-subsection {
+    font-weight: 600;
+    margin: 14px 0;
+}
+
+.autoschool-menu {
+    font-weight: 700;
+    margin-top: 25px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    justify-content: flex-end;
+}
+
+.autoschool-menu>div {
+    display: flex;
+    align-items: center;
+    width: 400px;
+    justify-content: space-between;
+}
+
+#autoschool-1-container>div {
+    padding: 25px 50px;
+    font-weight: 700;
+    width: 675px;
+    height: 430px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.autoschool-question-row {
+    display: flex;
+}
+.question-circle {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    border-radius: 50%;
+    background: linear-gradient(250.85deg, #303030 5.14%, #414141 52.26%, #303030 92.13%) 0% 0% / 300% 100%;
+}
+
+.question-circle:not(:first-child) {
+    margin-left: 10px;
+}
+
+.question-circle:hover {
+    animation: 5s ease 0s infinite normal none running selected;
+}
+
+.autoschool-choice-checkbox {
+    width: 18px;
+    height: 18px;
+    border: 1px solid rgba(101, 101, 101, 0.9);
+    border-radius: 5px;
+    display: flex;
+    opacity: 0.7;
+    margin-right: 10px;
+}
+
+.autoschool-choice-checkbox-selected {
+    background: linear-gradient(225.72deg, #C81212 0%, #851717 100%) 0% 0% / 300% 100%;
+    animation: 5s ease 0s infinite normal none running selected;
+    opacity: 1;
+    border: 1px solid rgba(255, 255, 255, 0.9);
+}
+
+#autoschool-question-choices {
+    width: 100%;
+    font-size: 14px;
+}
+
+#autoschool-question-choices>div {
+    display: flex;
+}
+
+#autoschool-question-choices>div:not(:first-child) {
+    margin-top: 20px;
+}
+
+.question-answered {
+    background: linear-gradient(225.72deg, #C81212 0%, #851717 100%) 0% 0% / 300% 100%;
+}
+
+.question-answered-selected {
+    background: linear-gradient(225.72deg, rgba(200, 18, 18, 0.5) 0%, rgba(133, 23, 23, 0.5) 100%) 0% 0% / 300% 100%;
+}

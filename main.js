@@ -3,6 +3,7 @@ const vue_app = Vue.createApp({
         return {
             show: {
                 actionbox: false,
+                autoschool: false,
                 anims: false,
                 atm: false,
                 blips: false,
@@ -51,6 +52,7 @@ const vue_app = Vue.createApp({
             },
             render: {
                 actionbox: false,
+                autoschool: false,
                 anims: false,
                 atm: false,
                 blips: false,
@@ -194,6 +196,7 @@ function resizeAll() {
     if (menubiz_tmpl) resizeBigger(menubiz_tmpl);
     if (menugar_tmpl) resizeBigger(menugar_tmpl);
     if (menuhome_tmpl) resizeBigger(menuhome_tmpl);
+    if (school_tmpl) resizeBigger(school_tmpl);
     if (mplayer_tmpl) resizeBigger(mplayer_tmpl);
     if (actionbox) resizeBigger(actionbox);
     if (inv_tmpl) {
