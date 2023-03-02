@@ -34,6 +34,7 @@ const vue_app = Vue.createApp({
                 menu_biz: false,
                 menu_gar: false,
                 menu_home: false,
+                menu_frac: false,
                 notifications: false,
                 npc: false,
                 ov_interaction: false,
@@ -78,6 +79,7 @@ const vue_app = Vue.createApp({
                 menu_biz: false,
                 menu_gar: false,
                 menu_home: false,
+                menu_frac: false,
                 notifications: false,
                 npc: false,
                 reg: false,
@@ -196,6 +198,7 @@ function resizeAll() {
     if (menubiz_tmpl) resizeBigger(menubiz_tmpl);
     if (menugar_tmpl) resizeBigger(menugar_tmpl);
     if (menuhome_tmpl) resizeBigger(menuhome_tmpl);
+    if (menufrac_tmpl) resizeBigger(menufrac_tmpl);
     if (school_tmpl) resizeBigger(school_tmpl);
     if (mplayer_tmpl) resizeBigger(mplayer_tmpl);
     if (actionbox) resizeBigger(actionbox);
