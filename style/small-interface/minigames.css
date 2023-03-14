@@ -1,0 +1,118 @@
+.tree {
+    width: 900px;
+    height: 500px;
+    transform: rotate(30deg);
+    position: relative;
+    margin-bottom: 290px;
+    margin-left: 130px;
+}
+
+.orange-elem {
+    width: 120px;
+    height: 125px;
+    position: absolute;
+}
+
+.orange-elem img {
+    width: 120px;
+    height: 125px;
+}
+
+.basket {
+    width: 540px;
+    height: 455px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+#basket-container {
+    /* display: flex; */
+    height: 115px;
+    width: 350px;
+    position: relative;
+    transform: rotate(-25deg);
+    top: 255px;
+    left: 105px
+}
+
+#basket-container>div {
+    top: 0;
+    height: 95px;
+    /* position: relative; */
+}
+
+#basket-container>div img {
+    height: 95px;
+    width: 115px;
+}
+
+#orange-picking-game>div:first-child,
+#lock-picking-game>div:first-child  {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29px;
+    text-align: right;
+    position: absolute;
+    top: 80px;
+    right: 35px;
+    color: #FFFFFF;
+}
+
+#orange-picking-game,
+#lock-picking-game {
+    display: none;
+}
+
+.minigame-bg {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75));
+}
+
+#minigames {
+    height: 100%;
+}
+
+#lock-picking-wrapper {
+    position: absolute;
+    top: calc(50% - 300px);
+    left: calc(50% - 275px);
+    width: 600px;
+    height: 550px;
+    background: #131313;
+    border-radius: 100px;
+    border: 5px solid #303030;
+}
+
+#lockpick-elem {
+    position: absolute;
+    width: 15px;
+    height: 260px;
+    background: linear-gradient(225.72deg, #C81212 0%, #851717 100%) 0% 0% / 300% 100%;
+    animation: 5s ease 0s infinite normal none running selected;
+    border-radius: 10px;
+    left: 50%;
+    top: 15px;
+    transform-origin: bottom;
+    z-index: 1000;
+}
+
+#lock-wrapper {
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    position: absolute;
+    top: calc(50% - 150px);
+    left: calc(50% - 150px);
+    background: linear-gradient(250.85deg, #303030 5.14%, #414141 52.26%, #303030 92.13%);
+}
+
+#lock-elem {
+    width: 30px;
+    height: 70px;
+    background: #131313;
+    border-radius: 10px;
+    position: absolute;
+    top: calc(50% - 35px);
+    left: calc(50% - 8px);
+    transition: 1s;
+}

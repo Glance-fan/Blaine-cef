@@ -39,6 +39,7 @@ var scripts = {
     note: ['script/small-interface/note.js', 'style/small-interface/note.css'],
     notifications: ['libs/svgs/notification.js', 'script/small-interface/notifications.js', 'style/small-interface/notifications.css'],
     npc: ['script/small-interface/npc.js', 'style/small-interface/npc.css'],
+    mg: ['script/small-interface/minigames.js', 'style/small-interface/minigames.css'],
 
     /*store-like*/
     char_creation: ['libs/js-database/char-creation.js', 'script/store-like/char-creation.js', 'style/store-like/char-creation.css'],
