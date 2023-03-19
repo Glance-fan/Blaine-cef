@@ -1,4 +1,4 @@
-.tree {
+.orange-tree {
     width: 900px;
     height: 500px;
     transform: rotate(30deg);
@@ -27,7 +27,6 @@
 }
 
 #basket-container {
-    /* display: flex; */
     height: 115px;
     width: 350px;
     position: relative;
@@ -39,7 +38,7 @@
 #basket-container>div {
     top: 0;
     height: 95px;
-    /* position: relative; */
+    position: absolute;
 }
 
 #basket-container>div img {
@@ -61,15 +60,11 @@
 
 #orange-picking-game,
 #lock-picking-game {
-    display: none;
+    height: 100%;
 }
 
 .minigame-bg {
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75));
-}
-
-#minigames {
-    height: 100%;
 }
 
 #lock-picking-wrapper {

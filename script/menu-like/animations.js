@@ -355,7 +355,7 @@ var Anims = class Animations {
     static requestAnimation(id, isPlaying) {
         mp.trigger('Anims::Menu::Choose', parseInt(this.lastNav.id), id.replace('-fav', ''), isPlaying);
         /*response-imitation*/
-        this.colorAnim(id.replace('-fav', ''), !isPlaying);
+        // this.colorAnim(id.replace('-fav', ''), !isPlaying);
     }
 
     static requestStar(id, wasFav) {

@@ -69,7 +69,7 @@ var Salon = class Salon {
     static newPicElem(id, idx, price, overlay) {
         var path, hair_id = `${id}_${idx}`;
         if (id.includes('hair')) {
-            path = this.cur_sex ? 'hair/boy' : 'hair/girl';
+            path = this.cur_sex ? 'boy' : 'girl';
             if (!(hair_id in this.overlay_choices)) this.overlay_choices[hair_id] = overlay;
         }
         this.container.innerHTML += /*html*/

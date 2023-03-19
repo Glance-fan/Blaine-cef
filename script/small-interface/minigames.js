@@ -9,12 +9,10 @@ var MG = class MiniGames {
         static oranges = []
 
         static draw(amount) {
-            mg_tmpl.firstElementChild.style.visibility = 'visible';
-            mg_tmpl.className = 'minigame-bg';
-            document.querySelector('.tree').innerHTML = '';
+            document.querySelector('.orange-tree').innerHTML = '';
             this.oranges = [];
-            this.vw = document.querySelector('.tree').clientWidth;
-            this.vh = document.querySelector('.tree').clientHeight;
+            this.vw = document.querySelector('.orange-tree').clientWidth;
+            this.vh = document.querySelector('.orange-tree').clientHeight;
             this.basket_amount = 0;
             for (var index = 0; index < amount; index++) {
                 var orange = this.createOrange(index);
@@ -27,7 +25,7 @@ var MG = class MiniGames {
             var elem = document.createElement('div');
             this.addMovement(elem);
             elem.innerHTML = `<img src="libs/svgs/minigames/orange.svg">`
-            document.querySelector('.tree').appendChild(elem);
+            document.querySelector('.orange-tree').appendChild(elem);
             elem.className = 'orange-elem';
             elem.style.height = this.height + "px";
             elem.style.width = this.width + "px";
@@ -153,7 +151,7 @@ var MG = class MiniGames {
 
             function destroyDragable(item, redraw) {
                 if (redraw) {
-                    document.querySelector('.tree').appendChild(MG.OP.dragItem);
+                    document.querySelector('.orange-tree').appendChild(MG.OP.dragItem);
                     MG.OP.addMovement(MG.OP.dragItem);
                 }
                 item.remove();
@@ -176,10 +174,9 @@ var MG = class MiniGames {
 
         static draw(durability, deg) {
             this.lock = document.getElementById('lock-picking-wrapper');
+            document.getElementById('lock-elem').style = '';
             this.need_deg = deg || Math.floor(Math.random() * (450 - 90 + 1) + 90);
             this.lockpick_dur = durability || 20;
-            mg_tmpl.children[1].style.display = 'block';
-            mg_tmpl.className = 'minigame-bg';
             document.onmousemove = this.rotatePin;
             document.onmousedown = this.tryUnlock;
         }
@@ -213,17 +210,17 @@ var MG = class MiniGames {
                 var decrease_dur = setInterval(() => {
                     MG.LP.lockpick_dur--;
                     if (MG.LP.lockpick_dur < 1) MG.LP.lockRequest(false, MG.LP.need_deg);
-                }, 500)
-                var shake_anim = setTimeout(
-                    () => {
-                        document.getElementById('lockpick-elem').style.animation = `.2s ease 0s infinite normal none running shake-pin`;
-                    }, 500
-                )
+                }, 500);
+                var shake_anim = setTimeout(() => {
+                    document.getElementById('lockpick-elem').style.animation = `.2s ease 0s infinite normal none running shake-pin`;
+                }, 500);
             }
             lock.style.setProperty('transform', `rotate(${rotate_angle}deg)`)
 
             var unlock_time = setTimeout(() => {
                 if (MG.LP.need_deg + MG.LP.max_deviation > MG.LP.cur_angle && MG.LP.need_deg - MG.LP.max_deviation < MG.LP.cur_angle) MG.LP.lockRequest(true);
+                document.onmouseup = null;
+                document.onmousedown = null;
             }, 1500);
 
             document.onmouseup = () => {
@@ -233,6 +230,7 @@ var MG = class MiniGames {
                 clearInterval(decrease_dur);
                 clearTimeout(unlock_time);
                 document.onmousemove = MG.LP.rotatePin;
+                document.getElementById('shake-pin').remove();
             }
 
             async function addShake(css) {

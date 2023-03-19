@@ -50,7 +50,8 @@ const vue_app = Vue.createApp({
                 tattoo_salon: false,
                 note: false,
                 music_player: false,
-                minigames: false,
+                lock_picking: false,
+                orange_picking: false,
             },
             render: {
                 actionbox: false,
@@ -92,7 +93,8 @@ const vue_app = Vue.createApp({
                 tattoo_salon: false,
                 note: false, 
                 music_player: false,
-                minigames: false,
+                lock_picking: false,
+                orange_picking: false,
             }
         }
     },
@@ -212,9 +214,10 @@ function resizeAll() {
         resizeBigger(document.querySelector('.inv-help'));
     }
     // if (phone_tmpl) resizeBigger(phone_tmpl);
-    if (mg_tmpl) {
-        resizeSmaller(mg_tmpl);
-        MG.LP.zoom = parseFloat(mg_tmpl.style.zoom);
+    if (op_tmpl) resizeSmaller(op_tmpl);
+    if (lp_tmpl) {
+        resizeSmaller(lp_tmpl);
+        MG.LP.zoom = parseFloat(lp_tmpl.style.zoom);
     }
     if (shop_tmpl) resizeBigger(shop_tmpl);
     if (tuning_tmpl) resizeBigger(tuning_tmpl);

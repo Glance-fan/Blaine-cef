@@ -197,13 +197,15 @@
     overflow-y: auto;
 }
 
-.menu-frac-scrollable::-webkit-scrollbar {
+.menu-frac-scrollable::-webkit-scrollbar,
+#menu-frac-edit-news::-webkit-scrollbar {
     width: 10px;
     background: #2F2F2F;
     border-radius: 16px;
 }
 
-.menu-frac-scrollable::-webkit-scrollbar-thumb {
+.menu-frac-scrollable::-webkit-scrollbar-thumb,
+#menu-frac-edit-news::-webkit-scrollbar-thumb {
     background: linear-gradient(225.72deg, #C81212 0%, #851717 100%);
     border-radius: 16px;
 }
@@ -225,9 +227,37 @@
     height: 540px;
 }
 
-#menu-frac-news {
+#menu-frac-news,
+#menu-frac-no-news {
     width: 355px;
     height: 480px;
+}
+
+#menu-frac-no-news {
+    font-weight: 800;
+    font-size: 20px;
+    color: rgba(183, 183, 183, 0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#menu-frac-no-news img {
+    width: 50px;
+    height: 50px;
+}
+
+#menu-frac-edit-news {
+    border: 0;
+    resize: none;
+    padding: 20px 15px;
+    width: 325px;
+    height: 440px;
+    font-family: 'Montserrat';
+    font-weight: 700;
+    font-size: 12px;
+    color: #FFFFFF;
 }
 
 .menu-frac-news-elem {
@@ -260,7 +290,7 @@
 #menu-frac-info-wrapper {
     position: relative;
     width: 355px;
-    height: 400px;
+    height: 405px;
     padding: 20px 20px 55px;
     display: flex;
     flex-direction: column;
@@ -293,8 +323,10 @@
 }
 
 #menu-frac-info>div>div:not(:first-child) {
-    margin-top: 15px;
+    margin-top: 30px;
 }
+
+
 
 /*tooltip*/
 .menu-frac-ttp-wrapper {
@@ -574,16 +606,19 @@
     font-size: 12px;
 }
 
-#menu-frac-back {
+#menu-frac-back,
+.menu-frac-img-anim {
     width: fit-content;
     height: fit-content;
     opacity: 0.7;
 }
 
-#menu-frac-back:hover {
+#menu-frac-back:hover,
+.menu-frac-img-anim:hover {
     opacity: 0.9;
 }
 
-#menu-frac-back:active {
+#menu-frac-back:active,
+.menu-frac-img-anim:active {
     opacity: 1;
 }

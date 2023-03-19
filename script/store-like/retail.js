@@ -2,20 +2,27 @@ var Retail = class Retail {
     static isFurniture = false;
     static isCreation = false;
     static isPersonal = false;
-    static draw(which, data, name, personal) {
+    static draw(which, data, a_title, personal) {
         if (which.includes('furniture')) {
             this.isFurniture = true; 
             var furn_id = which.split('-');
         }
-        if (which.includes('creation')) this.isCreation = true;
+        if (a_title) document.getElementById('assortment-title').innerText = `Товары ${a_title}`;
+        if (which.includes('creation')) {
+            this.isCreation = true;
+            this.updateMaterials(a_title);
+        }
         this.drawNavigation(this.isFurniture ?  [retails[furn_id[0]][0], retails[furn_id[0]][1][parseInt(furn_id[1])]] : retails[which], data);
         this.fillBottom();
-        if (name) document.getElementById('assortment-title').innerText = `Товары ${name}`;
         if (personal) {
             document.getElementById('assortment-title').innerText = `Выберите товары для продажи`;
             this.isPersonal = true;
         }
         document.querySelector('.retail-options').firstElementChild.lastChild.click();
+    }
+
+    static updateMaterials(amount) {
+        document.getElementById('assortment-title').innerText = `Предметы для создания [ед. материалов доступно: ${amount.toLocaleString('ru')}]`;
     }
 
     static drawNavigation(retail_data, data) {

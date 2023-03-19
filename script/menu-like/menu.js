@@ -699,18 +699,17 @@ var Menu = class Menu {
         var help_text = document.getElementsByTagName('textarea')[which].value;
         help_text = help_text.replace(/\s+/g, ' ').trim();
         if (help_text == '') return;
-        mp.trigger('Menu::Send', help_text);
+        mp.trigger('Menu::Report::Send', help_text);
     }
-
+    
     static lastmsg;
-    static newHelpMessage(isAdmin, name, fulltext) {
+    static newHelpMessage(isAdmin, time, name, fulltext) {
         if (this.lastmsg != null) this.lastmsg.style.marginBottom = '25px';
-        var classTemp;
-        if (isAdmin) classTemp = 'menu-help-admin';
-        else classTemp = 'menu-help-user';
+        var classTemp = isAdmin ? 'menu-help-admin' : 'menu-help-user';
         var message = document.createElement('p');
         this.lastmsg = message;
-        message.innerHTML = /*html*/ `<span class="${classTemp}">${name}:</span> ${fulltext}`;
+        message.innerHTML = /*html*/ `<span class="${classTemp}">${name}</span>${time}</br></br><span></span>`;
+        message.lastElementChild.innerText = `${fulltext}`;
         document.getElementById('menu-help-chat').append(message)
     }
 
@@ -725,7 +724,6 @@ var Menu = class Menu {
     }
 
     static newRule(idx, headline, fulltext) {
-        console.log(headline);
         document.querySelectorAll(`.menu-help-block`)[idx].innerHTML += /*html*/ `<div class="menu-help-rule">${headline}</div>`;
         document.querySelectorAll(`.menu-help-block`)[idx].lastChild.setAttribute('onclick', `Menu.openRule(${idx}, this.innerText, '${fulltext}')`)
     }

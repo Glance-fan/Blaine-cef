@@ -2,8 +2,8 @@ var Messages = class ChatMessages {
     static specialCount = 0;
     static channels = [
         ['me', 'do', 'todo', 'try', 'fraction', 'general', 'organisation', 'NonRP'],
-        ['/say ', '/s ', '/w ', '/n ', '/me ', '/do ', '/todo ', '/try ', '/f ', '/o ', '/d ', '/gov ', '/amsg '],
-        ['say', 'shout', 'whisper', 'nonrp', 'me', 'do', 'todo', 'try', 'fraction', 'organisation', 'department', 'goverment', 'admin'],
+        ['/say ', '/s ', '/w ', '/n ', '/me ', '/do ', '/todo ', '/try ', '/f ', '/r ', '/o ', '/d ', '/gov ', '/amsg '],
+        ['say', 'shout', 'whisper', 'nonrp', 'me', 'do', 'todo', 'try', 'fraction', 'fraction', 'organisation', 'department', 'goverment', 'admin'],
         ['сказал', 'крикнул', 'шепнул']
     ];
     static types = {
@@ -69,32 +69,32 @@ var Messages = class ChatMessages {
     //0 - say, 1 - shout, 2 - whisper
     static showNormal(type, time, fullname, id, message) {
         var msg = this.emptyMessage();
-        msg.innerHTML = /*html*/
-            `<span class="normal-text">${time} ${fullname} (${id}) ${this.channels[3][type]}(а): ${message}</span>`;
+        msg.innerHTML = /*html*/ `<span class="normal-text"></span>`;
+        msg.lastElementChild.innerText = `${time} ${fullname} (${id}) ${this.channels[3][type]}(а): ${message}`;
     }
 
     static showOOC(time, fullname, id, message) {
         var msg = this.emptyMessage();
-        msg.innerHTML = /*html*/
-            `<span class="nonrp-text">${time} [OOC] ${fullname} (${id}): ${message}</span>`;
+        msg.innerHTML = /*html*/ `<span class="nonrp-text"></span>`;
+        msg.lastElementChild.innerText = `${time} [OOC] ${fullname} (${id}): ${message}`;
     }
 
     static showMe(time, fullname, id, message) {
         var msg = this.emptyMessage();
-        msg.innerHTML = /*html*/
-            `<span class="action-text">${time} ${fullname} (${id}) ${message}</span>`;
+        msg.innerHTML = /*html*/ `<span class="action-text"></span>`;
+        msg.lastElementChild.innerText = `${time} ${fullname} (${id}) ${message}`;
     }
 
     static showDo(time, fullname, id, message) {
         var msg = this.emptyMessage();
-        msg.innerHTML = /*html*/
-            `<span class="action-text">${time} ${message} - ${fullname} (${id})</span>`;
+        msg.innerHTML = /*html*/ `<span class="action-text"></span>`;
+        msg.lastElementChild.innerText = `${time} ${message} - ${fullname} (${id})`;
     }
 
     static showToDo(time, fullname, id, messageBefore, messageAfter) {
         var msg = this.emptyMessage();
-        msg.innerHTML = /*html*/
-            `<span class="action-text">${time} ${messageBefore}. - сказал(а) ${fullname} (${id}), ${messageAfter}</span>`;
+        msg.innerHTML = /*html*/ `<span class="action-text"></span>`;
+        msg.lastElementChild.innerText = `${time} ${messageBefore}. - сказал(а) ${fullname} (${id}), ${messageAfter}`;
     }
 
     /*Показать ToDo подсказку*/
@@ -108,28 +108,28 @@ var Messages = class ChatMessages {
 
     static showTry(time, fullname, id, message, result) {
         var msg = this.emptyMessage();
-        msg.innerHTML = /*html*/
-            `<span class="action-text">${time} ${fullname} (${id}) ${message} |</span>`
-        if (result) msg.innerHTML += /*html*/ `<span class="success-text">Удачно</span>`;
-        else msg.innerHTML += /*html*/ `<span class="defeat-text">Неудачно</span>`;
+        msg.innerHTML = /*html*/ `<span class="action-text"></span>`
+        msg.lastElementChild.innerText = `${time} ${fullname} (${id}) ${message} |`;
+        msg.innerHTML += result ? /*html*/ `<span class="success-text">Удачно</span>` : /*html*/ `<span class="defeat-text">Неудачно</span>`;
     }
 
     static showFraction(time, position, fullname, id, message) {
         var msg = this.emptyMessage();
-        msg.innerHTML = /*html*/
-            `<span class="fraction-text">${time} [R] ${position} ${fullname} (${id}): ${message}</span>`;
+        msg.innerHTML = /*html*/ `<span class="fraction-text"></span>`;
+        msg.lastElementChild.innerText = `${time} [R] ${position} ${fullname} (${id}): ${message}`;
     }
 
     static showGoverment(time, department, position, fullname, id, message) {
         var msg = this.emptyMessage();
-        msg.innerHTML = /*html*/
-            `<span class="goverment-text">${time} [D] ${department} | ${position} ${fullname} (${id}): ${message}</span>`;
+        msg.innerHTML = /*html*/ `<span class="goverment-text"></span>`;
+        msg.lastElementChild.innerText = `${time} [D] ${department} | ${position} ${fullname} (${id}): ${message}`;
     }
 
     static showOrganisation(time, position, fullname, id, message) {
         var msg = this.emptyMessage();
         msg.innerHTML = /*html*/
-            `<span class="organisation-text">${time} [O] ${position} ${fullname} (${id}): ${message}</span>`;
+            `<span class="organisation-text"></span>`;
+        msg.lastElementChild.innerText = `${time} [O] ${position} ${fullname} (${id}): ${message}`;
     }
 
     static makeSpecial(msg, line) {
@@ -147,92 +147,102 @@ var Messages = class ChatMessages {
     static admin_ban(time, admin, player, days, reason) {
         var msg = this.makeSpecial(this.emptyMessage(), 'special');
         msg.innerHTML = /*html*/
-            `<span class="normal-text">${time} Администратор <span class="red-text">${admin}</span> заблокировал игрока <span class="red-text">${player}</span> на ${days} дней. Причина: ${reason}.</span>`;
+            `<span class="normal-text">${time} Администратор <span class="red-text">${admin}</span> заблокировал игрока <span class="red-text">${player}</span> на ${days} дней. Причина:<span></span></span>`;
+        msg.lastElementChild.lastElementChild.innerText += ` ${reason}.`;
         this.setLine(msg);
     }
 
     static admin_ban_hard(time, admin, player, reason) {
         var msg = this.makeSpecial(this.emptyMessage(), 'special');
         msg.innerHTML = /*html*/
-            `<span class="normal-text">${time} Администратор <span class="red-text">${admin}</span> заблокировал игрока <span class="red-text">${player}</span>. Причина: ${reason}.</span>`;
+            `<span class="normal-text">${time} Администратор <span class="red-text">${admin}</span> заблокировал игрока <span class="red-text">${player}</span>. Причина:<span></span></span>`;
+        msg.lastElementChild.lastElementChild.innerText += ` ${reason}.`;
         this.setLine(msg);
     }
 
     static admin_kick(time, admin, player, reason) {
         var msg = this.makeSpecial(this.emptyMessage(), 'special');
         msg.innerHTML = /*html*/
-            `<span class="normal-text">${time} Администратор <span class="red-text">${admin}</span> выгнал с сервера игрока <span class="red-text">${player}</span>. Причина: ${reason}.</span>`;
+            `<span class="normal-text">${time} Администратор <span class="red-text">${admin}</span> выгнал с сервера игрока <span class="red-text">${player}</span>. Причина:<span></span></span>`;
+        msg.lastElementChild.lastElementChild.innerText += ` ${reason}.`;
         this.setLine(msg);
     }
 
     static admin_mute(time, admin, player, minutes, reason) {
         var msg = this.makeSpecial(this.emptyMessage(), 'special');
         msg.innerHTML = /*html*/
-            `<span class="normal-text">${time} Администратор <span class="red-text">${admin}</span> выдал мут игроку <span class="red-text">${player}</span> на ${minutes} минут. Причина: ${reason}.</span>`;
+            `<span class="normal-text">${time} Администратор <span class="red-text">${admin}</span> выдал мут игроку <span class="red-text">${player}</span> на ${minutes} минут. Причина:<span></span></span>`;
+        msg.lastElementChild.lastElementChild.innerText += ` ${reason}.`;
         this.setLine(msg);
     }
 
     static admin_jail(time, admin, player, minutes, reason) {
         var msg = this.makeSpecial(this.emptyMessage(), 'special');
         msg.innerHTML = /*html*/
-            `<span class="normal-text">${time} Администратор <span class="red-text">${admin}</span> посадил игрока <span class="red-text">${player}</span> в NonRP-тюрьму на ${minutes} минут. Причина: ${reason}.</span>`;
+            `<span class="normal-text">${time} Администратор <span class="red-text">${admin}</span> посадил игрока <span class="red-text">${player}</span> в NonRP-тюрьму на ${minutes} минут. Причина:<span></span></span>`;
+        msg.lastElementChild.lastElementChild.innerText += ` ${reason}.`;
         this.setLine(msg);
     }
 
     static admin_unban(time, admin, player, reason) {
         var msg = this.makeSpecial(this.emptyMessage(), 'special');
         msg.innerHTML = /*html*/
-            `<span class="normal-text">${time} Администратор <span class="red-text">${admin}</span> разблокировал игрока <span class="red-text">${player}</span>. Причина: ${reason}.</span>`;
+            `<span class="normal-text">${time} Администратор <span class="red-text">${admin}</span> разблокировал игрока <span class="red-text">${player}</span>. Причина:<span></span></span>`;
+        msg.lastElementChild.lastElementChild.innerText += ` ${reason}.`;
         this.setLine(msg);
     }
 
     static admin_unmute(time, admin, player, reason) {
         var msg = this.makeSpecial(this.emptyMessage(), 'special');
         msg.innerHTML = /*html*/
-            `<span class="normal-text">${time} Администратор <span class="red-text">${admin}</span> снял мут чата игроку <span class="red-text">${player}</span>. Причина: ${reason}.</span>`;
+            `<span class="normal-text">${time} Администратор <span class="red-text">${admin}</span> снял мут чата игроку <span class="red-text">${player}</span>. Причина:<span></span></span>`;
+        msg.lastElementChild.lastElementChild.innerText += ` ${reason}.`;
         this.setLine(msg);
     }
 
     static admin_unjail(time, admin, player, reason) {
         var msg = this.makeSpecial(this.emptyMessage(), 'special');
         msg.innerHTML = /*html*/
-            `<span class="normal-text">${time} Администратор <span class="red-text">${admin}</span> освободил игрока <span class="red-text">${player}</span> из тюрьмы. Причина: ${reason}.</span>`;
+            `<span class="normal-text">${time} Администратор <span class="red-text">${admin}</span> освободил игрока <span class="red-text">${player}</span> из тюрьмы. Причина:<span></span></span>`;
+        msg.lastElementChild.lastElementChild.innerText += ` ${reason}.`;
         this.setLine(msg);
     }
 
     static admin_message(time, admin, message) {
         var msg = this.makeSpecial(this.emptyMessage(), 'special');
         msg.innerHTML = /*html*/
-            `<span class="normal-text">${time} Администратор <span class="red-text">${admin}: </span> ${message}</span>`;
+            `<span class="normal-text">${time} Администратор <span class="red-text">${admin}: </span><span></span></span>`;
+        msg.lastElementChild.lastElementChild.innerText += ` ${message}`;
         this.setLine(msg);
     }
 
     static server(time, message) {
         var msg = this.makeSpecial(this.emptyMessage(), 'special');
-        msg.innerHTML = /*html*/
-            `<span class="normal-text">${time} ${message}</span>`;
+        msg.innerHTML = /*html*/ `<span class="normal-text"></span>`;
+        msg.lastElementChild.innerText = `${time} ${message}`;
         this.setLine(msg);
     }
 
     static advert(time, redactor, sender, message, number) {
         var msg = this.makeSpecial(this.emptyMessage(), 'ad');
         msg.innerHTML = /*html*/
-            `<span class="normal-text">${time} ${message}</span></br><div style="display:flex;"><span class="nonrp-text" style="font-weight: 500;">Редактор: ${redactor}. Отравитель: ${sender}</span> ${chat_svgs.phone}${chat_svgs.sms}</div>`;
+            `<span class="normal-text"></span></br><div style="display:flex;"><span class="nonrp-text" style="font-weight: 500;">Редактор: ${redactor}. Отравитель: ${sender}</span> ${chat_svgs.phone}${chat_svgs.sms}</div>`;
+        msg.firstElementChild.innerText = `${time} ${message}`;
         this.setLine(msg);
         this.adSetClicks(msg, number)
     }
 
     static government(time, fullname, message) {
         var msg = this.makeSpecial(this.emptyMessage(), 'gov');
-        msg.innerHTML = /*html*/
-            `<span class="normal-text">${time} ${fullname}: ${message}</span>`;
+        msg.innerHTML = /*html*/ `<span class="normal-text"></span>`;
+        msg.lastElementChild.innerText = `${time} ${fullname}: ${message}`;
         this.setLine(msg);
     }
 
     static news(time, fullname, message) {
         var msg = this.makeSpecial(this.emptyMessage(), 'ad');
-        msg.innerHTML = /*html*/
-            `<span class="normal-text">${time} ${fullname}: ${message}</span>`;
+        msg.innerHTML = /*html*/ `<span class="normal-text"></span>`;
+        msg.lastElementChild.innerText = `${time} ${fullname}: ${message}`;
         this.setLine(msg);
     }
 
@@ -243,34 +253,34 @@ var Messages = class ChatMessages {
 
     }
 
-    static clickPhone(number, index){
+    static clickPhone(number, index) {
         mp.trigger('Chat::Phone', index, number)
-      }
+    }
 }
 
 /*
-Messages.showNormal(0, '18:00', 'Hezky', '777', 'mda chel')
-Messages.showNormal(1, '18:00', 'Hezky', '777', 'mda chel')
-Messages.showNormal(2, '18:00', 'Hezky', '777', 'mda chel')
-Messages.showOOC('18:00', 'Hezky', '777', 'mda chel')
-Messages.showMe('18:00', 'Hezky', '777', 'mda chel')
-Messages.showDo('18:00', 'Hezky', '777', 'mda chel')
-Messages.showToDo('18:00', 'Hezky', '777', 'mda chel', 'mda chel')
-Messages.showTry('18:00', 'Hezky', '777', 'mda chel', true)
-Messages.showTry('18:00', 'Hezky', '777', 'mda chel', false)
-Messages.showFraction('18:00', 'frytech', 'Hezky', '777', 'mda chel')
-Messages.showGoverment('18:00', 'chel', 'frytech', 'Hezky', '777', 'mda chel')
-Messages.showOrganisation('18:00', 'frytech', 'Hezky', '777', 'mda chel')
+Messages.showNormal(0, '18:00', 'Hezky', '777', '<div>in_div</div>')
+Messages.showNormal(1, '18:00', 'Hezky', '777', '<div>in_div</div>')
+Messages.showNormal(2, '18:00', 'Hezky', '777', '<div>in_div</div>')
+Messages.showOOC('18:00', 'Hezky', '777', '<div>in_div</div>')
+Messages.showMe('18:00', 'Hezky', '777', '<div>in_div</div>')
+Messages.showDo('18:00', 'Hezky', '777', '<div>in_div</div>')
+Messages.showToDo('18:00', 'Hezky', '777', '<div>in_div</div>', '<div>in_div</div>')
+Messages.showTry('18:00', 'Hezky', '777', '<div>in_div</div>', true)
+Messages.showTry('18:00', 'Hezky', '777', '<div>in_div</div>', false)
+Messages.showFraction('18:00', 'frytech', 'Hezky', '777', '<div>in_div</div>')
+Messages.showGoverment('18:00', 'chel', 'frytech', 'Hezky', '777', '<div>in_div</div>')
+Messages.showOrganisation('18:00', 'frytech', 'Hezky', '777', '<div>in_div</div>')
 
-Messages.admin_ban('18:00', 'Hezky', 'Max', 0, 'mda chel')
-Messages.admin_mute('18:00', 'Hezky', 'Max', 0, 'mda chel')
-Messages.admin_jail('18:00', 'Hezky', 'Max', 0, 'mda chel')
-Messages.admin_unban('18:00', 'Hezky', 'Max','ne mda chel')
-Messages.admin_unmute('18:00', 'Hezky', 'Max','ne mda chel')
-Messages.admin_unjail('18:00', 'Hezky', 'Max','ne mda chel')
-Messages.admin_message('18:00', 'Hezky', 'mda chel')
-Messages.server('18:00', 'mda chel')
-Messages.advert('18:00', 'Max-Black', 'Olivia Moore', '<3', '555-555')
-Messages.government('18:00', 'Hezky', 'mda chel')
-Messages.news('18:00', 'Hezky', 'mda chel')
+Messages.admin_ban('18:00', 'Hezky', 'Max', 0, '<div>in_div</div>')
+Messages.admin_mute('18:00', 'Hezky', 'Max', 0, '<div>in_div</div>')
+Messages.admin_jail('18:00', 'Hezky', 'Max', 0, '<div>in_div</div>')
+Messages.admin_unban('18:00', 'Hezky', 'Max','ne <div>in_div</div>')
+Messages.admin_unmute('18:00', 'Hezky', 'Max','ne <div>in_div</div>')
+Messages.admin_unjail('18:00', 'Hezky', 'Max','ne <div>in_div</div>')
+Messages.admin_message('18:00', 'Hezky', '<div>in_div</div>')
+Messages.server('18:00', '<div>in_div</div>')
+Messages.advert('18:00', 'Max-Black', 'Olivia Moore', '<3 <div>in_div</div>', '555-555')
+Messages.government('18:00', 'Hezky', '<div>in_div</div>')
+Messages.news('18:00', 'Hezky', '<div>in_div</div>')
 */

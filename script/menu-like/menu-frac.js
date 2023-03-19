@@ -43,20 +43,30 @@ var MenuFrac = class MenuFraction {
 
 
     /*information*/
+    static now_news;
+    static news_btn = /*html*/ `<button class="red-button" onclick="MenuFrac.newsRequest(0)">Добавить</button>`;
     static fillInformation(news, info) {
         document.getElementById('menufrac-0-container').innerHTML = /*html*/ `
             <div id="menu-frac-news-wrapper">
                 <h2>Объявления и новости</h2>
                 <div class="menu-frac-scrollable" style="width:100%">
-                    <div id="menu-frac-news" class="menu-frac-section"></div>
+                    <div id="menu-frac-no-news" class="menu-frac-section">
+                        <img src="libs/svgs/menu-frac/no_news.svg">
+                        Пусто
+                    </div>
+                    <div id="menu-frac-news" class="menu-frac-section" style="display:none"></div>
+                    <textarea id="menu-frac-edit-news" class="menu-frac-section" style="display:none"></textarea>
                 </div>
-                <button class="red-button" onclick="MenuFrac.newsRequest()">Добавить</button>
+                <div class="menu-frac-news-btns">${this.news_btn}</div>
                 <div class="menu-frac-ttp-wrapper"></div>
             </div>
             <div id="menu-frac-info-wrapper" class="menu-frac-section">
                 <h2>Информация</h2>
                 <div id="menu-frac-info"></div>
-                <button id="menu-frac-storage-btn" class="green-button" style="font-size:10px" onclick="MenuFrac.storageRequest(this)">Закрыть<br>склад</button>
+                <div style="width: 100%;display: flex;justify-content: space-between;">
+                    <button id="menu-frac-workbench-btn" class="green-button" style="font-size:10px" onclick="MenuFrac.buttonRequest('workbench', this)">Закрыть<br>верстак</button>
+                    <button id="menu-frac-storage-btn" class="green-button" style="font-size:10px" onclick="MenuFrac.buttonRequest('storage', this)">Закрыть<br>склад</button>
+                </div>
             </div>`;
         this.fillNews(news.slice(0, news.length - 1), news.at(-1));
         this.fillInfo(info);
@@ -65,6 +75,10 @@ var MenuFrac = class MenuFraction {
     static fillNews(news, pin) {
         var parent = document.getElementById('menu-frac-news');
         parent.innerHTML = '';
+        if (news.every(el => !el)) {
+            this.now_news = document.getElementById('menu-frac-no-news');
+            return;
+        } 
         load(news);
         if (pin) this.pinNews(pin);
 
@@ -83,6 +97,15 @@ var MenuFrac = class MenuFraction {
         elem.innerText = text;
         elem.setAttribute('onclick', `MenuFrac.showTooltip(this, 'news', ${id},)`)
         parent.append(elem);
+
+        if (parent.childElementCount > 0) {
+            this.now_news = parent;
+            if (!this.in_edit) {
+                document.getElementById('menu-frac-no-news').style.display = 'none';
+                parent.style.display = 'block';
+            }
+        }
+
     }
 
     static lastPin;
@@ -109,7 +132,46 @@ var MenuFrac = class MenuFraction {
 
     static deleteNews(id) {
         if (this.lastPin == id) this.unpinNews();
-        document.getElementById(`${id}-news-elem`).remove();
+        var news = document.getElementById(`${id}-news-elem`),
+            parent = news.parentElement;
+        news.remove();
+        
+        if (!parent.childElementCount) {
+            this.now_news = document.getElementById('menu-frac-no-news');
+            if (!this.in_edit) {
+                document.getElementById('menu-frac-no-news').style.display = 'flex';
+                parent.style.display = 'none';
+            }
+        }
+
+    }
+
+    static in_edit = false;
+    static editNews(show, id) {
+        var parent = document.getElementById('menu-frac-edit-news'),
+            btn_wrap = document.querySelector('.menu-frac-news-btns');
+        if (!show) {
+            btn_wrap.style = '';
+            parent.style.display = 'none';
+            btn_wrap.innerHTML = this.news_btn;
+            this.now_news.style.display = this.now_news.id.includes('no') ? 'flex' : 'block';
+            this.in_edit = false;
+            return;
+        }
+        this.in_edit = true;
+        parent.style.display = 'block';
+        this.now_news.style.display = 'none';
+        parent.value = id ? document.getElementById(`${id}-news-elem`).innerText : '';
+        btn_wrap.style = 'width:355px;position:absolute;left:0;bottom:0;display:flex;justify-content: space-between;';
+        btn_wrap.innerHTML = /*html*/ `
+            <button class="grey-button" onclick="MenuFrac.newsRequest(2)">Отменить</button>
+            <button class="red-button" onclick="MenuFrac.newsRequest(1, id, document.getElementById('menu-frac-edit-news').value)">${id ? 'Применить' : 'Добавить'}</button>
+        `;
+        parent.focus();
+    }
+
+    static updateNews(id, text) {
+        document.getElementById(`${id}-news-elem`).innerText = text;
     }
 
     static fillInfo(params) {
@@ -144,8 +206,9 @@ var MenuFrac = class MenuFraction {
         }
     }
 
-    static setButton(state) {
-        var btn = document.querySelector(`#menu-frac-storage-btn`);
+    //which = workbench || storage 
+    static setButton(which, state) {
+        var btn = document.querySelector(`#menu-frac-${which}-btn`);
         var text = btn.innerHTML.split('<br>');
         btn.className = state ? 'red-button' : 'green-button';
         btn.innerHTML = state ? `Открыть<br>${text[1]}` : `Закрыть<br>${text[1]}`;
@@ -202,18 +265,19 @@ var MenuFrac = class MenuFraction {
         elem.innerHTML = /*html*/ `
             <div style="display:flex; width:40px; justify-content:space-between; margin-right: 40px;">
                 <div id="${cid}-employee-circle" class="employee-circle ${online ? 'employee-online' : 'employee-offline'}"></div>
-                <div id="${cid}-employee-status">${status == null ? `` : status ? `<img src="libs/svgs/menu-frac/ban.svg">` : `<img src="libs/svgs/menu-frac/jail.svg">`}</div>
+                <div id="${cid}-employee-status"></div>
             </div>
             <div style="width:250px; margin-right:6px;" id="${cid}-employee-name">${name}</div>
             <div style="width:105px; margin-right:50px;" id="${cid}-employee-date">${date}</div>
             <div style="width:115px; margin-right:40px;"id="${cid}-employee-pos">${pos_id} - ${this.positions[pos_id]}</div>
             <div style="display:flex;">
-                <div style="height:15px; margin-right:5px;" onclick="MenuFrac.employeeRequest(${cid}, 0)"><img src="libs/svgs/menu-frac/up.svg"></div>
-                <div style="height:15px; margin-right:15px;" onclick="MenuFrac.employeeRequest(${cid}, 1)"><img src="libs/svgs/menu-frac/down.svg"></div>
-                <div style="height:15px" onclick="MenuFrac.employeeRequest(${cid}, 2)"><img src="libs/svgs/menu-frac/kick.svg"></div>
+                <div class="menu-frac-img-anim" style="height:15px; margin-right:5px;" onclick="MenuFrac.employeeRequest(${cid}, 0)"><img src="libs/svgs/menu-frac/up.svg"></div>
+                <div class="menu-frac-img-anim" style="height:15px; margin-right:15px;" onclick="MenuFrac.employeeRequest(${cid}, 1)"><img src="libs/svgs/menu-frac/down.svg"></div>
+                <div class="menu-frac-img-anim" style="height:15px" onclick="MenuFrac.employeeRequest(${cid}, 2)"><img src="libs/svgs/menu-frac/kick.svg"></div>
             </div>
         `;
         parent.append(elem);
+        this.updateEmployee(cid, 'status', status)
         this.updateOnline();
     }
 
@@ -229,7 +293,16 @@ var MenuFrac = class MenuFraction {
                 this.updateOnline();
                 break;
             case 'status':
-                el.innerHTML = value == null ? `` : value ? `<img src="libs/svgs/menu-frac/ban.svg">` : `<img src="libs/svgs/menu-frac/jail.svg">`;
+                switch (value) {
+                    case 0:
+                        el.innerHTML =  ``; 
+                        break;
+                    case 1: 
+                        el.innerHTML =  `<img src="libs/svgs/menu-frac/ban.svg">`; 
+                        break;
+                    case 2:
+                        el.innerHTML = `<img src="libs/svgs/menu-frac/jail.svg">`;
+                }
                 break;
             case 'name':
             case 'date':
@@ -330,7 +403,7 @@ var MenuFrac = class MenuFraction {
         elem.innerHTML += /*html*/ `
             <div style="width:45px; margin-right: 50px;">${id}</div>
             <div>${text}</div>
-            <div style="position: absolute; right:20px;" onclick="MenuFrac.editRequest(${id})"><img src="libs/svgs/menu-frac/edit.svg"></div>`;
+            <div class="menu-frac-img-anim" style="position: absolute; right:20px;" onclick="MenuFrac.editRequest(${id})"><img src="libs/svgs/menu-frac/edit.svg"></div>`;
         parent.append(elem);
         this.positions[id] = text;
     }
@@ -367,8 +440,8 @@ var MenuFrac = class MenuFraction {
             <div id="${id}-fracveh-nums" style="width:90px; margin-right: 15px;">${nums}</div>
             <div id="${id}-fracveh-access" style="width:135px; margin-right:30px;" class="menu-frac-dropdown-main" onclick="MenuFrac.showDropdown(this, ${id})">${access} - ${this.positions[access]}</div>
             <div style="display:flex; width:45px; justify-content:space-between;">
-                <div style="height:15px" onclick="MenuFrac.vehRequest(${id}, 0)"><img src="libs/svgs/menu-frac/marker.svg"></div>
-                <div style="height:15px" onclick="MenuFrac.vehRequest(${id}, 1)"><img src="libs/svgs/menu-frac/home.svg"></div>
+                <div class="menu-frac-img-anim" style="height:15px" onclick="MenuFrac.vehRequest(${id}, 0)"><img src="libs/svgs/menu-frac/marker.svg"></div>
+                <div class="menu-frac-img-anim" style="height:15px" onclick="MenuFrac.vehRequest(${id}, 1)"><img src="libs/svgs/menu-frac/home.svg"></div>
             </div>`;
         parent.append(elem);
     }
@@ -468,7 +541,8 @@ var MenuFrac = class MenuFraction {
     }
 
     static setPermit(id, state) {
-        document.getElementById(`${id}-permit-elem`).checked = state;
+        var permit = document.getElementById(`${id}-permit-elem`);
+        if (permit) permit.checked = state;
     }
 
     static updatePositionName(key, name) {
@@ -487,12 +561,12 @@ var MenuFrac = class MenuFraction {
     /*tooltip*/
     static tooltips = {
         news: [
-            [0, 1],
-            ['Закрепить', 'Удалить']
+            [0, 1, 2],
+            ['Закрепить', 'Изменить', 'Удалить']
         ],
         pinned_news: [
-            [0, 1],
-            ['Открепить', 'Удалить']
+            [0, 1, 2],
+            ['Открепить', 'Изменить', 'Удалить']
         ],
     }
     static showTooltip(el, from, uid) {
@@ -537,14 +611,16 @@ var MenuFrac = class MenuFraction {
         // 1 -> MenuFrac.deleteNews(elem_id); 
     }
 
-    static newsRequest() {
-        mp.trigger('MenuFrac::AddNews');
+    static newsRequest(action) {
+        mp.trigger('MenuFrac::NewsAction', ...arguments);
+        if (action == 2) this.editNews(false);
     }
 
-    static storageRequest(btn) {
-        mp.trigger('MenuFrac::Storage', btn.className.includes('red') ? true : false);
+    static buttonRequest(which, btn) {
+        mp.trigger('MenuFrac::AccessButtons', which, btn.className.includes('red') ? true : false);
         /*server-response*/
         // -> MenuFrac.setButton(!state);
+        // MenuFrac.setButton(which, !(btn.className.includes('red') ? true : false));
     }
 
     static employeeRequest(cid, action) {
@@ -565,6 +641,7 @@ var MenuFrac = class MenuFraction {
 
     static accessRequest(veh_id, new_access) {
         mp.trigger('MenuFrac::ChangeVehAccess', veh_id, new_access);
+        // MenuFrac.updateVeh(veh_id, 'access', new_access)
     }
 
     static posRequest() {
@@ -586,23 +663,18 @@ var MenuFrac = class MenuFraction {
 var frac_data = [
     [ //information
         [ //news
-            [10, 'news'],
-            [11, 'news'],
-            [12, 'news'],
-            [13, 'news'],
-            [14, 'news'],
-            12 //int || null
+            null, null //int || null
         ],
         //info
         ['Больница округа Блэйн', 'Annlynn Recanter', 1000000, 1000, 1]
     ],
     [ //staff
-        [true, null, 'Annlynn Recanter', 3000, '11.11.2024 12:48', 1],
-        [false, 0, 'Asdfghjklqwertyu Asdfghjklqwertyu', 3001, '25.02.2023 12:58', 2],
-        [true, 1, 'Annlynn Recanter', 3002, '02.01.2023 11:38', 3],
-        [false, null, 'Jessica Recanter', 3003, '15.05.2023 10:38', 4],
-        [true, 0, 'Carl Recanter', 3004, '25.03.2023 13:38', 5],
-        [false, 1, 'Lynn Recanter', 3005, '23.02.2023 12:35', 1],
+        [true, 0, 'Annlynn Recanter', 3000, '11.11.2024 12:48', 1],
+        [false, 1, 'Asdfghjklqwertyu Asdfghjklqwertyu', 3001, '25.02.2023 12:58', 2],
+        [true, 2, 'Annlynn Recanter', 3002, '02.01.2023 11:38', 3],
+        [false, 0, 'Jessica Recanter', 3003, '15.05.2023 10:38', 4],
+        [true, 1, 'Carl Recanter', 3004, '25.03.2023 13:38', 5],
+        [false, 2, 'Lynn Recanter', 3005, '23.02.2023 12:35', 1],
     ],
     [ //management
         [ //positions
