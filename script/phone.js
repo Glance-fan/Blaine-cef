@@ -727,7 +727,7 @@ var Phone = class Phone {
     static updateRadioStation(id, name, song1, song2) {
         var parent = document.getElementById('radio-station');
         parent.innerHTML = /*html*/ `
-            <img src="libs/svgs/phone/radio/${id}.png">
+            <img src="libs/svgs/phone/radio/stations/${id}.png">
             <div>
                 <div style="font-size: 12px">${name}</div>
                 <div id="radio-song-author"></div>
@@ -735,7 +735,7 @@ var Phone = class Phone {
             </div>`;
         this.updateRadioSong(song1, song2);
     }
-    
+
     static updateRadioSong(song1, song2) {
         document.getElementById('radio-song-author').innerText = song1;
         document.getElementById('radio-song-name').innerText = song2;
@@ -749,11 +749,14 @@ var Phone = class Phone {
 
     /*cab-app*/
     static cab_types = [
-        ['Закажите такси прямо сейчас!', ['Ваш ID', 'Улица'], ['Заказать']
+        ['Закажите такси прямо сейчас!', ['Ваш ID', 'Улица'],
+            ['Заказать']
         ],
-        ['У вас есть активный заказ', ['Статус', 'Дата'], ['Отменить']
+        ['У вас есть активный заказ', ['Статус', 'Дата'],
+            ['Отменить']
         ],
-        ['У вас есть активный заказ', ['Статус', 'ID водителя'], ['Написать', 'Позвонить']
+        ['У вас есть активный заказ', ['Статус', 'ID водителя'],
+            ['Написать', 'Позвонить']
         ]
     ]
     static drawCabApp(type, data) {
@@ -1046,16 +1049,16 @@ var Phone = class Phone {
 
     //radio request
     static playRequest(current) {
-        mp.trigger('Phone::', current);
+        mp.trigger('Phone::Radio', "play", current);
         // this.updateRadioPlay(!current);
     }
 
     static rewindRequest(id, next) {
-        mp.trigger('Phone::', id, next);
+        mp.trigger('Phone::Radio', "rewind", id, next);
     }
 
     static sliderRequest(id, value) {
-        mp.trigger('Phone::', id, value)
+        mp.trigger('Phone::Radio', "volume", id, value)
     }
 }
 

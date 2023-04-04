@@ -167,6 +167,10 @@ function blurFocusedDomElement() {
 	}
 }
 
+function switchTemplate(visibility, template) {
+    mountedApp.show[`${template}`] = visibility;
+}
+
 function onRenderFinished(template) {
     mp.trigger("Browser::OnRenderFinished", template);
 }
