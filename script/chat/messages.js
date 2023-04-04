@@ -183,6 +183,14 @@ var Messages = class ChatMessages {
         msg.lastElementChild.lastElementChild.innerText += ` ${reason}.`;
         this.setLine(msg);
     }
+	
+	static admin_warn(time, admin, player, reason) {
+        var msg = this.makeSpecial(this.emptyMessage(), 'special');
+        msg.innerHTML = /*html*/
+            `<span class="normal-text">${time} Администратор <span class="red-text">${admin}</span> выдал предупреждение игроку <span class="red-text">${player}</span>. Причина:<span></span></span>`;
+        msg.lastElementChild.lastElementChild.innerText += ` ${reason}.`;
+        this.setLine(msg);
+    }
 
     static admin_unban(time, admin, player, reason) {
         var msg = this.makeSpecial(this.emptyMessage(), 'special');
@@ -195,7 +203,7 @@ var Messages = class ChatMessages {
     static admin_unmute(time, admin, player, reason) {
         var msg = this.makeSpecial(this.emptyMessage(), 'special');
         msg.innerHTML = /*html*/
-            `<span class="normal-text">${time} Администратор <span class="red-text">${admin}</span> снял мут чата игроку <span class="red-text">${player}</span>. Причина:<span></span></span>`;
+            `<span class="normal-text">${time} Администратор <span class="red-text">${admin}</span> снял мут игроку <span class="red-text">${player}</span>. Причина:<span></span></span>`;
         msg.lastElementChild.lastElementChild.innerText += ` ${reason}.`;
         this.setLine(msg);
     }
@@ -204,6 +212,14 @@ var Messages = class ChatMessages {
         var msg = this.makeSpecial(this.emptyMessage(), 'special');
         msg.innerHTML = /*html*/
             `<span class="normal-text">${time} Администратор <span class="red-text">${admin}</span> освободил игрока <span class="red-text">${player}</span> из тюрьмы. Причина:<span></span></span>`;
+        msg.lastElementChild.lastElementChild.innerText += ` ${reason}.`;
+        this.setLine(msg);
+    }
+	
+	static admin_unwarn(time, admin, player, reason) {
+        var msg = this.makeSpecial(this.emptyMessage(), 'special');
+        msg.innerHTML = /*html*/
+            `<span class="normal-text">${time} Администратор <span class="red-text">${admin}</span> снял предупреждение игроку <span class="red-text">${player}</span>. Причина:<span></span></span>`;
         msg.lastElementChild.lastElementChild.innerText += ` ${reason}.`;
         this.setLine(msg);
     }
