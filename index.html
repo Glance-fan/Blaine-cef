@@ -71,6 +71,9 @@
         <music-player-template v-show="show.music_player" v-if="render.music_player"></music-player-template>
         <lock-picking-template v-show="show.lock_picking" v-if="render.lock_picking"></lock-picking-template>
         <orange-picking-template v-show="show.orange_picking" v-if="render.orange_picking"></orange-picking-template>
+        <police-tablet-template v-show="show.police_tablet" v-if="render.police_tablet"></police-tablet-template>
+        <criminal-records-template v-show="show.criminal_records" v-if="render.criminal_records"></criminal-records-template>
+        <menu-arrest-template v-show="show.menu_arrest" v-if="render.menu_arrest"></menu-arrest-template>
     </div>
 
     <!-- Import App -->
@@ -90,6 +93,10 @@
     <script src="./components/hud/hud-interact-template.js"></script>
     <script src="./components/hud/hud-menu-template.js"></script>
     <script src="./components/hud/hud-left-template.js"></script>
+    <!-- LAW-ENFORCEMENT -->
+    <script src="./components/law-enforcement/police-tablet-template.js"></script>
+    <script src="./components/law-enforcement/criminal-records-template.js"></script>
+    <script src="./components/law-enforcement/menu-arrest-template.js"></script>
     <!-- MENU-LIKE -->
     <script src="./components/menu-like/animations-template.js"></script>
     <script src="./components/menu-like/autoschool-template.js"></script>

@@ -183,12 +183,31 @@ var Estate = class Estate {
         this.where = this.container.lastElementChild.children;
         if (which == 'veh_info') {
             this.where[1].innerText = `#${this.where[1].innerText}`;
-            this.where[2].innerText = `${this.where[2].innerText} улуч.`;
+            
+            if (this.where[2].innerText == '0')
+                this.where[2].innerText = `Без улучшений`;
+            else
+                this.where[2].innerText = `${this.where[2].innerText} уровень улучш.`;
+            
             [3, 4, 5].forEach(idx => {
                 this.where[idx].innerText = this.where[idx].innerText == 'true' ? 'есть' : 'нет';
-            })
-            this.where[6].innerText = `${this.where[6].innerText} л.`;
-            this.where[7].innerText = `${this.where[7].innerText} слотов`;
+            });
+            
+            var fuelInfo = this.where[6].innerText.split('_');
+            
+            if (fuelInfo[0] == '0')
+                this.where[6].innerText = `Бензин | ${fuelInfo[1]} л.`;
+            else if (fuelInfo[0] == '1')
+                this.where[6].innerText = `Электричество | ${fuelInfo[1]} кВт·ч.`;
+            else
+                this.where[6].innerText = `Отсутствует`;
+            
+            var trunkInfo = this.where[7].innerText.split('_');
+            
+            if (trunkInfo[0] == '0')
+                this.where[7].innerText = `Отсутствует`;
+            else
+                this.where[7].innerText = `${trunkInfo[0]} слотов | ${trunkInfo[1]} кг.`;
         }
         else if (which == 'veh') {
             this.where[indexes[0] + 1].innerText = prettyUSD(this.where[indexes[0] + 1].innerText);

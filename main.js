@@ -35,6 +35,7 @@ const vue_app = Vue.createApp({
                 menu_gar: false,
                 menu_home: false,
                 menu_frac: false,
+                menu_arrest: false,
                 notifications: false,
                 npc: false,
                 ov_interaction: false,
@@ -52,6 +53,8 @@ const vue_app = Vue.createApp({
                 music_player: false,
                 lock_picking: false,
                 orange_picking: false,
+                police_tablet: false,
+                criminal_records: false,
             },
             render: {
                 actionbox: false,
@@ -82,6 +85,7 @@ const vue_app = Vue.createApp({
                 menu_gar: false,
                 menu_home: false,
                 menu_frac: false,
+                menu_arrest: false,
                 notifications: false,
                 npc: false,
                 reg: false,
@@ -95,6 +99,8 @@ const vue_app = Vue.createApp({
                 music_player: false,
                 lock_picking: false,
                 orange_picking: false,
+                police_tablet: false,
+                criminal_records: false,
             }
         }
     },
@@ -148,28 +154,17 @@ function renderTemplate(isRender, template) {
     mountedApp.render[`${template}`] = isRender;
 }
 
-var lastFocusElem;
+var lastBluredElem;
 
-setInterval(() => {
-    var elem = document.querySelector(':focus');
+function blurFocusedDomElement() {
+	var elem = document.querySelector(':focus');
 
-    if (elem == lastFocusElem)
-        return;
-
-    lastFocusElem = elem;
-
-    mp.trigger("Browser::OnFocusElem", elem == null ? null : elem.type);
-}, 250);
-
-function switchTemplate(visibility, template) {
-    mountedApp.show[`${template}`] = visibility;
-
-    if (!visibility) {
-        var elem = document.querySelector(':focus');
-
-        if (elem != null)
-            elem.blur();
-    }
+	if (elem != null)
+	{
+		elem.blur();
+		
+		lastBluredElem = elem;
+	}
 }
 
 function onRenderFinished(template) {
@@ -205,6 +200,8 @@ function resizeAll() {
     if (menufrac_tmpl) resizeBigger(menufrac_tmpl);
     if (school_tmpl) resizeBigger(school_tmpl);
     if (mplayer_tmpl) resizeBigger(mplayer_tmpl);
+    if (pt_tmpl) resizeBigger(pt_tmpl);
+    if (crec_tmpl) resizeBigger(crec_tmpl);
     if (actionbox) resizeBigger(actionbox);
     if (inv_tmpl) {
         resizeSmaller(inv_tmpl);
@@ -251,6 +248,7 @@ function resizeAll() {
     if (atm_tmpl) resizeBigger(atm_tmpl);
     if (estagency_tmpl) resizeBigger(estagency_tmpl);
     if (note_tmpl) resizeBigger(note_tmpl);
+    if (arrest_tmpl) resizeBigger(arrest_tmpl);
 }
 
 function resizeSmaller(elem) {

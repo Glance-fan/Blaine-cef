@@ -646,7 +646,7 @@ var Phone = class Phone {
                     <div id="gps-container" class="app-scrollable"></div>
                 </div>
                 <div class="phone-bottom-blur">
-                    <i class="material-icons phone-icons white-icon material-symbols-rounded">undo</i>
+                    <i class="material-icons phone-icons white-icon material-symbols-rounded" onclick="Phone.leaveRequest()">undo</i>
                 </div>
             </div>`;
 
@@ -697,7 +697,7 @@ var Phone = class Phone {
                     <div id="radio-container"></div>
                 </div>
                 <div class="phone-bottom-blur">
-                    <i class="material-icons phone-icons white-icon material-symbols-rounded">undo</i>
+                    <i class="material-icons phone-icons white-icon material-symbols-rounded" onclick="Phone.leaveRequest()">undo</i>
                 </div>
             </div>`;
         this.fillRadioApp(data);

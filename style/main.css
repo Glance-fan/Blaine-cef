@@ -38,6 +38,22 @@ button {
     color: white;
 }
 
+textarea {
+    font-family: 'Montserrat';
+    resize: none;
+}
+
+textarea::-webkit-scrollbar {
+    width: 4px;
+    background: #2F2F2F;
+    border-radius: 16px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+    background: linear-gradient(225.72deg, #C81212 0%, #851717 100%);
+    border-radius: 16px;
+}
+
 .red-button {
     background: linear-gradient(225.72deg, #C81212 0%, #851717 100%) 0% 0% / 300% 100%;
     animation: 5s ease 0s infinite normal none running selected;

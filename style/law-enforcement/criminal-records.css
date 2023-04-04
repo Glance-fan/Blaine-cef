@@ -1,0 +1,205 @@
+#criminal-records {
+    position: absolute;
+    top: calc(50% - 325px);
+    left: calc(50% - 555px);
+    height: 650px;
+    width: 1110px;
+    color: white;
+}
+
+#criminal-records>div:first-child {
+    z-index: 1;
+    position: absolute;
+    left: 0px;
+    width: 235px;
+    height: 650px;
+    background: linear-gradient(268.24deg, #222222 0.37%, #292929 53.3%, #222222 100%);
+    box-shadow: 10.3472px 11.4969px 72.4307px rgba(0, 0, 0, 0.24);
+    border-radius: 30px;
+}
+
+#criminal-records>div:last-child {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), linear-gradient(268.24deg, rgba(34, 34, 34, 0.98) 0.37%, rgba(41, 41, 41, 0.98) 53.3%, rgba(34, 34, 34, 0.98) 100%);
+    box-shadow: 10.3472px 11.4969px 72.4307px rgba(0, 0, 0, 0.24);
+    border-radius: 0px 30px 30px 0px;
+    width: 905px;
+    height: 650px;
+    position: absolute;
+    right: 0;
+    z-index: 0;
+}
+
+#criminal-records>div:last-child>div:not(:first-child) {
+    display: none;
+    width: 785px;
+    margin-left: 75px;
+    margin-top: 85px;
+}
+
+#crec-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 18px;
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+#crec-title img {
+    width: 35px;
+    height: 35px;
+    margin: 60px 20px 20px 20px;
+}
+
+#crec-search {
+    width: 625px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#crec-search input {
+    width: 470px;
+    height: 15px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    background: linear-gradient(250.85deg, #303030 5.14%, #414141 52.26%, #303030 92.13%) 0% 0% / 300% 100%;
+    border: none;
+    font-weight: 500;
+    font-size: 12px;
+    color: #FFFFFF;
+}
+
+#crec-search input:focus {
+    animation: 5s ease 0s infinite normal none running selected;
+}
+
+#crec-search input::placeholder {
+    font-weight: 500;
+    font-size: 12px;
+    color: #868686;
+}
+
+#crec-search button {
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 12px;
+    width: 105px;
+    height: 35px;
+    text-transform: uppercase;
+}
+
+#crec-0-container {
+    font-weight: 700;
+    font-size: 14px;
+    flex-direction: column;
+    text-align: center;
+    height: 150px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#criminal-records h2 {
+    font-weight: 700;
+    font-size: 14px;
+    margin: 0;
+    margin-top: -50px;
+    position: absolute;
+}
+
+#crec-1-container {
+    height: 535px;
+    flex-direction: column;
+}
+
+#crec-player-info {
+    display: flex;
+}
+
+#crec-player-info>div:first-child {
+    margin-right: 75px;
+}
+
+#crec-player-info>div>div {
+    display: flex;
+    flex-direction: column;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 17px;
+}
+
+#crec-player-info>div>div:not(:first-child) {
+    margin-top: 20px;
+}
+
+#crec-player-info>div>div>span:not(:first-child) {
+    margin-top: 10px;
+}
+
+.crec-scrollable {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.crec-scrollable::-webkit-scrollbar {
+    width: 10px;
+    background: #2F2F2F;
+    border-radius: 16px;
+}
+
+.crec-scrollable::-webkit-scrollbar-thumb {
+    background: linear-gradient(225.72deg, #C81212 0%, #851717 100%);
+    border-radius: 16px;
+}
+
+.crec-static-information {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: 12px;
+    color: #FFFFFF;
+    height: 50px;
+    width: 710px;
+    padding: 0 30px;
+    border-radius: 5px 5px 0 0;
+}
+
+.crec-section {
+    background: linear-gradient(265.48deg, #282828 2.73%, rgba(44, 44, 44, 0.515625) 48.56%, #282828 97.34%);
+}
+
+#crec-wrapper {
+    border-radius: 0 0 5px 5px;
+    min-height: 320px;
+}
+
+.crec-information-elem {
+    height: 45px;
+    width: 710px;
+    padding: 0 30px;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(250.85deg, #303030 5.14%, #414141 52.26%, #303030 92.13%) 0% 0% / 300% 100%;
+}
+
+.crec-information-elem:not(:first-child) {
+    margin-top: 10px;
+}
+
+.crec-information-elem button {
+    width: 85px;
+    height: 25px;
+    border-radius: 5px;
+    font-weight: 500;
+    font-size: 12px;
+}
+
+#crec-back {
+    position: absolute;
+    right:55px;
+    top:80px;
+}

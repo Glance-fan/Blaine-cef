@@ -48,7 +48,7 @@ textarea:disabled {
     height: 30px;
     border-radius: 4px;
     position: absolute;
-    bottom: -35px;
+    bottom: -50px;
     left: calc(50% - 50px);
     visibility: hidden;
 }

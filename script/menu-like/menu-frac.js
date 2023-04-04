@@ -68,19 +68,19 @@ var MenuFrac = class MenuFraction {
                     <button id="menu-frac-storage-btn" class="green-button" style="font-size:10px" onclick="MenuFrac.buttonRequest('storage', this)">Закрыть<br>склад</button>
                 </div>
             </div>`;
-        this.fillNews(news.slice(0, news.length - 1), news.at(-1));
+        this.fillNews(...news);
         this.fillInfo(info);
     }
 
     static fillNews(news, pin) {
         var parent = document.getElementById('menu-frac-news');
         parent.innerHTML = '';
-        if (news.every(el => !el)) {
+        if (news.length == 0) {
             this.now_news = document.getElementById('menu-frac-no-news');
             return;
         } 
         load(news);
-        if (pin) this.pinNews(pin);
+        if (pin != null) this.pinNews(pin);
 
         async function load(data) {
             data.forEach(el => {
@@ -110,7 +110,7 @@ var MenuFrac = class MenuFraction {
 
     static lastPin;
     static pinNews(pin) {
-        if (this.lastPin) this.unpinNews();
+        if (this.lastPin != null) this.unpinNews();
 
         var elem = document.getElementById(`${pin}-news-elem`),
             parent = elem.parentElement,
@@ -147,7 +147,7 @@ var MenuFrac = class MenuFraction {
     }
 
     static in_edit = false;
-    static editNews(show, id) {
+    static editNews(show, id, text) {
         var parent = document.getElementById('menu-frac-edit-news'),
             btn_wrap = document.querySelector('.menu-frac-news-btns');
         if (!show) {
@@ -161,11 +161,11 @@ var MenuFrac = class MenuFraction {
         this.in_edit = true;
         parent.style.display = 'block';
         this.now_news.style.display = 'none';
-        parent.value = id ? document.getElementById(`${id}-news-elem`).innerText : '';
+        parent.value = text != null ? text : '';
         btn_wrap.style = 'width:355px;position:absolute;left:0;bottom:0;display:flex;justify-content: space-between;';
         btn_wrap.innerHTML = /*html*/ `
             <button class="grey-button" onclick="MenuFrac.newsRequest(2)">Отменить</button>
-            <button class="red-button" onclick="MenuFrac.newsRequest(1, id, document.getElementById('menu-frac-edit-news').value)">${id ? 'Применить' : 'Добавить'}</button>
+            <button class="red-button" onclick="MenuFrac.newsRequest(1, ${id}, document.getElementById('menu-frac-edit-news').value)">${id != null ? 'Применить' : 'Добавить'}</button>
         `;
         parent.focus();
     }
@@ -217,7 +217,7 @@ var MenuFrac = class MenuFraction {
 
 
     /*staff*/
-    static all_employees;
+    static all_employees = [];
     static fillStaff(staff) {
         document.getElementById('menufrac-1-container').innerHTML = /*html*/ `
             <div id="menu-frac-employee-wrapper">
@@ -247,7 +247,7 @@ var MenuFrac = class MenuFraction {
     static fillEmployees(employees) {
         var parent = document.getElementById('menu-frac-employee');
         parent.innerHTML = '';
-        this.all_employees = employees
+        this.all_employees = [];
         load(employees);
 
         async function load(data, forced) {
@@ -258,6 +258,7 @@ var MenuFrac = class MenuFraction {
     }
 
     static addEmployee(online, status, name, cid, date, pos_id) {
+        this.all_employees.push(Array.from(arguments));
         var parent = document.getElementById('menu-frac-employee');
         var elem = document.createElement('div');
         elem.id = `${cid}-employee-elem`;
@@ -613,11 +614,11 @@ var MenuFrac = class MenuFraction {
 
     static newsRequest(action) {
         mp.trigger('MenuFrac::NewsAction', ...arguments);
-        if (action == 2) this.editNews(false);
+        // if (action == 2) this.editNews(false);
     }
 
     static buttonRequest(which, btn) {
-        mp.trigger('MenuFrac::AccessButtons', which, btn.className.includes('red') ? true : false);
+        mp.trigger('MenuFrac::AccessButtons', which, !btn.className.includes('red') ? true : false);
         /*server-response*/
         // -> MenuFrac.setButton(!state);
         // MenuFrac.setButton(which, !(btn.className.includes('red') ? true : false));
@@ -663,7 +664,7 @@ var MenuFrac = class MenuFraction {
 var frac_data = [
     [ //information
         [ //news
-            null, null //int || null
+            [[0, '0-news\n\nasdf\n\n\n\nf\nf\n\n\n\nf\n\n\nf<div>in_div</div>']], null //int || null
         ],
         //info
         ['Больница округа Блэйн', 'Annlynn Recanter', 1000000, 1000, 1]

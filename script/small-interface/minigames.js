@@ -209,7 +209,10 @@ var MG = class MiniGames {
                 );
                 var decrease_dur = setInterval(() => {
                     MG.LP.lockpick_dur--;
-                    if (MG.LP.lockpick_dur < 1) MG.LP.lockRequest(false, MG.LP.need_deg);
+                    if (MG.LP.lockpick_dur < 1) {
+                        MG.LP.lockRequest(false, MG.LP.need_deg);
+                        up();                        
+                    }
                 }, 500);
                 var shake_anim = setTimeout(() => {
                     document.getElementById('lockpick-elem').style.animation = `.2s ease 0s infinite normal none running shake-pin`;
@@ -223,8 +226,10 @@ var MG = class MiniGames {
                 document.onmousedown = null;
             }, 1500);
 
-            document.onmouseup = () => {
-                lock.style.removeProperty('transform')
+            document.onmouseup = up; 
+            
+            function up() {
+                lock.style.removeProperty('transform');
                 document.getElementById('lockpick-elem').style.animation = ``;
                 clearTimeout(shake_anim);
                 clearInterval(decrease_dur);

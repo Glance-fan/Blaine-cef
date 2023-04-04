@@ -95,7 +95,7 @@ var Blips = class Blips {
                 if (count > amount - 1) return;
                 parent.lastElementChild.innerHTML += where == 'color' ? /*html*/ `
                     <div class="blips-${where}-elem" onclick="Blips.onpic(this, '${where}')" style="background: url(${blips_colors[count]})"></div>` : /*html*/
-                    `<div class="blips-${where}-elem"><img onclick="Blips.onpic(this, '${where}')" src="${blips_icons[count]}"></div>`;
+                    `<div class="blips-${where}-elem" onclick="Blips.onpic(this, '${where}')"><img src="${blips_icons[count]}"></div>`;
             }
         }
     }

@@ -49,7 +49,7 @@
 /*quest*/
 #hud-quest {
     width: 160px;
-    height: 105px;
+    height: 120fpx;
     display: flex;
     position: absolute;
     right: 0;
@@ -110,7 +110,7 @@
 .hud-quest-middle {
     text-align: left;
     margin-left: 10px;
-    max-height: 65px;
+    max-height: 80px;
     min-height: 35px;
     display: flex;
     flex-direction: column;

@@ -1,4 +1,4 @@
-var death_tmpl, login_tmpl, chselect_tmpl, reg_tmpl, start_tmpl, shop_tmpl, actionbox, inv_tmpl, chat_tmpl, crinv_tmpl, trade_tmpl, wb_tmpl, chcreate_tmpl, menu_tmpl, menubank_tmpl, menubiz_tmpl, menugar_tmpl, menuhome_tmpl, retail_tmpl, chinteract_tmpl, ovinteract_tmpl, ivinteract_tmpl, passengers_tmpl, hud_left, hud_top, hud_quest, hud_help, hud_spd, hud_interact, npc_tmpl, notific_tmpl, anims_tmpl, hud_menu, estate_tmpl, estagency_tmpl, elevator_tmpl, tattoo_tmpl, carmaint_tmpl, blips_tmpl, docs_tmpl, tuning_tmpl, salon_tmpl, atm_tmpl, whoInvoked, picker_tmpl, phone_tmpl, note_tmpl, mplayer_tmpl, school_tmpl, menufrac_tmpl, mg_tmpl, lp_tmpl, op_tmpl;
+var death_tmpl, login_tmpl, chselect_tmpl, reg_tmpl, start_tmpl, shop_tmpl, actionbox, inv_tmpl, chat_tmpl, crinv_tmpl, trade_tmpl, wb_tmpl, chcreate_tmpl, menu_tmpl, menubank_tmpl, menubiz_tmpl, menugar_tmpl, menuhome_tmpl, retail_tmpl, chinteract_tmpl, ovinteract_tmpl, ivinteract_tmpl, passengers_tmpl, hud_left, hud_top, hud_quest, hud_help, hud_spd, hud_interact, npc_tmpl, notific_tmpl, anims_tmpl, hud_menu, estate_tmpl, estagency_tmpl, elevator_tmpl, tattoo_tmpl, carmaint_tmpl, blips_tmpl, docs_tmpl, tuning_tmpl, salon_tmpl, atm_tmpl, whoInvoked, picker_tmpl, phone_tmpl, note_tmpl, mplayer_tmpl, school_tmpl, menufrac_tmpl, mg_tmpl, lp_tmpl, op_tmpl, pt_tmpl, crec_tmpl, arrest_tmpl;
 
 var clHeight, clWidth;
 
@@ -14,6 +14,11 @@ var scripts = {
 
     /*interaction*/
     interaction: ['libs/svgs/interaction.js', 'libs/js-database/interaction.js', 'libs/frameworks/interaction-chart.js', 'script/interaction/char.js', 'script/interaction/out-veh.js', 'script/interaction/in-veh.js', 'script/interaction/passengers.js', 'style/interaction/interaction.css', 'style/interaction/circles.css', 'style/interaction/sections.css', 'style/interaction/passengers.css'],
+
+    /*law-enforcement*/
+    police_tablet: ['script/law-enforcement/police-tablet.js', 'style/law-enforcement/police-tablet.css'],
+    crecords: ['script/law-enforcement/criminal-records.js', 'style/law-enforcement/criminal-records.css'],
+    menu_arrest: ['script/law-enforcement/menu-arrest.js', 'style/law-enforcement/menu-arrest.css'],
 
     /*menu-like*/
     anims: ['libs/svgs/animations.js', 'script/menu-like/animations.js', 'style/menu-like/animations.css'],

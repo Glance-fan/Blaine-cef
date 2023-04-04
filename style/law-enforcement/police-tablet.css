@@ -1,0 +1,364 @@
+#police-tablet {
+    position: absolute;
+    border-radius: 30px;
+    border: 10px solid #181818;
+    width: 1090px;
+    height: 530px;
+    padding: 50px 0;
+    background: #222222;
+    top: calc(50% - 325px);
+    left: calc(50% - 555px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#police-tablet-top,
+#police-tablet-bottom {
+    width: 965px;
+    padding: 0 62.5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#police-tablet-title {
+    line-height: 17px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+#police-tablet-search {
+    width: 625px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#police-tablet-search input {
+    width: 470px;
+    height: 15px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    background: linear-gradient(250.85deg, #303030 5.14%, #414141 52.26%, #303030 92.13%) 0% 0% / 300% 100%;
+    border: none;
+    font-weight: 500;
+    font-size: 12px;
+    color: #FFFFFF;
+}
+
+#police-tablet-search input:focus {
+    animation: 5s ease 0s infinite normal none running selected;
+}
+
+#police-tablet-search input::placeholder {
+    font-weight: 500;
+    font-size: 12px;
+    color: #868686;
+}
+
+#police-tablet-search button {
+    border-radius: 10px;
+    font-weight: 500;
+    font-size: 12px;
+    width: 105px;
+    height: 35px;
+    text-transform: uppercase;
+}
+
+#police-btn-wrapper button:nth-child(1) {
+    margin-right: 50px;
+}
+
+#police-btn-wrapper button:nth-child(2) {
+    margin-right: 25px;
+}
+
+#police-btn-wrapper button:nth-child(3) {
+    margin-right: 50px;
+}
+
+#police-tablet-bottom button {
+    width: 125px;
+    height: 45px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+.police-tablet-bg {
+    background: linear-gradient(265.48deg, #282828 2.73%, rgba(44, 44, 44, 0.515625) 48.56%, #282828 97.34%);
+    border-radius: 5px;
+}
+
+#police-tablet-containers>div {
+    display: none;
+}
+
+#police-tablet-main {
+    width: 970px;
+    height: 330px;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#police-tablet-employee-info>div {
+    display: flex;
+    flex-direction: column;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 17px;
+}
+
+#police-tablet-employee-info>div:not(:first-child) {
+    margin-top: 20px;
+}
+
+#police-tablet-employee-info>div>span:not(:first-child) {
+    margin-top: 10px;
+}
+
+.police-tablet-action-row {
+    width: 625px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.police-tablet-action-row:not(:first-child) {
+    margin-top: 25px;
+}
+
+.police-tablet-action {
+    padding: 25px 20px;
+    width: 300px;
+    height: 75px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 16px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    color: #FFFFFF;
+}
+
+.police-tablet-action img {
+    margin-right: 25px;
+}
+
+#police-tablet-action-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 17px;
+    color: #FFFFFF;
+}
+
+#police-tablet-action-title button {
+    border-radius: 5px;
+    width: 75px;
+    height: 20px;
+    margin-left: 25px;
+    font-weight: 500;
+    font-size: 8px;
+}
+
+#police-tablet-action-information {
+    display: flex;
+    flex-direction: column;
+    width: 980px;
+}
+
+.police-tablet-section {
+    background: linear-gradient(265.48deg, #282828 2.73%, rgba(44, 44, 44, 0.515625) 48.56%, #282828 97.34%);
+    border-radius: 5px;
+}
+
+.police-tablet-static-information {
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+    font-weight: 500;
+    font-size: 12px;
+    color: #FFFFFF;
+    height: 70px;
+    width: 905px;
+    padding: 0 30px;
+    border-radius: 5px 5px 0 0;
+}
+
+#police-tablet-information {
+    height: 275px;
+    width: 965px;
+}
+
+.police-tablet-scrollable {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.police-tablet-scrollable::-webkit-scrollbar {
+    width: 10px;
+    background: #2F2F2F;
+    border-radius: 16px;
+}
+
+.police-tablet-scrollable::-webkit-scrollbar-thumb {
+    background: linear-gradient(225.72deg, #C81212 0%, #851717 100%);
+    border-radius: 16px;
+}
+
+.police-tablet-action-elem {
+    background: linear-gradient(250.85deg, #303030 5.14%, #414141 52.26%, #303030 92.13%) 0% 0% / 300% 100%;
+    border-radius: 5px;
+    width: 905px;
+    padding: 0 30px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    font-size: 12px;
+    position: relative;
+    color: #FFFFFF;
+}
+
+.police-tablet-action-elem:not(:first-child) {
+    margin-top: 10px;
+}
+
+#police-tablet-arrest-form {
+    width: 905px;
+    height: 285px;
+    padding: 30px;
+    margin-top: 25px;
+    display: flex;
+    color: #FFFFFF;
+    position: relative;
+}
+
+#police-tablet-arrest-form input,
+#police-tablet-arrest-form textarea {
+    width: 200px;
+    height: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    background: linear-gradient(250.85deg, #303030 5.14%, #414141 52.26%, #303030 92.13%) 0% 0% / 300% 100%;
+    border: none;
+    font-weight: 500;
+    font-size: 12px;
+    color: #FFFFFF;
+}
+
+#police-tablet-arrest-form input:focus,
+#police-tablet-arrest-form textarea:focus {
+    animation: 5s ease 0s infinite normal none running selected;
+}
+
+#police-tablet-arrest-form input::placeholder,
+#police-tablet-arrest-form textarea::placeholder {
+    font-weight: 500;
+    font-size: 12px;
+    color: #868686;
+}
+
+.police-tablet-input-block {
+    font-weight: 500;
+    font-size: 12px;
+}
+
+.police-tablet-input-block:not(:last-child) {
+    margin-bottom: 25px;
+}
+
+.police-tablet-input-block>div {
+    margin-bottom: 15px;
+}
+
+#police-tablet-arrest-form button {
+    width: 95px;
+    height: 35px;
+    border-radius: 5px;
+    font-weight: 500;
+    font-size: 12px;
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
+}
+
+#police-tablet-arrest-title {
+    position: absolute;
+    font-weight: 700;
+    font-size: 14px;
+    top: -40px;
+    left: 0;
+}
+
+#police-tablet-player-info {
+    width: 980px;
+    height: 330px;
+    padding: 25px;
+    display: flex;
+    color: #FFFFFF;
+    position: relative;
+}
+
+#police-tablet-player-info>div>div {
+    display: flex;
+    flex-direction: column;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 17px;
+}
+
+#police-tablet-player-info>div>div:not(:first-child) {
+    margin-top: 20px;
+}
+
+#police-tablet-player-info>div>div>span:not(:first-child) {
+    margin-top: 10px;
+}
+
+#police-tablet-player-veh {
+    background: #222222;
+    padding: 5px;
+    border-radius: 5px;
+    min-height: 255px;
+}
+
+.police-tablet-veh-elem {
+    width: 250px;
+    height: 40px;
+    padding: 10px 15px 10px 20px;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(250.85deg, #303030 5.14%, #414141 52.26%, #303030 92.13%) 0% 0% / 300% 100%;
+    border-radius: 5px;
+    justify-content: space-between;
+
+}
+
+.police-tablet-veh-elem>div:first-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 40px;
+}
+
+.police-tablet-veh-elem:not(:first-child) {
+    margin-top:5px;
+}
+
+.police-tablet-veh-circle {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+.veh-circle-true {
+    background: #E439AA;
+}
+
+.veh-circle-false {
+    background: #3955E4;
+}
