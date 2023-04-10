@@ -1,0 +1,91 @@
+#casino {
+    color: white;
+    font-weight: 700;
+}
+
+#casino-last-numbers {
+    position: absolute;
+    top: 50%;
+    right: 30px;
+    transform: translateY(-50%);
+}
+
+#casino-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 35px;
+    display: flex;
+    align-items: flex-end;
+}
+
+.casino-last-num {
+    width: 40px;
+    height: 40px;
+    font-weight: 700;
+    font-size: 14px;
+    border-radius: 9px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.casino-last-num:not(:first-child) {
+    margin-top: 5px;
+}
+
+.casino-num-type-0 {
+    background: linear-gradient(225deg, #C81212 0%, #851717 100%);
+}
+
+.casino-num-type-1 {
+    background: linear-gradient(250.85deg, #151515 5.14%, #272727 52.26%, #131313 92.13%);
+}
+
+.casino-num-type-2 {
+    background: linear-gradient(86.42deg, #4CC812 0%, #478517 100%);
+}
+
+.casino-input-block {
+    width: 170px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.casino-input-block>div {
+    height: 20px;
+    width: 20px;
+}
+
+.casino-input-block input {
+    margin: 0 10px;
+    border-radius: 3px;
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    border: 0;
+    outline: none;
+    width: 75px;
+    padding: 5px 10px;
+    height: 25px;
+    color: white;
+    font-family: 'Montserrat';
+    background: linear-gradient(250.85deg, #303030 5.14%, #414141 52.26%, #303030 92.13%) 0% 0% / 300% 100%;
+}
+
+.casino-input-block input:focus {
+    animation: 5s ease 0s infinite normal none running selected;
+}
+
+#casino-game-status {
+    font-size: 16px;
+    white-space: nowrap;
+    margin-top: 35px;
+}
+
+#casino-cur-bal {
+    margin-top: 50px;
+    font-size: 24px;
+}

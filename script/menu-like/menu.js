@@ -10,6 +10,7 @@ var Menu = class Menu {
         option.classList.add('current');
         var query = '.' + option.id + '-info';
         document.activeElement.blur();
+        this.showHelpBlock(0);
         if (!!this.nowOpen) {
             this.nowOpen.style.display = 'none';
             this.nowOption.classList.remove('current');
@@ -242,7 +243,7 @@ var Menu = class Menu {
         elem.id = quest[0] + '-quest';
         elem.innerHTML = /*html*/ `
         <h1 class="menu-elem-top">
-            <p>${menu_svgs.event}</p>
+            <p>${menu_svgs.marker}</p>
             <p style="display:flex; flex-direction:column">
                 <span class="menu-elem-text">${quest[1]}</span>
                 <span class="menu-extra-elem-text">${quest[2]}</span>
@@ -253,12 +254,11 @@ var Menu = class Menu {
             </br>
             <div style="display: flex; margin-top: 3px;">
                 <div style="text-align:justify;">
-                    <div class="menu-text-float"></div>
                     <span id="${elem.id}-goal">${quest[3]}</span>
                 </div>
             </div>
-        </div>${menu_svgs.marker}`;
-        elem.getElementsByTagName('svg')[1].name = elem.id;
+        </div>`;
+        elem.querySelector('svg').name = elem.id;
     }
 
     //achievements[i] = [id, 'name', 'purpose', cur-progress, max-progress];
@@ -699,6 +699,7 @@ var Menu = class Menu {
         var help_text = document.getElementsByTagName('textarea')[which].value;
         help_text = help_text.replace(/\s+/g, ' ').trim();
         if (help_text == '') return;
+        this.updateHelpMessage('');
         mp.trigger('Menu::Report::Send', help_text);
     }
     
@@ -708,7 +709,7 @@ var Menu = class Menu {
         var classTemp = isAdmin ? 'menu-help-admin' : 'menu-help-user';
         var message = document.createElement('p');
         this.lastmsg = message;
-        message.innerHTML = /*html*/ `<span class="${classTemp}">${name}</span>${time}</br></br><span></span>`;
+        message.innerHTML = /*html*/ `<span class="${classTemp}">${name}</span>(${time})</br></br><span></span>`;
         message.lastElementChild.innerText = `${fulltext}`;
         document.getElementById('menu-help-chat').append(message)
     }
@@ -745,6 +746,14 @@ var Menu = class Menu {
         var messages = document.querySelectorAll('textarea');
         messages[0].value = value;
         messages[1].value = value;
+    }
+
+    static onkeypress(event, which) {
+        if (event.keyCode == 13) {
+            event.preventDefault();
+            Menu.sendHelp(which);
+            event.target.blur();
+        }
     }
 }
 

@@ -158,7 +158,7 @@ var Phone = class Phone {
                     <div class="apps-h1">Черный список</div>
                     <div class="black-list-wrapper">
                         <div class="app-scrollable empty-container" id="black-list-container" style="height:175px"></div>
-                        <input maxlength="10" placeholder="Ввод" autocomplete="false" spellcheck="false" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
+                        <input tabindex="-1" maxlength="10" placeholder="Ввод" autocomplete="false" spellcheck="false" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
                         <button class="red-button" onclick="Phone.blacklistRequest()">Добавить</button>
                     </div>
                 </div>
@@ -201,11 +201,11 @@ var Phone = class Phone {
                     <div class="contact-inputs">
                         <div>
                             <div>Имя</div>
-                            <input placeholder="Ввод" maxlength="24">
+                            <input tabindex="-1" placeholder="Ввод" maxlength="24">
                         </div>
                         <div>
                             <div>Номер телефона</div>
-                            <input placeholder="Ввод" maxlength="10" autocomplete="false" spellcheck="false" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
+                            <input tabindex="-1" placeholder="Ввод" maxlength="10" autocomplete="false" spellcheck="false" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
                         </div>
                     </div>
                 </div>
@@ -276,7 +276,7 @@ var Phone = class Phone {
                     <div id="last-sms-container" class="app-scrollable"></div>
                     <div id="full-sms-container" class="app-scrollable"></div>
                     <div id="type-sms-container">
-                        <div>Кому: <input id="typing-sms-0" placeholder="введите номер" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32" maxlength="20" autocomplete="false" spellcheck="false"></div>
+                        <div>Кому: <input tabindex="-1" id="typing-sms-0" placeholder="введите номер" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32" maxlength="20" autocomplete="false" spellcheck="false"></div>
                         <textarea id="typing-sms-1" placeholder="Ввести текст" maxlength="150"></textarea>
                     </div>
                 </div>
@@ -417,7 +417,7 @@ var Phone = class Phone {
                     var id = settings[index][2];
                     parent.lastElementChild.innerHTML += /*html*/ `
                     <label class="phone-checkbox">
-                        <input id="${id}" onclick="Phone.onToggle(this)" type="checkbox">
+                        <input tabindex="-1" id="${id}" onclick="Phone.onToggle(this)" type="checkbox">
                         <span class="phone-checkbox-switch"></span>
                     </label>`;
                     setTimeout(() => {
@@ -580,7 +580,7 @@ var Phone = class Phone {
             parent.children[1].innerHTML = /*html*/ `
                 <div id="bank-tab-info" class="phone-app-info"></div>
                 <div class="phone-app-input">
-                        $<input maxlength="10" autocomplete="false" spellcheck="false" placeholder="Сумма" value="${params[1] - params[0] > 0 ? params[1] - params[0] : params[1]}"/>
+                        $<input tabindex="-1" maxlength="10" autocomplete="false" spellcheck="false" placeholder="Сумма" value="${params[1] - params[0] > 0 ? params[1] - params[0] : params[1]}"/>
                 </div>`;
             var static_data = [1, 2].includes(which) ? ['Баланс', 'Аренда (в час)'] : ['Баланс', 'Налог (в час)']
             this.fillInfo('bank-tab-info', params, static_data);
@@ -588,10 +588,10 @@ var Phone = class Phone {
         } else { //перевод игроку
             parent.children[1].innerHTML = /*html*/ `
                 <div class="phone-app-input">
-                    #<input maxlength="10" autocomplete="false" spellcheck="false" placeholder="CID игрока"/>
+                    #<input tabindex="-1" maxlength="10" autocomplete="false" spellcheck="false" placeholder="CID игрока"/>
                 </div>
                 <div class="phone-app-input">
-                    $<input maxlength="10" autocomplete="false" spellcheck="false" placeholder="Сумма"/>
+                    $<input tabindex="-1" maxlength="10" autocomplete="false" spellcheck="false" placeholder="Сумма"/>
                 </div>`
         }
 
@@ -619,7 +619,7 @@ var Phone = class Phone {
                         <div>
                             <div style="font-weight: 500;font-size: 10px;">Пополнение баланса</div>
                             <div class="phone-app-input">
-                                $<input oninput="Phone.oninput(this)" onfocus="Phone.onfocus(this)" onblur="this.parentElement.style.animation = ''" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32" maxlength="10" autocomplete="false" spellcheck="false" placeholder="Сумма"/>
+                                $<input tabindex="-1" oninput="Phone.oninput(this)" onfocus="Phone.onfocus(this)" onblur="this.parentElement.style.animation = ''" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32" maxlength="10" autocomplete="false" spellcheck="false" placeholder="Сумма"/>
                             </div>
                             <button class="red-button" onclick="Phone.transactionRequest(this.parentElement)">Пополнить</button>
                             <div class="phone-info-text">Пополнение баланса<br>осуществляется<br>через Ваш банковский счет</div>
@@ -637,31 +637,45 @@ var Phone = class Phone {
 
     /*gps-app*/
     static drawGpsApp(cur_route, data) {
-        //Phone.showMenu(false)
+        Phone.showMenu(false)
         this.container.innerHTML = /*html*/
             `<div class="app-wrapper">
                 <div>
                     <div class="apps-h1">Навигатор</div>
-                    <div id="cur-route-container"></div>
-                    <div id="gps-container" class="app-scrollable"></div>
+                    <div class="app-scrollable">
+                        <div id="cur-route-container"></div>
+                        <div id="gps-container" ></div>
+                    </div>
                 </div>
                 <div class="phone-bottom-blur">
                     <i class="material-icons phone-icons white-icon material-symbols-rounded" onclick="Phone.leaveRequest()">undo</i>
                 </div>
             </div>`;
-
         this.fillGpsRoutes(data, false);
-        if (cur_route) drawCurRoute(cur_route);
+        if (cur_route) this.drawCurRoute(cur_route);
+    }
 
-        function drawCurRoute(cur_route) {
-            document.getElementById('gps-container').style.height = '160px';
-            var parent = document.getElementById('cur-route-container');
-            parent.style.display = 'flex';
-            var data = ['Текущий маршрут'].concat(cur_route);
-            data.forEach(text => {
-                parent.innerHTML += /*html*/ `<div>${text}</div>`;
-            });
-        }
+    static drawCurRoute(cur_route) {
+        document.getElementById('gps-container').style.height = '160px';
+        var parent = document.getElementById('cur-route-container');
+        parent.innerHTML = /*html*/
+            `<div class="close-route" onclick="mp.trigger('Phone::ClearRoute')">${close_svg}</div>`;
+        parent.style.display = 'flex';
+        var data = ['Текущий маршрут'].concat(cur_route);
+        data.forEach(text => parent.innerHTML += /*html*/ `<div>${text}</div>`);
+    }
+ 
+    static updateCurRoute(cur_route) {
+        var parent = document.getElementById('cur-route-container');
+        parent.children[1].innerHTML = cur_route[0];
+        parent.children[2].innerHTML = cur_route[1];
+    }
+
+    static removeCurRoute() {
+        var route = document.getElementById('cur-route-container')
+        route.innerHTML = '';
+        route.style = '';
+        document.getElementById('gps-container').style = '';
     }
 
     // routes_section = ['name', [['id', 'name'], ['id', 'name'], ['id', 'name']]]
@@ -715,7 +729,7 @@ var Phone = class Phone {
                 </div>
                 <div>
                     <img src="libs/svgs/phone/radio/less.svg">
-                    <input id="phone-value" type="range" min="0" max="1" step="0.1" oninput="Phone.fillSlider(this.id)">
+                    <input tabindex="-1" id="phone-value" type="range" min="0" max="1" step="0.1" oninput="Phone.fillSlider(this.id)">
                     <img src="libs/svgs/phone/radio/more.svg">
                 </div>
             </div>`;
@@ -1084,5 +1098,5 @@ apps = [
 ]
 
 Phone.drawMenu();
-// Phone.setWallpaper(9);
-// Phone.showPhone(true);
+Phone.setWallpaper(9);
+Phone.showPhone(true);

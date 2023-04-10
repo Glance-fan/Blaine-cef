@@ -1,10 +1,12 @@
 #note {
+    z-index: 1001;
     background-image: url(../../libs/svgs/misc/note.svg);
     width: 450px;
     height: 620px;
     position: absolute;
     top: calc(50% - 310px);
     left: calc(50% - 225px);
+    box-shadow: 0 0 40px #000;
 }
 
 .note-wrapper {

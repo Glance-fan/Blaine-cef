@@ -895,8 +895,20 @@
 }
 
 /*gps-app*/
+.close-route {
+    position: absolute;
+    top: 10px;
+    right: 5px;
+}
+
+.close-route svg {
+    width: 15px;
+    height: 15px;
+}
+
 #cur-route-container {
     display: none;
+    position: relative;
     padding: 10px 0;
     height: 60px;
     background: rgba(31, 27, 27, 0.55);
@@ -990,6 +1002,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    opacity: 0.8;
+}
+
+#radio-nav>div:hover{
+    opacity: 0.95;
+}
+
+#radio-nav>div:active{
+    opacity: 1;
 }
 
 #radio-volume-wrapper>div:last-child {

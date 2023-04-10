@@ -1,4 +1,4 @@
-var death_tmpl, login_tmpl, chselect_tmpl, reg_tmpl, start_tmpl, shop_tmpl, actionbox, inv_tmpl, chat_tmpl, crinv_tmpl, trade_tmpl, wb_tmpl, chcreate_tmpl, menu_tmpl, menubank_tmpl, menubiz_tmpl, menugar_tmpl, menuhome_tmpl, retail_tmpl, chinteract_tmpl, ovinteract_tmpl, ivinteract_tmpl, passengers_tmpl, hud_left, hud_top, hud_quest, hud_help, hud_spd, hud_interact, npc_tmpl, notific_tmpl, anims_tmpl, hud_menu, estate_tmpl, estagency_tmpl, elevator_tmpl, tattoo_tmpl, carmaint_tmpl, blips_tmpl, docs_tmpl, tuning_tmpl, salon_tmpl, atm_tmpl, whoInvoked, picker_tmpl, phone_tmpl, note_tmpl, mplayer_tmpl, school_tmpl, menufrac_tmpl, mg_tmpl, lp_tmpl, op_tmpl, pt_tmpl, crec_tmpl, arrest_tmpl;
+var death_tmpl, login_tmpl, chselect_tmpl, reg_tmpl, start_tmpl, shop_tmpl, actionbox, inv_tmpl, chat_tmpl, crinv_tmpl, trade_tmpl, wb_tmpl, chcreate_tmpl, menu_tmpl, menubank_tmpl, menubiz_tmpl, menugar_tmpl, menuhome_tmpl, retail_tmpl, chinteract_tmpl, ovinteract_tmpl, ivinteract_tmpl, passengers_tmpl, hud_left, hud_top, hud_quest, hud_help, hud_spd, hud_interact, npc_tmpl, notific_tmpl, anims_tmpl, hud_menu, estate_tmpl, estagency_tmpl, elevator_tmpl, tattoo_tmpl, carmaint_tmpl, blips_tmpl, docs_tmpl, tuning_tmpl, salon_tmpl, atm_tmpl, whoInvoked, picker_tmpl, phone_tmpl, note_tmpl, mplayer_tmpl, school_tmpl, menufrac_tmpl, mg_tmpl, lp_tmpl, op_tmpl, pt_tmpl, crec_tmpl, arrest_tmpl, casino_tmpl, dm_tmpl;
 
 var clHeight, clWidth;
 
@@ -45,6 +45,8 @@ var scripts = {
     notifications: ['libs/svgs/notification.js', 'script/small-interface/notifications.js', 'style/small-interface/notifications.css'],
     npc: ['script/small-interface/npc.js', 'style/small-interface/npc.css'],
     mg: ['script/small-interface/minigames.js', 'style/small-interface/minigames.css'],
+    casino: ['script/small-interface/casino.js', 'style/small-interface/casino.css'],
+    dm: ['script/small-interface/death-match.js', 'style/small-interface/death-match.css'],
 
     /*store-like*/
     char_creation: ['libs/js-database/char-creation.js', 'script/store-like/char-creation.js', 'style/store-like/char-creation.css'],

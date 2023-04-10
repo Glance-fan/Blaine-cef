@@ -436,13 +436,15 @@
 }
 
 .menu-marker {
-    position: absolute;
-    right: 10px;
-    bottom: 10px;
-    opacity: 0.7;
+    margin-right: 10px;
+    opacity: 0.8;
 }
 
 .menu-marker:hover {
+    opacity: 0.9;
+}
+
+.menu-marker:active {
     opacity: 1;
 }
 
@@ -1290,7 +1292,7 @@ input::-webkit-inner-spin-button {
     width: 725px;
     height: 350px;
     margin-bottom: 20px;
-    font-weight: 700;
+    font-weight: 500;
     overflow-y: auto;
     overflow-x: hidden;
     word-wrap: break-word;
@@ -1308,11 +1310,13 @@ input::-webkit-inner-spin-button {
 }
 
 .menu-help-admin {
-    color: #C81212;
-    margin-right: 2px;
+    color: #E89623;
+    margin-right: 10px;
+    font-weight: 700;
 }
 
 .menu-help-user {
     color: #D5D4D4;
-    margin-right: 2px;
+    margin-right: 10px;
+    font-weight: 700;
 }

@@ -3,17 +3,20 @@ const vue_app = Vue.createApp({
         return {
             show: {
                 actionbox: false,
-                autoschool: false,
                 anims: false,
                 atm: false,
+                autoschool: false,
                 blips: false,
                 car_maint: false,
+                casino: false,
                 char_creation: false,
                 char_interaction: false,
                 char_selection: false,
                 chat: false,
                 crates_inventory: false,
+                criminal_records: false,
                 death: false,
+                death_match: false,
                 docs: false,
                 elevator: false,
                 est_agency: false,
@@ -25,82 +28,83 @@ const vue_app = Vue.createApp({
                 hud_quest: false,
                 hud_spd: false,
                 hud_top: false,
-                phone: false,
                 inventory: false,
                 iv_interaction: false,
+                lock_picking: false,
                 login: false,
                 menu: false,
+                menu_arrest: false,
                 menu_bank: false,
                 menu_biz: false,
+                menu_frac: false,
                 menu_gar: false,
                 menu_home: false,
-                menu_frac: false,
-                menu_arrest: false,
+                music_player: false,
+                note: false,
                 notifications: false,
                 npc: false,
+                orange_picking: false,
                 ov_interaction: false,
                 pass_interaction: false,
+                phone: false,
+                police_tablet: false,
                 reg: false,
                 retail: false,
+                salon: false,
                 shop: false,
                 start_place: false,
-                trade: false,
-                workbench: false,
-                tuning: false,
-                salon: false,
                 tattoo_salon: false,
-                note: false,
-                music_player: false,
-                lock_picking: false,
-                orange_picking: false,
-                police_tablet: false,
-                criminal_records: false,
+                trade: false,
+                tuning: false,
+                workbench: false,
             },
             render: {
                 actionbox: false,
-                autoschool: false,
                 anims: false,
                 atm: false,
+                autoschool: false,
                 blips: false,
                 car_maint: false,
+                casino: false,
                 char_creation: false,
                 char_selection: false,
                 chat: false,
                 colorpicker: false,
+                criminal_records: false,
                 death: false,
+                death_match: false,
                 docs: false,
                 elevator: false,
                 est_agency: false,
                 estate: false,
                 full_inventory: false,
                 hud: false,
-                phone: false,
                 inter_drawed: false,
                 interaction: false,
                 inv_drawed: false,
+                lock_picking: false,
                 login: false,
                 menu: false,
+                menu_arrest: false,
                 menu_bank: false,
                 menu_biz: false,
+                menu_frac: false,
                 menu_gar: false,
                 menu_home: false,
-                menu_frac: false,
-                menu_arrest: false,
+                music_player: false,
+                note: false,
                 notifications: false,
                 npc: false,
+                orange_picking: false,
+                phone: false,
+                police_tablet: false,
                 reg: false,
                 retail: false,
+                salon: false,
                 shop: false,
                 start_place: false,
-                tuning: false,
-                salon: false,
                 tattoo_salon: false,
-                note: false, 
-                music_player: false,
-                lock_picking: false,
-                orange_picking: false,
-                police_tablet: false,
-                criminal_records: false,
+                tuning: false,
             }
         }
     },
@@ -157,14 +161,13 @@ function renderTemplate(isRender, template) {
 var lastBluredElem;
 
 function blurFocusedDomElement() {
-	var elem = document.querySelector(':focus');
+    var elem = document.querySelector(':focus');
 
-	if (elem != null)
-	{
-		elem.blur();
-		
-		lastBluredElem = elem;
-	}
+    if (elem != null) {
+        elem.blur();
+
+        lastBluredElem = elem;
+    }
 }
 
 function switchTemplate(visibility, template) {
@@ -206,6 +209,8 @@ function resizeAll() {
     if (mplayer_tmpl) resizeBigger(mplayer_tmpl);
     if (pt_tmpl) resizeBigger(pt_tmpl);
     if (crec_tmpl) resizeBigger(crec_tmpl);
+    if (casino_tmpl) resizeBigger(casino_tmpl);
+    if (dm_tmpl) resizeBigger(dm_tmpl);
     if (actionbox) resizeBigger(actionbox);
     if (inv_tmpl) {
         resizeSmaller(inv_tmpl);
@@ -236,7 +241,7 @@ function resizeAll() {
     if (hud_spd) hud_spd.style.zoom = clHeight;
     if (hud_interact) hud_interact.style.bottom = (document.body.clientHeight / 100 * (312 / 10.8)) + 'px';
     if (npc_tmpl) {
-        npc_tmpl.firstElementChild.style.top = document.body.clientHeight / 100 * (572/10.8) + 'px';
+        npc_tmpl.firstElementChild.style.top = document.body.clientHeight / 100 * (572 / 10.8) + 'px';
         resizeBigger(npc_tmpl)
     }
     if (notific_tmpl) resizeBigger(notific_tmpl);

@@ -74,6 +74,8 @@
         <police-tablet-template v-show="show.police_tablet" v-if="render.police_tablet"></police-tablet-template>
         <criminal-records-template v-show="show.criminal_records" v-if="render.criminal_records"></criminal-records-template>
         <menu-arrest-template v-show="show.menu_arrest" v-if="render.menu_arrest"></menu-arrest-template>
+        <casino-template v-show="show.casino" v-if="render.casino"></casino-template>
+        <death-match-template v-show="show.death_match" v-if="render.death_match"></death-match-template>
     </div>
 
     <!-- Import App -->
@@ -114,6 +116,8 @@
     <!-- MINIGAMES -->
     <script src="./components/minigames/lock-picking-template.js"></script>
     <script src="./components/minigames/orange-picking-template.js"></script>
+    <script src="./components/minigames/casino-template.js"></script>
+    <script src="./components/minigames/death-match-template.js"></script>
     <!-- SMALL-INTERFACE -->
     <script src="./components/small-interface/actionbox-template.js"></script>
     <script src="./components/small-interface/atm-template.js"></script>

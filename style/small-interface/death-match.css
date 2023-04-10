@@ -1,0 +1,31 @@
+#death-match {
+    height: 50px;
+    width: 680px;
+    background: linear-gradient(268.24deg, rgba(34, 34, 34, 0.95) 0.37%, rgba(41, 41, 41, 0.95) 53.3%, rgba(34, 34, 34, 0.95) 100%);
+    box-shadow: 10.3472px 11.4969px 72.4307px rgba(0, 0, 0, 0.24);
+    border-radius: 0 0 30px 30px;
+    position: absolute;
+    left: 50%;
+    padding: 20px 60px;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-between;
+    color: white;
+}
+
+#death-match>div {
+    width: 275px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dm-team-name {
+    font-weight: 600;
+    font-size: 20px
+}
+
+.dm-team-score {
+    font-weight: 700;
+    font-size: 32px;
+}
