@@ -9,6 +9,8 @@
 #action-box-resize {
     position: absolute;
     left: calc(50% - 300px);
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 #action-box {

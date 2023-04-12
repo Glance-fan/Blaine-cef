@@ -703,4 +703,4 @@ var edit_data = [
     [5, 'Доступ к складу (даже если закрыт)', false],
 ];
 
-MenuFrac.draw(frac_data);
+// MenuFrac.draw(frac_data);

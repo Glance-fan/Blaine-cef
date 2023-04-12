@@ -1,9 +1,6 @@
 var Hud = class Hud {
     static timeElem = document.getElementById('hud-time');
     static dayElem = document.getElementById('hud-date');
-    static timeInterval = setInterval(() => {
-        this.timeServer()
-    }, 10000);
     static help_data = [
         [hud_help_svgs.chat, hud_help_svgs.mic, hud_help_svgs.menu, hud_help_svgs.inv, hud_help_svgs.phone, hud_help_svgs.engine, hud_help_svgs.manual],
         ['t', 'tab', 'm', 'i', 'p', 'n', 'f10']
@@ -50,53 +47,12 @@ var Hud = class Hud {
         document.getElementById('player-online').innerText = online;
     }
 
-    static setTime(status) {
-        if (status) {
-            clearInterval(this.timeInterval);
-            this.timeServer();
-            this.timeInterval = setInterval(() => {
-                this.timeServer()
-            }, 10000);
-        } else {
-            clearInterval(this.timeInterval);
-            this.timeLocal();
-            this.timeInterval = setInterval(() => {
-                this.timeLocal()
-            }, 10000);
-        }
+    static setTime(status, time, day) {
+        this.timeElem.innerHTML = status ? hud_top_svgs.server : hud_top_svgs.local;
+        this.timeElem.innerHTML += time;
+        this.dayElem.innerHTML = day;
     }
-
-    static timeServer() {
-        var date = new Date();
-        var utc = 3;
-        var hours = date.getUTCHours() + utc;
-        this.timeElem.innerHTML = hud_top_svgs.server;
-        this.timeElem.innerHTML += (hours > 24 ? "0" : "") + (hours > 24 ? hours - 24 : hours) + ":" + (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
-
-        var today = new Date().toLocaleString("ru", {
-            timeZone: "Europe/Moscow"
-        });
-        this.dayElem.innerHTML = String(today.substr(0, 10));
-    }
-
-    static timeLocal() {
-        var data = new Date();
-        var Hours = data.getHours();
-        if (Hours < 10) Hours = "0" + Hours;
-
-        var Minutes = data.getMinutes();
-        if (Minutes < 10) Minutes = "0" + Minutes;
-
-        this.timeElem.innerHTML = hud_top_svgs.local;
-        this.timeElem.innerHTML += " " + Hours + ":" + Minutes;
-
-        var today = new Date();
-        var dd = String(today.getDate()).padStart(2, '0');
-        var mm = String(today.getMonth() + 1).padStart(2, '0');
-        var yyyy = today.getFullYear();
-        this.dayElem.innerHTML = dd + '.' + mm + '.' + yyyy;
-    }
-
+    
     /*quest*/
     //quest = ['Квестодатель', 'Название задания', 'Название цели', Тип квеста] 
     static drawQuest(quest) {

@@ -637,7 +637,7 @@ var Phone = class Phone {
 
     /*gps-app*/
     static drawGpsApp(cur_route, data) {
-        Phone.showMenu(false)
+        // Phone.showMenu(false)
         this.container.innerHTML = /*html*/
             `<div class="app-wrapper">
                 <div>
@@ -667,8 +667,8 @@ var Phone = class Phone {
  
     static updateCurRoute(cur_route) {
         var parent = document.getElementById('cur-route-container');
-        parent.children[1].innerHTML = cur_route[0];
-        parent.children[2].innerHTML = cur_route[1];
+        parent.children[2].innerHTML = cur_route[0];
+        parent.children[3].innerHTML = cur_route[1];
     }
 
     static removeCurRoute() {
@@ -885,16 +885,9 @@ var Phone = class Phone {
         document.getElementById(pid).lastChild.children[which].innerText = typeof value === 'string' ? value : prettyUSD(value);
     }
 
-    static timeInterval = setInterval(() => {
-        this.timeServer()
-    }, 1000);
-    static timeServer() {
-        var date = new Date().toLocaleString('ru', {
-            timeZone: "Europe/Moscow"
-        }).split(',');
-        document.getElementById('phone-time').innerHTML = date[0].replace('.20', '.') + date[1].slice(0, -3);
+    static setTime(time) {
+        document.getElementById('phone-time').innerHTML = time;
     }
-
 
     static onfocus(input) {
         input.select();
@@ -1098,5 +1091,5 @@ apps = [
 ]
 
 Phone.drawMenu();
-Phone.setWallpaper(9);
-Phone.showPhone(true);
+// Phone.setWallpaper(9);
+// Phone.showPhone(true);

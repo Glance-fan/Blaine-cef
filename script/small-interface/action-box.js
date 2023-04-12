@@ -2,9 +2,9 @@ var ActionBox = class ActionBox {
     //data = [type, fulltext, data]
     static fill(needBG, type, fulltext, data, btn_texts) {
         actionbox.firstElementChild.children[0].innerHTML = this.getBoxData(type) + fulltext;
-        setTimeout(() => {
-            actionbox.style.top = `calc(50% - ${actionbox.offsetHeight/2}px)`
-        }, 0)
+        // setTimeout(() => {
+            // actionbox.style.top = `calc(50% - ${actionbox.offsetHeight/2}px)`
+        // }, 0)
         this.drawContainer(type, data, btn_texts);
         if (needBG) document.querySelector('.need-actionbox-bg').classList.add('action-box-bg');
     }
@@ -48,7 +48,7 @@ var ActionBox = class ActionBox {
             case 2: //range
                 this.container.parentElement.style.top = `calc(50% - 27px)`;
                 this.container.innerHTML = /*html*/ `
-                <input style="${data[1] == 1 ? 'direction: rtl' : ''}" type="range" min="${data[0]}" max="${data[1]}" value="${data[2] || data[1]}" step="${data[3]}" oninput="ActionBox.onrange(this)">
+                <input style="${data[1] <= data[0] ? 'direction: rtl' : ''}" type="range" min="${data[0]}" max="${data[1]}" value="${data[2] || data[1]}" step="${data[3]}" oninput="ActionBox.onrange(this)">
                 <div class="action-box-span-wrapper">
                     <span>${data[4] == 1 ? prettyUSD(data[0]) : data[0]}</span>
                     <input id="action-box-range" value="${data[2] || data[1]}" oninput="ActionBox.onrangeinput(this)" autocomplete="false" spellcheck="false" min="${data[0]}" max="${data[1]}" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
@@ -72,8 +72,7 @@ var ActionBox = class ActionBox {
                 this.container.innerHTML = /*html*/ 
                     `<div class="actionbox-text">${data[0]}</div>
                     <input autocomplete="off" spellcheck="false" oninput="ActionBox.curData = this.value" maxlength="${data[1] || 250}" id="action-box-input" placeholder="Введите текст...">`;
-                console.log(data[2])
-                if (data[2])
+                if (data[2] != null)
                     setTimeout(() => {
                         this.container.lastElementChild.focus();
                         this.container.lastElementChild.value = data[2];

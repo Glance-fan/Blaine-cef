@@ -10,8 +10,8 @@ var Menu = class Menu {
         option.classList.add('current');
         var query = '.' + option.id + '-info';
         document.activeElement.blur();
-        this.showHelpBlock(0);
         if (!!this.nowOpen) {
+            if (this.nowOption.id.includes('help')) this.showHelpBlock(-1);
             this.nowOpen.style.display = 'none';
             this.nowOption.classList.remove('current');
             this.nowOption.getElementsByTagName('span')[0].style = '';
@@ -739,7 +739,7 @@ var Menu = class Menu {
     static showHelpBlock(which) {
         for (var index = 0; index < 3; index++)
             document.getElementById(`menu-help-${index}`).style.display = 'none';
-        document.getElementById(`menu-help-${which}`).style.display = 'block';
+        if (which != -1) document.getElementById(`menu-help-${which}`).style.display = 'block';
     }
 
     static updateHelpMessage(value){
