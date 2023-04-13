@@ -389,4 +389,4 @@ var gps_data = [
     [3001, 10, "Bravado Buffalo", "Annlynn Recanter", 2405.4],
     [3002, 10, "Bravado Buffalo", "Annlynn Recanter", 2405.4],
 ]
-PoliceTablet.draw('Полиция Палето-Бэй', tablet_data);
+// PoliceTablet.draw('Полиция Палето-Бэй', tablet_data);
