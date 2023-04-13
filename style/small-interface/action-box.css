@@ -11,6 +11,7 @@
     left: calc(50% - 300px);
     top: 50%;
     transform: translateY(-50%);
+    z-index: 1001;
 }
 
 #action-box {

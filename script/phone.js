@@ -325,7 +325,7 @@ var Phone = class Phone {
 
         textDiv.className = "sent-sms";
         text = convertGeo(text);
-        textDiv.innerText = text[0];
+        textDiv.innerHTML = text[0];
         textDiv.innerHTML += text[1].length ? '<br><br>' + text[1] : '';
 
         parent.innerHTML += /*html*/ `
@@ -342,7 +342,7 @@ var Phone = class Phone {
                 coords_str += /*html*/ `<div class="geo-link" onclick="mp.trigger('Phone::SendCoords', '${coords}')">Геолокация</div>`;
                 return '';
             });
-            return [str, coords_str];
+            return [str.replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('\n', '<br>'), coords_str];
         }
     }
 

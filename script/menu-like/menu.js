@@ -709,8 +709,7 @@ var Menu = class Menu {
         var classTemp = isAdmin ? 'menu-help-admin' : 'menu-help-user';
         var message = document.createElement('p');
         this.lastmsg = message;
-        message.innerHTML = /*html*/ `<span class="${classTemp}">${name}</span>(${time})</br></br><span></span>`;
-        message.lastElementChild.innerText = `${fulltext}`;
+        message.innerHTML = /*html*/ `<span class="${classTemp}">${name}</span>(${time})</br></br>${fulltext.replaceAll('<', '&lt;').replaceAll('>', '&gt;')}`;
         document.getElementById('menu-help-chat').append(message)
     }
 

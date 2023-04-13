@@ -94,7 +94,6 @@ var Messages = class ChatMessages {
 
     static showMe(time, fullname, id, message) {
         var msg = this.emptyMessage(message);
-        console.log(msg);
         msg.el.innerHTML = /*html*/ 
             `<span class="action-text">${time} ${fullname} (${id}) ${msg.text}</span>`;
     }

@@ -15,7 +15,7 @@ vue_app.component('police-tablet-template', {
         <div id="police-tablet">
             <div id="police-tablet-top">
                 <div id="police-tablet-title">
-                    <span style="color: #FFFFFF">Полиция Палето-Бэй</span><br><span style="color: #868686;">Служебный планшет</span>
+                    <span style="color: #FFFFFF"></span><br><span style="color: #868686;">Служебный планшет</span>
                 </div>
                 <div id="police-tablet-search">
                     <input placeholder="Имя Фамилия / CID / ID / Номер телефона (+ в начале) / Гос. номер ТС">
@@ -40,7 +40,7 @@ vue_app.component('police-tablet-template', {
                     <div style="margin-right: 155px">
                         <div class="police-tablet-input-block">
                             <div>CID разыскиваемого</div>
-                            <input style="width:110px" placeholder="Ввод">
+                            <input placeholder="Ввод">
                         </div>
                         <div class="police-tablet-input-block">
                             <div>Сотрудник</div>

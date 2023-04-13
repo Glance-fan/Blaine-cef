@@ -94,7 +94,7 @@ var MenuFrac = class MenuFraction {
         var elem = document.createElement('div');
         elem.id = `${id}-news-elem`;
         elem.className = 'menu-frac-news-elem';
-        elem.innerText = text;
+        elem.innerHTML = text.replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('\n', '<br>');
         elem.setAttribute('onclick', `MenuFrac.showTooltip(this, 'news', ${id},)`)
         parent.append(elem);
 
@@ -167,7 +167,7 @@ var MenuFrac = class MenuFraction {
             <button class="grey-button" onclick="MenuFrac.newsRequest(2)">Отменить</button>
             <button class="red-button" onclick="MenuFrac.newsRequest(1, ${id}, document.getElementById('menu-frac-edit-news').value)">${id != null ? 'Применить' : 'Добавить'}</button>
         `;
-        parent.focus();
+        setTimeout(() => parent.focus(), 0);
     }
 
     static updateNews(id, text) {
@@ -664,7 +664,7 @@ var MenuFrac = class MenuFraction {
 var frac_data = [
     [ //information
         [ //news
-            [[0, '0-news\n\nasdf\n\n\n\nf\nf\n\n\n\nf\n\n\nf<div>in_div</div>']], null //int || null
+            [[0, '0-news\n\nasdf\n\n\n\nf\nf\n\n\n\nf\n\n\nf<div>in_div</div>😃']], null //int || null
         ],
         //info
         ['Больница округа Блэйн', 'Annlynn Recanter', 1000000, 1000, 1]
