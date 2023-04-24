@@ -60,7 +60,9 @@ var Tattoo = class TattooSalon {
 
     static focusSearch(block) {
         block.style.animation = '5s ease 0s infinite normal none running selected';
-        block.querySelector('input').focus();
+        setTimeout(() => {
+            block.querySelector('input').focus();
+        }, 0);
     }
 
     static blurSearch(search) {
@@ -161,24 +163,3 @@ var Tattoo = class TattooSalon {
         mp.trigger("Shop::Buy", pay_method, this.lastChoiceId);
     }
 }
-
-tattoo_data = [
-    ['head', 'Голова', [
-        ['none', 'Ничего', 3000],
-        ['dragon_tattoo_0', 'Дракон', 500],
-        ['dragon_tattoo_1', 'Дракончик', 1500],
-        ['dragon_tattoo_2', 'Дракончики', 2500],
-    ], 'dragon_tattoo_1'],
-    ['left_arm', 'Левая рука', [
-        ['none', 'Ничего', 2400],
-        ['dragon_tattoo_0', 'Дракон', 500],
-        ['dragon_tattoo_1', 'Дракончик', 1500],
-        ['dragon_tattoo_2', 'Дракончики', 2500],
-    ], 'none'],
-    ['right_arm', 'Правая рука', [
-        ['none', 'Ничего', 3000],
-        ['dragon_tattoo_0', 'Дракон', 500],
-        ['dragon_tattoo_1', 'Дракончик', 1500],
-        ['dragon_tattoo_2', 'Дракончики', 2500],
-    ], 'dragon_tattoo_2'],
-]

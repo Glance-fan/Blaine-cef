@@ -64,7 +64,7 @@ var CRecords = class CriminalRecords {
         elem.className = 'crec-information-elem';
         elem.innerHTML = /*html*/ `
             <div style="width:150px; margin-right:2px;" id="${id}-crec-0">${date}</div>
-            <div style="width:110px; margin-right:2px;" id="${id}-crec-1">${period} ч.</div>
+            <div style="width:110px; margin-right:2px;" id="${id}-crec-1">${period}</div>
             <div style="width:360px; margin-right:1px;"id="${id}-crec-2">${section}</div>
             <button class="red-button" onclick="CRecords.payoffRequest(${id})">Погасить</button>`;
         parent.append(elem);
@@ -72,7 +72,6 @@ var CRecords = class CriminalRecords {
 
     //which = 0,1,2
     static updateCRecords(id, which, value) {
-        if (which == 1) value += ' ч.'
         document.getElementById(`${id}-crec-${which}`).innerText = value;
     }
 
@@ -102,4 +101,3 @@ var CRecords = class CriminalRecords {
 }
 
 CRecords.switchContainer(0);
-// CRecords.fillPlayerInfo('star butterfly', 3000, '26.03.2023', true, [[0, '22.03.23', 10, '123 321 231'],[1, '22.03.23', 10, '123 321 231'],[2, '22.03.23', 10, '123 321 231'],[3, '22.03.23', 10, '123 321 231'],[4, '22.03.23', 10, '123 321 231'],[5, '22.03.23', 10, '123 321 231'],[6, '22.03.23', 10, '123 321 231'],[7, '22.03.23', 10, '123 321 231']])

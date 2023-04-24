@@ -145,4 +145,3 @@ var AuthSelect = class CharSelection {
     }
 
 }
-//"frytech", "17.03.2022", 150, 2,[["Jenny Hezky",0,1000,true,25,"нет фракции",244.7,77, true, false, "id", "reason", "00.00.0000 00:00:00", "00.00.0000 00:00:01"],["Olivia Moore",55555555,1000,false,25,"нет",24,77, false, true],[]]

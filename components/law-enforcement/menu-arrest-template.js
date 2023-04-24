@@ -44,7 +44,7 @@ vue_app.component('menu-arrest-template', {
                 <h2>Подробные сведения</h2>
                 <div id="menu-arrest-full-info" class="menu-arrest-section"></div>
                 <div id="menu-arrests-buttons">
-                    <div onclick="MenuArrest.buttonRequest(0)"><img src="libs/svgs/law-enforcement/back.svg"></div>
+                    <div class="menu-arrest-img-anim" onclick="MenuArrest.buttonRequest(0)"><img src="libs/svgs/law-enforcement/back.svg"></div>
                     <button class="red-button" style="font-size: 12px" onclick="MenuArrest.buttonRequest(1)">Выпустить</button>
                     <button class="grey-button" onclick="MenuArrest.buttonRequest(2)">Изменить<br>срок</button>
                 </div>

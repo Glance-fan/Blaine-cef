@@ -1,7 +1,7 @@
 var Passengers = class Passengers {
     static container = document.getElementById('passengers-container');
     static fill(data) {
-        passengers_tmpl.firstElementChild.firstElementChild.innerHTML = interact_svgs.pass_interact;
+        passengers_tmpl.firstElementChild.firstElementChild.innerHTML = `<img src="libs/svgs/interaction/pass_title.svg">`;
         this.container.firstElementChild.innerHTML = '';
         this.container.scrollTo({
             top: 0,

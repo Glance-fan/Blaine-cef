@@ -89,4 +89,3 @@ var MusicPlayer = class MusicPlayer {
         // this.setButton(action, state)
     }
 }
-// MusicPlayer.draw('h1', 123, 10, '00:00', '03:00', true, 0.5, true, true);

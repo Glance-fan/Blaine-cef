@@ -62,5 +62,4 @@ var Casino = class Casino {
         if (input.value == this.max_bet) parent[2].firstElementChild.style.opacity = 0;
         else parent[2].firstElementChild.style.opacity = 1;
     }
-
 }

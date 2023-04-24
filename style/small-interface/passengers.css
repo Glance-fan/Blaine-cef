@@ -1,5 +1,5 @@
 #passengers-interaction {
-    z-index: 100;
+    z-index: 99999;
     width: 600px;
     height: 460px;
     position: relative;

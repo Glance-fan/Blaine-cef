@@ -152,7 +152,9 @@ var ChCreate = class Char_Creation {
 
     static onfocus(elem) {
         elem.style.opacity = 1;
-        elem.lastElementChild.focus();
+        setTimeout(() => {
+            elem.lastElementChild.focus();
+        }, 0);
     }
 
     static onblur(elem) {

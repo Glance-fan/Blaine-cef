@@ -340,11 +340,5 @@ var MenuBank = class MenuBank {
         this.setSavingsInfo(1, val);
     }
 }
-bank_data = [
-    1, 15000, 500, 500000, false
-];
-// MenuBank.draw(bank_data)
-// MenuBank.setDebetInfo(1, 15000)
-// MenuBank.setSavingsInfo(1, 25000)
 
 //новые типы тарифов: tariffTypes, новый тип фона тарифов: menu-bank.css в конце по образцу ДО menubank-tariffs-selected 

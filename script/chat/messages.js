@@ -63,7 +63,7 @@ var Messages = class ChatMessages {
         msg.classList.add('sent-message');
         Chat.container.append(msg);
         if (Chat.curFont != 14) Chat.switchFont(Chat.curFont);
-        if (Array.isArray(text)) 
+        if (Array.isArray(text))
             return {
                 el: msg,
                 text0: convert(text[0]),
@@ -88,25 +88,25 @@ var Messages = class ChatMessages {
 
     static showOOC(time, fullname, id, message) {
         var msg = this.emptyMessage(message);
-        msg.el.innerHTML = /*html*/ 
+        msg.el.innerHTML = /*html*/
             `<span class="nonrp-text">${time} [OOC] ${fullname} (${id}): ${msg.text}</span>`;
     }
 
     static showMe(time, fullname, id, message) {
         var msg = this.emptyMessage(message);
-        msg.el.innerHTML = /*html*/ 
+        msg.el.innerHTML = /*html*/
             `<span class="action-text">${time} ${fullname} (${id}) ${msg.text}</span>`;
     }
 
     static showDo(time, fullname, id, message) {
         var msg = this.emptyMessage(message);
-        msg.el.innerHTML = /*html*/ 
+        msg.el.innerHTML = /*html*/
             `<span class="action-text">${time} ${msg.text} - ${fullname} (${id})</span>`;
     }
 
     static showToDo(time, fullname, id, messageBefore, messageAfter) {
         var msg = this.emptyMessage([messageBefore, messageAfter]);
-        msg.el.innerHTML = /*html*/ 
+        msg.el.innerHTML = /*html*/
             `<span class="action-text">${time} ${msg.text0}. - сказал(а) ${fullname} (${id}), ${msg.text1}</span>`;
     }
 
@@ -121,20 +121,20 @@ var Messages = class ChatMessages {
 
     static showTry(time, fullname, id, message, result) {
         var msg = this.emptyMessage(message);
-        msg.el.innerHTML = /*html*/ 
+        msg.el.innerHTML = /*html*/
             `<span class="action-text">${time} ${fullname} (${id}) ${msg.text} |</span>`
         msg.innerHTML += result ? /*html*/ `<span class="success-text">Удачно</span>` : /*html*/ `<span class="defeat-text">Неудачно</span>`;
     }
 
     static showFraction(time, position, fullname, id, message) {
         var msg = this.emptyMessage(message);
-        msg.el.innerHTML = /*html*/ 
+        msg.el.innerHTML = /*html*/
             `<span class="fraction-text">${time} [R] ${position} ${fullname} (${id}): ${msg.text}</span>`;
     }
 
     static showGoverment(time, department, position, fullname, id, message) {
         var msg = this.emptyMessage(message);
-        msg.el.innerHTML = /*html*/ 
+        msg.el.innerHTML = /*html*/
             `<span class="goverment-text">${time} [D] ${department} | ${position} ${fullname} (${id}): ${msg.text}</span>`;
     }
 
@@ -238,7 +238,7 @@ var Messages = class ChatMessages {
 
     static server(time, message) {
         var msg = this.makeSpecial(this.emptyMessage(message), 'special');
-        msg.el.innerHTML = /*html*/ 
+        msg.el.innerHTML = /*html*/
             `<span class="normal-text">${time} ${msg.text}</span>`;
         this.setLine(msg.el);
     }
@@ -246,29 +246,29 @@ var Messages = class ChatMessages {
     static advert(time, redactor, sender, message, number) {
         var msg = this.makeSpecial(this.emptyMessage(message), 'ad');
         msg.el.innerHTML = /*html*/
-            `<span class="normal-text">${time} ${msg.text}</span></br><div style="display:flex;"><span class="nonrp-text" style="font-weight: 500;">Редактор: ${redactor}. Отравитель: ${sender}</span> ${chat_svgs.phone}${chat_svgs.sms}</div>`;
+            `<span class="normal-text">${time} ${msg.text}</span></br><div style="display:flex;"><span class="nonrp-text" style="font-weight: 500;">Редактор: ${redactor}. Отравитель: ${sender}</span> <div class="sent-message-img-anim" style="left:10px;"><img src="libs/svgs/chat/phone.svg"></div><div  class="sent-message-img-anim" style="left: 15px;"><img src="libs/svgs/chat/sms.svg"></div></div>`;
         this.setLine(msg.el);
         this.adSetClicks(msg.el, number)
     }
 
     static government(time, fullname, message) {
         var msg = this.makeSpecial(this.emptyMessage(message), 'gov');
-        msg.el.innerHTML = /*html*/ 
+        msg.el.innerHTML = /*html*/
             `<span class="normal-text">${time} ${fullname}: ${msg.text}</span>`;
         this.setLine(msg.el);
     }
 
     static news(time, fullname, message) {
         var msg = this.makeSpecial(this.emptyMessage(message), 'ad');
-        msg.el.innerHTML = /*html*/ 
+        msg.el.innerHTML = /*html*/
             `<span class="normal-text">${time} ${fullname}: ${msg.text}</span>`;
         this.setLine(msg.el);
     }
 
     static adSetClicks(msg, number) {
-        var svgs = msg.getElementsByTagName('svg');
-        for (var index = 0; index < svgs.length; index++)
-            svgs[index].parentElement.setAttribute('onclick', `Messages.clickPhone('${number}', ${index})`);
+        var imgs = msg.getElementsByTagName('img');
+        for (var index = 0; index < imgs.length; index++)
+            imgs[index].parentElement.setAttribute('onclick', `Messages.clickPhone('${number}', ${index})`);
 
     }
 
@@ -276,30 +276,3 @@ var Messages = class ChatMessages {
         mp.trigger('Chat::Phone', index, number)
     }
 }
-
-/*
-Messages.showNormal(0, '18:00', 'Hezky', '777', '<div>in_div</div>😃')
-Messages.showNormal(1, '18:00', 'Hezky', '777', '<div>in_div</div>😃')
-Messages.showNormal(2, '18:00', 'Hezky', '777', '<div>in_div</div>😃')
-Messages.showOOC('18:00', 'Hezky', '777', '<div>in_div</div>😃')
-Messages.showMe('18:00', 'Hezky', '777', '<div>in_div</div>😃')
-Messages.showDo('18:00', 'Hezky', '777', '<div>in_div</div>😃')
-Messages.showToDo('18:00', 'Hezky', '777', '<div>in_div</div>😃', '<div>in_div</div>😃')
-Messages.showTry('18:00', 'Hezky', '777', '<div>in_div</div>😃', true)
-Messages.showTry('18:00', 'Hezky', '777', '<div>in_div</div>😃', false)
-Messages.showFraction('18:00', 'frytech', 'Hezky', '777', '<div>in_div</div>😃')
-Messages.showGoverment('18:00', 'chel', 'frytech', 'Hezky', '777', '<div>in_div</div>😃')
-Messages.showOrganisation('18:00', 'frytech', 'Hezky', '777', '<div>in_div</div>😃')
-
-Messages.admin_ban('18:00', 'Hezky', 'Max', 0, '<div>in_div</div>😃')
-Messages.admin_mute('18:00', 'Hezky', 'Max', 0, '<div>in_div</div>😃')
-Messages.admin_jail('18:00', 'Hezky', 'Max', 0, '<div>in_div</div><div>in_div</div>😃')
-Messages.admin_unban('18:00', 'Hezky', 'Max','ne <div>in_div</div>😃')
-Messages.admin_unmute('18:00', 'Hezky', 'Max','ne <div>in_div</div>😃')
-Messages.admin_unjail('18:00', 'Hezky', 'Max','ne <div>in_div</div>😃')
-Messages.admin_message('18:00', 'Hezky', '<div>in_div</div>😃')
-Messages.server('18:00', '<div>in_div</div>😃')
-Messages.advert('18:00', 'Max-Black', 'Olivia Moore', '<3 <div>in_div</div>😃', '555-555')
-Messages.government('18:00', 'Hezky', '<div>in_div</div>😃')
-Messages.news('18:00', 'Hezky', '<div>in_div</div>😃')
-*/

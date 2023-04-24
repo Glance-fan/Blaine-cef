@@ -285,16 +285,3 @@ var Blips = class Blips {
             if (paths[i].hasAttribute('fill')) paths[i].setAttribute("fill", "#bbb");
     }
 }
-
-blips_data = [
-    ['Ферма', true, 0, 1, 0.11, 0.91, true],
-    ['Ферма', false, 1, 40, 0.21, 0.81, false],
-    ['Ферма', true, 2, 43, 0.31, 0.71, false],
-    ['Ферма', true, 3, 50, 0.41, 0.61, false],
-    ['Ферма', false, 26, 51, 0, 1, true],
-    ['Ферма', true, 27, 60, 0.61, 0.41, false],
-    ['Ферма', false, 28, 8, 0.71, 0.31, true],
-    ['Ферма', true, 29, 36, 0.81, 0.21, true],
-    ['Ферма', true, 85, 16, 0.91, 0.11, false],
-]
-// Blips.fillBlips(blips_data);

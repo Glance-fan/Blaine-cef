@@ -225,25 +225,3 @@ var Estate = class Estate {
         mp.trigger('Estate::Action', action, this.curprice, this.lastEstate != null ? Array.from(this.lastEstate.parentNode.children).indexOf(this.lastEstate) : null);
     }
 }
-
-// Estate.draw('info', 'house', 4694, ['Jessica Day', 500000, 90, 2, '0'], true)
-// Estate.draw('info','biz', null, ['Store #1', 'Weapon', null, 500000, 15, 10])
-// Estate.draw('info','flat', 231, ['Jessica Day', 500000, 90, 10], false)
-// Estate.draw('info','veh_info', null, ['Bravado Buffalo', '123123', 4, true, true, false, 100, 25]) 
-
-// Estate.draw('offer', 'house', 4694, ['Jessica Day', 750000, 500000, 90, 2, 0])
-// Estate.draw('offer', 'biz', null, ['Jessica Day', 750000, 'Weapon', 500000, 90, 10])
-// Estate.draw('offer', 'flat', 4694, ['Jessica Day', 750000, 500000, 90, 2])
-// Estate.draw('offer', 'garage', 4694, ['Jessica Day', 750000, 500000, 90, 2, 0])
-// Estate.draw('offer', 'veh', null, ['Jessica Day', 750000, 'model', 500000, 80085, 'отсутствует'])
-
-// Estate.draw('sell', 'sell', null, ['Jessica Day', [
-//     ['House', 'Магазин брендовой одежды', '', 'class_range', 550000, 3],
-//     ['Biz', 'producer', 'model', 'class_range', 550000, 177],
-//     ['Flat', 'producer', 'model', 'class_range', 550000, 177],
-//     ['Garage', 'producer', 'model', 'class_range', 550000, 177],
-//     ['Veh', 'producer', 'model', 'class_range', 1780000],
-//     ['Moto', 'producer', 'model', 'class_range', 1780000],
-//     ['Ship', 'producer', 'model', 'class_range', 1780000],
-//     ['Plane', 'producer', 'model', 'class_range', 1780000],
-// ]])

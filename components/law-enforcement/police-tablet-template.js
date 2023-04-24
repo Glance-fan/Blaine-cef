@@ -39,7 +39,7 @@ vue_app.component('police-tablet-template', {
                     <div id="police-tablet-arrest-title"></div>
                     <div style="margin-right: 155px">
                         <div class="police-tablet-input-block">
-                            <div>CID разыскиваемого</div>
+                            <div>Разыскиваемый</div>
                             <input placeholder="Ввод">
                         </div>
                         <div class="police-tablet-input-block">
@@ -71,7 +71,7 @@ vue_app.component('police-tablet-template', {
                 </div>
             </div>
             <div id="police-tablet-bottom">
-                <div onclick="PoliceTablet.backRequest()"><img src="libs/svgs/law-enforcement/back.svg"></div>
+                <div onclick="PoliceTablet.backRequest()" class="police-tablet-img-anim"><img src="libs/svgs/law-enforcement/back.svg"></div>
                 <div id="police-btn-wrapper">
                     <button class="red-button" onclick="PoliceTablet.codeRequest(0)">код 0</button>
                     <button class="grey-button" onclick="PoliceTablet.codeRequest(1)">код 1</button>

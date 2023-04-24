@@ -179,13 +179,3 @@ var CarMaint = class CarMaintenance {
         this.onrange(carmaint_tmpl.querySelector('input'));
     }
 }
-
-test_prices = [
-    [8, 7, 6, 5, 4, 3, 2, 1],
-    [80, 70, 60, 50, 40, 30, 20, 10], // 0 (80) - за 1, 1 (70) - за 2, 3 (60) - за 3 ..
-    [800, 700, 600, 500, 400, 300, 200, 100],
-    [8000, 7000, 6000, 5000, 4000, 3000, 2000, 1000],
-    [80000, 70000, 60000, 50000, 40000, 30000, 20000, 10000]
-]
-//CarMaint.drawGas(true, [100, 500])
-// CarMaint.drawPlates(test_prices);

@@ -10,7 +10,6 @@ const vue_app = Vue.createApp({
                 car_maint: false,
                 casino: false,
                 char_creation: false,
-                char_interaction: false,
                 char_selection: false,
                 chat: false,
                 crates_inventory: false,
@@ -29,7 +28,7 @@ const vue_app = Vue.createApp({
                 hud_spd: false,
                 hud_top: false,
                 inventory: false,
-                iv_interaction: false,
+                interaction: false,
                 lock_picking: false,
                 login: false,
                 menu: false,
@@ -44,8 +43,7 @@ const vue_app = Vue.createApp({
                 notifications: false,
                 npc: false,
                 orange_picking: false,
-                ov_interaction: false,
-                pass_interaction: false,
+                passengers: false,
                 phone: false,
                 police_tablet: false,
                 reg: false,
@@ -79,7 +77,6 @@ const vue_app = Vue.createApp({
                 estate: false,
                 full_inventory: false,
                 hud: false,
-                inter_drawed: false,
                 interaction: false,
                 inv_drawed: false,
                 lock_picking: false,
@@ -96,6 +93,7 @@ const vue_app = Vue.createApp({
                 notifications: false,
                 npc: false,
                 orange_picking: false,
+                passengers: false,
                 phone: false,
                 police_tablet: false,
                 reg: false,
@@ -195,10 +193,8 @@ function resizeAll() {
         resizeBigger(hud_left);
     }
     if (chat_tmpl) resizeBigger(chat_tmpl);
-    if (chinteract_tmpl) resizeBigger(chinteract_tmpl);
-    if (ovinteract_tmpl) resizeBigger(ovinteract_tmpl);
-    if (ivinteract_tmpl) resizeBigger(ivinteract_tmpl);
-    if (passengers_tmpl) resizeBigger(ivinteract_tmpl);
+    if (inter_tmpl) resizeBigger(inter_tmpl)
+    if (passengers_tmpl) resizeBigger(passengers_tmpl);
     if (menu_tmpl) resizeBigger(menu_tmpl);
     if (menubank_tmpl) resizeBigger(menubank_tmpl);
     if (menubiz_tmpl) resizeBigger(menubiz_tmpl);

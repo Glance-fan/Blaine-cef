@@ -150,6 +150,18 @@
     margin-top: 10px;
 }
 
+.menu-arrest-img-anim {
+    opacity: 0.8;
+}
+
+.menu-arrest-img-anim:hover {
+    opacity: 0.95;
+}
+
+.menu-arrest-img-anim:active {
+    opacity: 1;
+}
+
 #menu-arrest-full-info {
     padding: 25px 50px;
     width: 670px;

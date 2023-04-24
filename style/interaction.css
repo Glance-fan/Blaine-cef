@@ -1,0 +1,60 @@
+#inter-wheel>svg {
+    width: 100%;
+    height: 100%;
+}
+
+#inter-wheel {
+    width: 700px;
+    height: 700px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    pointer-events: none;
+}
+
+#interaction-container {
+    flex-direction: column;
+    position: relative;
+}
+
+.close-interaction {
+    pointer-events: all;
+    width: 261px;
+    height: 261px;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #232323CC;
+    left: 50%;
+    font-weight: 700;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+}
+
+#interaction-container {
+    position: absolute;
+    height: 700px;
+    width: 700px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9999;
+}
+
+#interaction-container image {
+    pointer-events: none;
+}
+
+#interaction-container svg {
+    pointer-events: none;
+}
+
+#interaction-container svg path {
+    pointer-events: all;
+}

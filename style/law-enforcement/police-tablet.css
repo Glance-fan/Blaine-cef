@@ -228,6 +228,18 @@
     margin-top: 10px;
 }
 
+.police-tablet-img-anim {
+    opacity: 0.8;
+}
+
+.police-tablet-img-anim:hover {
+    opacity: 0.95;
+}
+
+.police-tablet-img-anim:active {
+    opacity: 1;
+}
+
 #police-tablet-arrest-form {
     width: 905px;
     height: 285px;

@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="libs/fonts/MaterialIcons.css">
     <script src="libs/frameworks/vue.js"></script>
     <script src="libs/frameworks/vue-color.js"></script>
+    <script src="libs/frameworks/raphael.js"></script>
+    <script src="libs/frameworks/wheelnav.js"></script>
     <script src="libs/frameworks/keycodes.js"></script>
     <script src="libs/frameworks/chart.js"></script>
     <script src="libs/js-database/general.js"></script>
@@ -19,7 +21,8 @@
 
 <body onload="resizeAll()" onresize="resizeAll()">
     <link rel="stylesheet" href="style/main.css">
-    <!-- <style> body { background: url('bg.jpg'); } </style> -->
+    <!-- <style> body { background: url(bg.jpg); } </style> -->
+    <!-- <script src="./all-test-data.js"></script> -->
 
     <div id="vue_app">
         <npc-template v-show="show.npc" v-if="render.npc"></npc-template>
@@ -41,9 +44,8 @@
             <hud-left-template v-show="show.hud_left"></hud-left-template>
         </div>
         <phone-template v-show="show.phone" v-if="render.phone"></phone-template>
-        <interaction-template
-            v-show="show.char_interaction || show.ov_interaction || show.iv_interaction || show.pass_interaction"
-            v-if="render.interaction"></interaction-template>
+        <passengers-template v-show="show.passengers" v-if="render.passengers"></passengers-template>
+        <interaction-template v-show="show.interaction" v-if="render.interaction"></interaction-template>
         <menu-template v-show="show.menu" v-if="render.menu"></menu-template>
         <autoschool-template v-show="show.autoschool" v-if="render.autoschool"></autoschool-template>
         <menu-bank-template v-show="show.menu_bank" v-if="render.menu_bank"></menu-bank-template>
@@ -127,6 +129,7 @@
     <script src="./components/small-interface/notifications-template.js"></script>
     <script src="./components/small-interface/note-template.js"></script>
     <script src="./components/small-interface/npc-template.js"></script>
+    <script src="./components/small-interface/passengers-template.js"></script>
     <script src="./components/colorpicker-template.js"></script>
     <!-- STORE-LIKE -->
     <script src="./components/store-like/creation-template.js"></script>

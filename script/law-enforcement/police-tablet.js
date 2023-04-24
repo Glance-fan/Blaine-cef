@@ -118,16 +118,13 @@ var PoliceTablet = class PoliceTablet {
         ],
         [ //GPS
             ['ID', 70],
-            ['Транспорт', 220],
-            ['Установил сотрудник', 160],
-            ['Расстояние', 117],
+            ['Транспорт', 370],
+            ['Установил сотрудник', 200],
             ['Опции', 0],
             [
                 [80, 4],
-                [285, 3],
-                [295, 2],
-                [190, 1],
-                // [190, 1],
+                [435, 3],
+                [337, 2],
             ]
         ]
     ]
@@ -149,63 +146,64 @@ var PoliceTablet = class PoliceTablet {
         parent.innerHTML = '';
         load(data, which);
 
-        async function load(data) {
-            data.forEach(el => PoliceTablet.addElem(...el, which));
+        async function load(data, which) {
+            data.forEach(el => PoliceTablet.addElem(which, ...el));
         }
     }
-    
+
     /*
     possible args (not in array) all end with given below number:
-    - calls: uid, 'time', 'type', 'sender', distance, 'message', 0
-    - fines: uid, 'time', sum, 'employee', 'criminal', 'reason', 1
-    - arrests: uid, 'date', criminal, 'employee', 'information', 2
-    - notifs: uid, 'time', 'content', distance, 3
-    - GPS: uid, id, 'veh', 'employee', distance, 4
+    - calls: 0, uid, 'time', 'type', 'sender', distance, 'message'
+    - fines: 1, uid, 'time', sum, 'employee', 'criminal', 'reason'
+    - arrests: 2, uid,'date', criminal, 'employee', 'information'
+    - notifs: 3, uid, 'time', 'content', distance
+    - GPS: 4, uid, id, 'veh', 'employee', distance
     */
     static addElem() {
         var parent = document.getElementById('police-tablet-information'),
             elem = document.createElement('div'),
             args = Array.from(arguments),
-            which = args.at(-1),
+            which = args[0],
+            uid = args[1],
             dims = this.action_statics[which].at(-1);
-
-        elem.id = `${args[0]}-tablet-elem`;
+        elem.id = `${uid}-tablet-elem`;
         elem.className = 'police-tablet-action-elem';
-        args.slice(1, args.length - 1).forEach((arg, idx) => {
+
+        var elem_args = typeof args.at(-1) == 'boolean' ? args.slice(2, args.length - 1) : args.slice(2, args.length);
+        elem_args.forEach((arg, idx) => {
             if (idx == 1 && which == 1) arg = prettyUSD(arg);
-            if (idx == 3 && which == 0 || idx == 2 && which == 3 || idx == 3 && which == 4) arg += ' м.';
-            elem.innerHTML += /*html*/ `<div id="${args[0]}-${which}-action-${idx}" style="width: ${dims[idx][0]}px; margin-right: ${dims[idx][1]}px">${arg}</div>`
+            elem.innerHTML += /*html*/ `<div id="${uid}-${which}-action-${idx}" style="width: ${dims[idx][0]}px; margin-right: ${dims[idx][1]}px">${arg}</div>`
         })
         switch (which) {
             case 0:
             case 3:
-                elem.innerHTML += /*html*/ `<div style="height:15px" onclick="PoliceTablet.markerRequest(${args[0]})"><img src="libs/svgs/law-enforcement/marker.svg"></div>`;
+                elem.innerHTML += /*html*/ `<div style="height:15px" class="police-tablet-img-anim" onclick="PoliceTablet.markerRequest(${uid})"><img src="libs/svgs/law-enforcement/marker.svg"></div>`;
                 break;
             case 2:
-                elem.innerHTML += /*html*/ `<div style="height:15px" onclick="PoliceTablet.editRequest(false, ${args[0]})"><img src="libs/svgs/law-enforcement/inspect.svg"></div>`;
+                elem.innerHTML += /*html*/ `<div style="height:15px" class="police-tablet-img-anim" onclick="PoliceTablet.editRequest(false, ${uid})"><img src="libs/svgs/law-enforcement/inspect.svg"></div>`;
                 break;
             case 4:
                 elem.innerHTML += /*html*/ `
                     <div style="display: flex;width:45px;justify-content:space-between;">
-                        <div style="height:15px" onclick="PoliceTablet.markerRequest(${args[0]})"><img src="libs/svgs/law-enforcement/marker.svg"></div>
-                        <div style="height:15px" onclick="PoliceTablet.removeRequest(${args[0]})"><img src="libs/svgs/law-enforcement/close.svg"></div>
+                        <div class="police-tablet-img-anim" style="height:15px" onclick="PoliceTablet.markerRequest(${uid})"><img src="libs/svgs/law-enforcement/marker.svg"></div>
+                        <div class="police-tablet-img-anim" style="height:15px" onclick="PoliceTablet.removeRequest(${uid})"><img src="libs/svgs/law-enforcement/close.svg"></div>
                     </div>`;
                 break;
         }
-        parent.append(elem);
+
+        if (typeof args.at(-1) == 'boolean' && args.at(-1)) parent.insertBefore(elem, parent.firstElementChild)
+        else parent.append(elem);
     }
 
     //id = uid; which = number of container 0,1,2,3,4; idx = index of changeable value; 
     //example: change distance of first notification -> 3000, 3, 2, value  
     static updateElem(id, which, idx, value) {
         if (idx == 1 && which == 1) value = prettyUSD(value);
-        if (idx == 3 && which == 0 || idx == 2 && which == 3 || idx == 3 && which == 4) value += ' м.';
         document.getElementById(`${id}-${which}-action-${idx}`).innerHTML = value;
     }
 
-    //args same as update
-    static removeElem(id, which, idx) {
-        document.getElementById(`${id}-${which}-action-${idx}`).remove();
+    static removeElem(id) {
+        document.getElementById(`${id}-tablet-elem`).remove();
     }
 
     //args = [show, arrest-from-date, cid, employee, short-info, full-info]
@@ -281,7 +279,7 @@ var PoliceTablet = class PoliceTablet {
         parent = document.getElementById('police-tablet-player-veh');
         parent.innerHTML = '';
         args.at(-1).forEach(el => parent.innerHTML += /*html*/ `<div class="police-tablet-veh-elem"><div><div>${el[0]}</div><div style="color: #D7D7D7">${el[1] ? el[1] : 'Регистрация отсутствует'}</div></div><div class="police-tablet-veh-circle" style="background: ${el[2]}"></div></div>`);
-        if (parent.innerHTML.length == 0) 
+        if (parent.innerHTML.length == 0)
             parent.innerHTML = /*html*/ `<div style="text-align: center;position: absolute;top: 50%;transform: translateY(-50%);width: 100%;">${args[0]}<br>не владеет<br>ни одним транспортом</div>`
     }
     static updatePlayer() {
@@ -352,41 +350,9 @@ var PoliceTablet = class PoliceTablet {
         }
         mp.trigger('PoliceTablet::ArrestButton', action, ...arr);
     }
-    
+
     static backRequest() {
         mp.trigger('PoliceTablet::Back', this.cur_cont);
         // PoliceTablet.switchContainer(need_idx); -> explained in definition
     }
 }
-
-var tablet_data = [
-    ['star butterfly', 'Детектив [6]', false, 0, 0],
-]
-var player_data = ['Star Butterfly', 3000, '03.03.1990', false, false, 123123123, `#123, Палето-Бэй Пацифик Стрит`, null, null, null, [
-]]
-var fines_data = [
-    [3000, "23:59", 13001, "Annlynn Recanter", "Annlynn Recanter", "2.4 п. ПДД"],
-    [3001, "23:59", 13002, "Annlynn Recanter", "Annlynn Recanter", "2.4 п. ПДД"],
-    [3002, "23:59", 13003, "Annlynn Recanter", "Annlynn Recanter", "2.4 п. ПДД"],
-]
-var arrests_data = [
-    [3000, "17.03.2023 23:59", "123123123", "Annlynn Recanter", "УБИЙЦА"],
-    [3001, "17.03.2023 23:59", "123123123", "Annlynn Recanter", "УБИЙЦА"],
-    [3002, "17.03.2023 23:59", "123123123", "Annlynn Recanter", "УБИЙЦА"],
-]
-var phone_data = [
-    [3000, "23:59", "Вызов", "Annlynn Recanter", 2405.4, "Нужна помощь"],
-    [3001, "23:59", "Вызов", "Annlynn Recanter", 2405.4, "Нужна помощь"],
-    [3002, "23:59", "Вызов", "Annlynn Recanter", 2405.4, "Нужна помощь"],
-]
-var notifs_data = [
-    [3000, "23:59", "Вызов", 2405.4],
-    [3001, "23:59", "Вызов", 2405.4],
-    [3002, "23:59", "Вызов", 2405.4],
-]
-var gps_data = [
-    [3000, 10, "Bravado Buffalo", "Annlynn Recanter", 2405.4],
-    [3001, 10, "Bravado Buffalo", "Annlynn Recanter", 2405.4],
-    [3002, 10, "Bravado Buffalo", "Annlynn Recanter", 2405.4],
-]
-// PoliceTablet.draw('Полиция Палето-Бэй', tablet_data);

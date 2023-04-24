@@ -137,6 +137,7 @@
 }
 
 #send-arrow {
+  pointer-events: all;
   position: absolute;
   right: 15px;
 }
@@ -166,8 +167,19 @@
   user-select: none;
 }
 
-.sent-message svg:hover{
+.sent-message-img-anim {
+  position: relative;
+  top: 2px;
+  opacity: 0.8;
+}
+
+.sent-message-img-anim:hover {
+  opacity: 0.95;
   filter: drop-shadow(0px 0px 9px rgba(255, 255, 255, 1));
+}
+
+.sent-message-img-anim:active {
+  opacity: 1;
 }
 
 /*Text desings*/

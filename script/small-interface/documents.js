@@ -286,24 +286,3 @@ var Docs = class Documents {
         mp.trigger('Docs::Police', which, text1, text2, text3)
     }
 }
-
-doc_data = [
-    ['Jessica', 'Day', 'женский', '13.02.1982', 'свободная', 141, '13.03.2000', true, true], //passport
-    ['Poison', 'Ivy', [
-        [true, false, true, false, true, true, false],
-        [true, false, true, false, false, false, false]
-    ]], //licenses
-    ['Reagan', 'Ridley', 'здорова', 'ems', 'John Dorian', '19.09.2010'], //medbook
-    ['med', 'morgue card', 'Olivia', 'Moore', 'Assistant Medical Examiner'], //fraction
-    ['Juliet', `O'hara`, [
-        [
-            ['Detective', 'LAPD'],
-            ['Head Detective', 'SFPD']
-        ],
-        [] //must be omitted / exists only for example
-    ]], //resume
-    ['Buggati', 'Walter Mashbourne', 113, 0, '80085', '16.1.2005'] //vehicle
-]
-
-blank = [true, 'Sacramento Police Department', 'Piper Chapman', 'Max Black', '24.04.2004']
-blank2 = [false, 'Sacramento Police Department', 'Piper Chapman', 'Max Black', '24.04.2004', ['qwer','tyuiop','zxcvb']]

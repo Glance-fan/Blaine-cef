@@ -8,7 +8,9 @@ var AuthLogin = class Login {
         document.getElementById('lg-logo').src = `libs/img/logotypes/${server}.png`;
         this.login.value = login;
         this.password.value = token;
-        document.getElementById('lg-login').focus();
+        setTimeout(() => {
+            document.getElementById('lg-login').focus();
+        }, 0);
     }
 
     static checkPassword(password, event) {
@@ -42,7 +44,7 @@ var AuthLogin = class Login {
         id += '-static';
         document.getElementById(id).style.opacity = "1";
     }
-    
+
     static onblur(id) {
         document.getElementById(id).style.opacity = "0.3";
         id += '-static';
@@ -50,21 +52,25 @@ var AuthLogin = class Login {
     }
 
     static showPassword() {
-        this.password.focus();
+        setTimeout(() => {
+            this.password.focus();
+        }, 0);
         this.password.type = 'text';
         document.getElementById('hide-lgpass').style.display = 'none';
         document.getElementById('show-lgpass').style.display = 'block';
-        setTimeout(()=>{
+        setTimeout(() => {
             this.password.selectionStart = this.password.selectionEnd = this.password.value.length;
         }, 0)
     }
 
     static hidePassword() {
-        this.password.focus();
+        setTimeout(() => {
+            this.password.focus();
+        }, 0);
         this.password.type = 'password';
         document.getElementById('hide-lgpass').style.display = 'block';
         document.getElementById('show-lgpass').style.display = 'none';
-        setTimeout(()=>{
+        setTimeout(() => {
             this.password.selectionStart = this.password.selectionEnd = this.password.value.length;
         }, 0)
     }

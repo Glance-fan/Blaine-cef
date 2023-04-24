@@ -58,18 +58,4 @@ var NPC = class NPC {
 			if (idx < container.childElementCount - 1) NPC.onmouseover(container.children[idx + 1]);
 		}
 	}
-
 }
-
-
-// a = 'TEXTTEXTTEXT';
-// b = 'TEXTTEXTTEXTTEXT';
-// c = [
-// 	[0, 'Действие 1'],
-// 	[1, 'Действqwetoqwie opqriweop iqwie pqweir [qwei qweip ие 2'],
-// 	[2, 'Действие 3'],
-// 	[3, 'Действие 4'],
-// 	[4, 'Действие 5'],
-// ]
-
-// NPC.fill(a, b, c)

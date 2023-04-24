@@ -105,7 +105,9 @@ var Shop = class Shop {
     static in_search = false;
     static focusSearch(block) {
         block.style.animation = '5s ease 0s infinite normal none running selected';
-        block.querySelector('input').focus();
+        setTimeout(() => {
+            block.querySelector('input').focus();
+        }, 0);
         this.in_search = true;
     }
 
