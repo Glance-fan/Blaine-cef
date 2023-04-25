@@ -464,7 +464,7 @@ var Inventory = class Inventory {
         if (!slot_p.querySelector('.item-tooltip').getAttribute('data')) { //not finish - info ttp
             slot_p.setAttribute('onmouseover', `Inventory.infoTooltip(this.firstElementChild, '${id}');`);
             slot_p.onmouseout = () => {
-                if (document.querySelector('.info-tooltip')) 
+                if (document.querySelector('.info-tooltip'))
                     document.querySelector('.info-tooltip').remove();
             }
             slot_p.classList.remove('wb-result-finished');
@@ -474,7 +474,7 @@ var Inventory = class Inventory {
             slot_p.onmouseover = null;
             slot_ch.style.pointerEvents = 'unset';
             slot_p.classList.add('wb-result-finished'); //finished - default ttp
-        } 
+        }
 
     }
 
@@ -612,90 +612,86 @@ var Inventory = class Inventory {
     /*movement*/
     static elementsUnder;
     static timer;
+    static realDragItem;
     static dragItem;
     static addMovement(item) {
-        this.dragItem = item;
-        var slot = document.getElementById(item.getAttribute('name')).querySelector('.item-content')
-        slot.onmousedown = function (e) {
-            if (e.which == 3) return;
-            Inventory.timer = new Date();
-            setTimeout(Inventory.duplicate_pic, 0, item)
-
-            var nowSlot = document.getElementById(item.getAttribute('name'));
-            if (nowSlot != Inventory.curSlot && !!Inventory.curSlot) Inventory.defaultSlot()
-
-            if (document.querySelector('.inventory-selected')) document.querySelector('.inventory-selected').classList.remove('inventory-selected');
-            document.getElementById(item.getAttribute('name')).classList.add('inventory-selected');
-
-            if (nowSlot.parentElement.parentElement.id == 'crate-crate-container')
-                document.body.setAttribute('onwheel', `Inventory.updateScrollPos(event, document.getElementById('crate-crate-container'), 'crate')`);
-
-            var stats = item.getBoundingClientRect();
-            var shiftX = stats.width / 2;
-            var shiftY = stats.height / 2;
-            item.style.position = 'absolute';
-            item.style.opacity = '0.7';
-            item.style.zIndex = 1000;
-            document.body.appendChild(item);
-
-            moveAt(e);
-
-            function moveAt(e) {
-                item.style.left = e.pageX - shiftX + 'px';
-                item.style.top = e.pageY - shiftY + 'px';
-                Inventory.elementsUnder = document.elementsFromPoint(e.clientX, e.clientY);
-            }
-
-            document.onmousemove = function (e) {
-                moveAt(e);
-            };
-
-
-            document.onmouseup = function (e) {
-                if (Inventory.checkInContainer(e, Inventory.elementsUnder)) {
-                    move_request: for (var i = 0; i < Inventory.elementsUnder.length; i++)
-                        if (Inventory.elementsUnder[i].classList.contains('inventory-item')) {
-                            var id = item.getAttribute('name')
-                            var nowSlot = document.getElementById(id);
-                            if (id == Inventory.elementsUnder[i].id) { // inside slot
-                                if (Inventory.isLBM && nowSlot == Inventory.curSlot)
-                                    if (!!Inventory.curSlot) Inventory.clickLBM(e, Inventory.curSlot);
-                                if (e.which == 1)
-                                    Inventory.clickSlot(e, nowSlot);
-                                break move_request;
-                            }
-                            Inventory.requestMove(Inventory.elementsUnder[i].id, id);
-                            Inventory.defaultSlot(nowSlot)
-                            break move_request;
-                        }
-                }
-                else {
-                    var id = item.getAttribute('name');
-                    Inventory.requestThrow(id);
-                    Inventory.defaultSlot(nowSlot)
-                    document.getElementById(id).classList.remove('inventory-selected');
-                }
-
-
-                Inventory.destroyDragable(item);
-                document.onmousemove = null;
-                document.onmouseup = null;
-                document.body.removeAttribute('onwheel')
-            };
-        }
-
-        item.ondragstart = function () {
+        var slot = document.getElementById(item.getAttribute('name')).querySelector('.item-content');
+        slot.addEventListener('mousedown', this.onItemDown);
+        slot.ondragstart = function () {
             return false;
         };
     }
 
-    static destroyDragable(item) {
-        item.remove();
-        this.dragItem = null;
+    static onItemDown(event) {
+        Inventory.realDragItem = event.target.querySelector('img');
+        if (event.which == 3) return;
+        Inventory.timer = new Date();
+        setTimeout(Inventory.duplicate_pic, 0, Inventory.realDragItem);
+
+        var nowSlot = document.getElementById(Inventory.realDragItem.getAttribute('name'));
+        if (nowSlot != Inventory.curSlot && !!Inventory.curSlot) Inventory.defaultSlot()
+        if (document.querySelector('.inventory-selected')) document.querySelector('.inventory-selected').classList.remove('inventory-selected');
+        document.getElementById(Inventory.realDragItem.getAttribute('name')).classList.add('inventory-selected');
+        if (nowSlot.parentElement.parentElement.id == 'crate-crate-container')
+            document.body.setAttribute('onwheel', `Inventory.updateScrollPos(event, document.getElementById('crate-crate-container'), 'crate')`);
+
+        
+        Inventory.realDragItem.style = `position: absolute; opacity: 0.7; z-index: 1000`;;
+        document.body.appendChild(Inventory.realDragItem);
+
+        Inventory.moveItem(event);
+
+        document.addEventListener('mousemove', Inventory.moveItem);
+        document.addEventListener('mouseup', Inventory.onItemUp);
+    }
+
+    static moveItem(event) {
+        var stats = Inventory.realDragItem.getBoundingClientRect();
+        var shiftX = stats.width / 2;
+        var shiftY = stats.height / 2;
+        Inventory.realDragItem.style.left = event.pageX - shiftX + 'px';
+        Inventory.realDragItem.style.top = event.pageY - shiftY + 'px';
+        Inventory.elementsUnder = document.elementsFromPoint(event.clientX, event.clientY);
+    }
+
+    static onItemUp(event) {
+        if (Inventory.checkInContainer(event, Inventory.elementsUnder)) {
+            move_request: for (var i = 0; i < Inventory.elementsUnder.length; i++)
+                if (Inventory.elementsUnder[i].classList.contains('inventory-item')) {
+                    var id = Inventory.realDragItem.getAttribute('name');
+                    var nowSlot = document.getElementById(id);
+                    if (id == Inventory.elementsUnder[i].id) { // inside slot
+                        if (Inventory.isLBM && nowSlot == Inventory.curSlot)
+                            if (!!Inventory.curSlot) Inventory.clickLBM(event, Inventory.curSlot);
+                        if (event.which == 1)
+                            Inventory.clickSlot(event, nowSlot);
+                        break move_request;
+                    }
+                    Inventory.requestMove(Inventory.elementsUnder[i].id, id);
+                    Inventory.defaultSlot(nowSlot)
+                    break move_request;
+                }
+        }
+        else {
+            var id = Inventory.realDragItem.getAttribute('name');
+            Inventory.requestThrow(id);
+            Inventory.defaultSlot(nowSlot)
+            document.getElementById(id).classList.remove('inventory-selected');
+        }
+
+        Inventory.destroyItem();
+        document.body.removeAttribute('onwheel')
+    }
+
+    static destroyItem() {
+        document.removeEventListener('mousemove', Inventory.moveItem);
+        document.removeEventListener('mouseup', Inventory.onItemUp);
+        Inventory.realDragItem.remove();
+        Inventory.realDragItem = null;
     }
 
 
-
+    
     /*ttp-funcs*/
     static showTooltip(slot) {
         if (slot.id.includes('trade')) return;
@@ -1012,12 +1008,12 @@ var Inventory = class Inventory {
     static fillCraftBtn(params) {
         var btn = document.getElementById('craft-btn');
         if (Array.isArray(params)) { //craft ready 
-            btn.className = 'red-button craft-btn-ready'; 
+            btn.className = 'red-button craft-btn-ready';
             btn.innerHTML = params[0];
             if (params[1]) btn.innerHTML += /*html*/ `<span>(${params[1]})</span>`;
         } else { //craft in progress
-            btn.className = 'grey-button craft-btn-cancel'; 
+            btn.className = 'grey-button craft-btn-cancel';
             btn.innerHTML = /*html*/ `${params}<span>(Отменить)</span>`;
         }
-    } 
+    }
 }

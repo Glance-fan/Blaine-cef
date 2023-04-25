@@ -6,6 +6,9 @@ vue_app.component('orange-picking-template', {
         onRenderFinished('orange_picking');
     },
     unmounted: function () {
+        document.removeEventListener('mousemove', MG.OP.moveOrange);
+        document.removeEventListener('mouseup', MG.OP.onOrangeUp);
+        if (MG.OP.realDragItem) MG.OP.destroyOrange(false);
         remove_source(scripts.mg);
         op_tmpl = null;
         switchTemplate(false, 'orange_picking')

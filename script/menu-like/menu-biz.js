@@ -131,7 +131,7 @@ var MenuBiz = class MenuBusiness {
         this.curCollect = input.value;
     }
 
-    //data = [[cur_charge, max_charge], isWorkers, cash_collect, commission, isOrdered, delivery_1, delivery_2] 
+    //data = [[cur_charge, max_charge], isWorkers, cash_collect, commission, isOrdered, delivery_1, delivery_2, is_farm] 
     //delivery_1 = pricePerOne || amount, delivery_2 = delivery_cost || delivery_status
     static amount_elems;
     static cur_charge;
@@ -142,33 +142,37 @@ var MenuBiz = class MenuBusiness {
         <div id="menubiz-1-wrapper">
             <div style="display: flex;justify-content: space-between;">
                 <div>
-                    <div class="menubiz-section-title">Наценка на продукцию</div>
+                    <div class="menubiz-section-title">Опции</div>
                     <div id="menubiz-1-content-0" class="menubiz-section">
-                        <div>
-                            <div class="menubiz-nonstatic-text menubiz-input-wrapper">
-                                Наценка (%)
-                                <div style="display: flex;width: 160px;justify-content: space-between;">
-                                    <div style="display: flex;align-items: center;">
-                                        <div style="height: 100%;display: flex;align-items: center;" onclick="MenuBiz.onMinus(this)">${menubiz_svgs.minus}</div>
-                                        <input id="menubiz-charge" maxlength="${data[0][1].toString().length + 1}" value="${data[0][0]}" oninput="MenuBiz.onExtraCash(this, ${data[0][1]})" autocomplete="off" spellcheck="false" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
-                                        <div style="height: 100%;display: flex;align-items: center;" onclick="MenuBiz.onPlus(this)">${menubiz_svgs.plus}</div>
+                        <div style="display:flex; flex-direction: column; justify-content: ${data[7] ? 'center' : 'space_between' }">
+                            <div>
+                                <div class="menubiz-nonstatic-text menubiz-input-wrapper">
+                                    Наценка (%)
+                                    <div style="display: flex;width: 160px;justify-content: space-between;">
+                                        <div style="display: flex;align-items: center;">
+                                            <div style="height: 100%;display: flex;align-items: center;" onclick="MenuBiz.onMinus(this)">${menubiz_svgs.minus}</div>
+                                            <input id="menubiz-charge" maxlength="${data[0][1].toString().length + 1}" value="${data[0][0]}" oninput="MenuBiz.onExtraCash(this, ${data[0][1]})" autocomplete="off" spellcheck="false" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
+                                            <div style="height: 100%;display: flex;align-items: center;" onclick="MenuBiz.onPlus(this)">${menubiz_svgs.plus}</div>
+                                        </div>
+                                        <button onclick="mp.trigger('MenuBiz::ExtraCharge', MenuBiz.cur_charge)" class="red-button" style="height:25px; width:50px">ОК</button>
                                     </div>
-                                    <button onclick="mp.trigger('MenuBiz::ExtraCharge', MenuBiz.cur_charge)" class="red-button" style="height:25px; width:50px">ОК</button>
+                                </div>
+                                <div class="menubiz-info-text" style="margin: 15px 0">
+                                    ${data[1] ? menubiz_static.manage[0][1] : menubiz_static.manage[0][0]}
                                 </div>
                             </div>
-                            <div class="menubiz-info-text" style="margin: 15px 0">
-                                ${data[1] ? menubiz_static.manage[0][1] : menubiz_static.manage[0][0]}
-                            </div>
-                            <div class="menubiz-nonstatic-text" style="display:flex;justify-content: space-between;">
-                                Инкассация кассы
-                                <div class="menubiz-checkbox" onclick="MenuBiz.onCheckBox(this.firstElementChild)">
-                                    <input type="checkbox" id="menubiz-cash_collect" onclick="return false"/>
-                                    <span class="menubiz-checkbox-switch"></span>
+                            <div style="display: ${data[7] ? 'none' : 'unset'}">
+                                <div class="menubiz-nonstatic-text" style="display:flex;justify-content: space-between;">
+                                    Инкассация кассы
+                                    <div class="menubiz-checkbox" onclick="MenuBiz.onCheckBox(this.firstElementChild)">
+                                        <input type="checkbox" id="menubiz-cash_collect" onclick="return false"/>
+                                        <span class="menubiz-checkbox-switch"></span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="menubiz-info-text" style="margin-top: 15px">
-                                ${menubiz_static.manage[1]}
-                                <span style="font-weight: 500" id="biz-commis">${data[3]}%</span>
+                                <div class="menubiz-info-text" style="margin-top: 15px">
+                                    ${menubiz_static.manage[1]}
+                                    <span style="font-weight: 500" id="biz-commis">${data[3]}%</span>
+                                </div>
                             </div>
                         </div>
                     </div>

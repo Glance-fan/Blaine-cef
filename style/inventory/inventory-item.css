@@ -126,6 +126,12 @@
     user-select: none;
 }
 
+.item-bind,
+.item-visual-text,
+.item-top-text,
+.item-standart {
+    pointer-events: none;
+}
 
 .item-tooltip {
     width: inherit;

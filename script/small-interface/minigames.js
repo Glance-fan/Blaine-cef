@@ -100,64 +100,62 @@ var MG = class MiniGames {
 
         static dragItem;
         static basket_amount;
+        static realDragItem;
         static addMovement(item) {
-            item.onmousedown = function (e) {
-                MG.OP.dragItem = item.cloneNode(true);
-
-                var stats = item.getBoundingClientRect();
-                var shiftX = stats.width / 2;
-                var shiftY = stats.height / 2;
-                item.style.position = 'absolute';
-                item.style.opacity = '0.7';
-                item.style.zIndex = 1000;
-                document.body.appendChild(item);
-
-                moveAt(e);
-
-                function moveAt(e) {
-                    item.style.left = e.pageX - shiftX + 'px';
-                    item.style.top = e.pageY - shiftY + 'px';
-                }
-
-                document.onmousemove = function (e) {
-                    moveAt(e);
-                };
-
-
-                document.onmouseup = function (e) {
-                    var in_basket = false;
-
-                    var elementsUnder = document.elementsFromPoint(e.clientX, e.clientY);
-                    basket_check: for (var index = 0; index < elementsUnder.length; index++) {
-                        if (elementsUnder[index].className.includes('basket')) {
-                            destroyDragable(item, false);
-                            MG.OP.createBasketOrange();
-                            in_basket = true;
-                            MG.OP.basket_amount++;
-                            break basket_check;
-                        }
-                    }
-
-                    if (!in_basket) destroyDragable(item, true);
-                    document.onmousemove = null;
-                    document.onmouseup = null;
-                    if (MG.OP.basket_amount == MG.OP.oranges.length) MG.OP.collectedRequest();
-                };
-            }
-
+            item.addEventListener('mousedown', this.onOrangeDown);
             item.ondragstart = function () {
                 return false;
-            };
-
-            function destroyDragable(item, redraw) {
-                if (redraw) {
-                    document.querySelector('.orange-tree').appendChild(MG.OP.dragItem);
-                    MG.OP.addMovement(MG.OP.dragItem);
-                }
-                item.remove();
             }
         }
 
+        static onOrangeDown(event) {
+            MG.OP.realDragItem = event.target;
+            MG.OP.dragItem = MG.OP.realDragItem.cloneNode(true);
+            MG.OP.realDragItem.style = `position: absolute; opacity: 0.7; z-index: 1000`;
+            document.body.appendChild(MG.OP.realDragItem);
+
+            MG.OP.moveOrange(event);
+
+            document.addEventListener('mousemove', MG.OP.moveOrange);
+            document.addEventListener('mouseup', MG.OP.onOrangeUp);
+        }
+
+        static moveOrange(event) {
+            var stats = MG.OP.realDragItem.getBoundingClientRect();
+            var shiftX = stats.width / 2;
+            var shiftY = stats.height / 2;
+            MG.OP.realDragItem.style.left = event.pageX - shiftX + 'px';
+            MG.OP.realDragItem.style.top = event.pageY - shiftY + 'px';
+        }
+
+        static onOrangeUp(event) {
+            var in_basket = false;
+            var elementsUnder = document.elementsFromPoint(event.clientX, event.clientY);
+            basket_check: for (var index = 0; index < elementsUnder.length; index++) {
+                if (elementsUnder[index].className.includes('basket')) {
+                    MG.OP.destroyOrange(false);
+                    MG.OP.createBasketOrange();
+                    in_basket = true;
+                    MG.OP.basket_amount++;
+                    break basket_check;
+                }
+            }
+
+            if (!in_basket) MG.OP.destroyOrange(true);
+            document.removeEventListener('mousemove', MG.OP.moveOrange);
+            document.removeEventListener('mouseup', MG.OP.onOrangeUp);
+            if (MG.OP.basket_amount == MG.OP.oranges.length) MG.OP.collectedRequest();
+        }
+
+        static destroyOrange(redraw) {
+            if (redraw) {
+                document.querySelector('.orange-tree').appendChild(MG.OP.dragItem);
+                MG.OP.addMovement(MG.OP.dragItem);
+            }
+            MG.OP.realDragItem.remove();
+            MG.OP.realDragItem = null;
+            MG.OP.dragItem = null;
+        }
 
         static collectedRequest() {
             mp.trigger('MiniGames::OrangesCollected');
@@ -211,7 +209,7 @@ var MG = class MiniGames {
                     MG.LP.lockpick_dur--;
                     if (MG.LP.lockpick_dur < 1) {
                         MG.LP.lockRequest(false, MG.LP.need_deg);
-                        up();                        
+                        up();
                     }
                 }, 500);
                 var shake_anim = setTimeout(() => {
@@ -226,8 +224,8 @@ var MG = class MiniGames {
                 document.onmousedown = null;
             }, 1500);
 
-            document.onmouseup = up; 
-            
+            document.onmouseup = up;
+
             function up() {
                 lock.style.removeProperty('transform');
                 document.getElementById('lockpick-elem').style.animation = ``;
