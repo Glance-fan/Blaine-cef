@@ -38,8 +38,8 @@ var estagency_filters = {
         ['Стоимость (до)', 0, '1-estage-filter'],
         ['Гаражные места (от)', 1, '2-estage-filter'],
         ['Гаражные места (до)', 1, '3-estage-filter'],
-		['Гаражный комплекс (от)', 1, '4-estage-filter'],
-		['Гаражный комплекс (до)', 1, '5-estage-filter'],
+		['Номер комплекса', 0, '4-estage-filter'],
+		//['Гаражный комплекс (до)', 1, '5-estage-filter'],
     ],
 }
 

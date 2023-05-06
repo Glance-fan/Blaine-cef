@@ -686,6 +686,7 @@ var Inventory = class Inventory {
     static destroyItem() {
         document.removeEventListener('mousemove', Inventory.moveItem);
         document.removeEventListener('mouseup', Inventory.onItemUp);
+        document.getElementById(Inventory.realDragItem.getAttribute('name')).classList.remove('inventory-selected');
         Inventory.realDragItem.remove();
         Inventory.realDragItem = null;
     }

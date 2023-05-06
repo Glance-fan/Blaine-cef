@@ -3,6 +3,7 @@ const vue_app = Vue.createApp({
         return {
             show: {
                 actionbox: false,
+                admin_panel: false,
                 anims: false,
                 atm: false,
                 autoschool: false,
@@ -58,6 +59,7 @@ const vue_app = Vue.createApp({
             },
             render: {
                 actionbox: false,
+                admin_panel: false,
                 anims: false,
                 atm: false,
                 autoschool: false,
@@ -117,25 +119,37 @@ const vue_app = Vue.createApp({
             if (this.show.inventory) {
                 inv_tmpl.style.display = 'flex'
                 setTimeout(Inventory.position, 0, '.Inventory')
-            } else inv_tmpl.style.display = 'none';
+            } else {
+                inv_tmpl.style.display = 'none';
+                if (Inventory.realDragItem) Inventory.destroyItem();
+            }
         },
         'show.crates_inventory': function () {
             if (this.show.crates_inventory) {
                 crinv_tmpl.style.display = 'flex'
                 setTimeout(Inventory.position, 0, '.crates-Inventory')
-            } else crinv_tmpl.style.display = 'none';
+            } else {
+                crinv_tmpl.style.display = 'none';
+                if (Inventory.realDragItem) Inventory.destroyItem();
+            }
         },
         'show.trade': function () {
             if (this.show.trade) {
                 trade_tmpl.style.display = 'flex'
                 setTimeout(Inventory.position, 0, '.trade')
-            } else trade_tmpl.style.display = 'none';
+            } else {
+                trade_tmpl.style.display = 'none';
+                if (Inventory.realDragItem) Inventory.destroyItem();
+            }
         },
         'show.workbench': function () {
             if (this.show.workbench) {
                 wb_tmpl.style.display = 'flex'
                 setTimeout(Inventory.position, 0, '.workbench')
-            } else wb_tmpl.style.display = 'none';
+            } else {
+                wb_tmpl.style.display = 'none';
+                if (Inventory.realDragItem) Inventory.destroyItem();
+            }
         }
 
     }
@@ -216,6 +230,7 @@ function resizeAll() {
         resizeBigger(document.querySelector('.inv-help'));
     }
     // if (phone_tmpl) resizeBigger(phone_tmpl);
+    if (admpanel_tmpl) resizeBigger(admpanel_tmpl);
     if (op_tmpl) resizeSmaller(op_tmpl);
     if (lp_tmpl) {
         resizeSmaller(lp_tmpl);

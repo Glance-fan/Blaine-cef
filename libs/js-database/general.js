@@ -16,6 +16,7 @@ var scripts = {
     interaction: ['script/interaction.js', 'style/interaction.css'],
 
     /*law-enforcement*/
+    admin_panel: ['script/law-enforcement/admin-panel.js', 'style/law-enforcement/admin-panel.css'],
     police_tablet: ['script/law-enforcement/police-tablet.js', 'style/law-enforcement/police-tablet.css'],
     crecords: ['script/law-enforcement/criminal-records.js', 'style/law-enforcement/criminal-records.css'],
     menu_arrest: ['script/law-enforcement/menu-arrest.js', 'style/law-enforcement/menu-arrest.css'],

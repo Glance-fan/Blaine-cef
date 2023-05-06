@@ -10,17 +10,17 @@ var Interaction = class Interaction {
         style: {
             slices: {
                 default: {
-                    'fill': '#232323',
-                    'stroke': 'none',
+                    'fill': '#222222',
+                    'stroke': '#222222',
                     "fill-opacity": 1,
-                    "stroke-width": 0,
+                    "stroke-width": 0.85,
                     'opacity': 0.95
                 },
-                selected: {
-                    'fill': '#851717',
-                    'stroke': 'none',
+                    selected: {
+                    'fill': '#C81212',
+                    'stroke': '#C81212',
                     "fill-opacity": 1,
-                    "stroke-width": 0,
+                    "stroke-width": 0.85,
                     'opacity': 0.95
                 }
             },

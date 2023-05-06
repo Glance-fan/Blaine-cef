@@ -18,12 +18,13 @@ vue_app.component('casino-template', {
                     <div style="font-size: 20px;">Ваша ставка</div>
                     <div class="casino-input-block">
                         <div onclick="Casino.onminus()"><img src="libs/svgs/misc/minus.svg"></div>
-                        <input oninput="Casino.oninput(this)" maxlength="4" value = "100" autocomplete="false" spellcheck="false" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
+                        <input oninput="Casino.oninput(this)" maxlength="4" autocomplete="false" spellcheck="false" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
                         <div onclick="Casino.onplus()"><img src="libs/svgs/misc/plus.svg"></div>
                     </div>
                 </div>
-                <div style="width:350px; text-align:center">
+                <div class="casino-balance">
                     <img src="libs/svgs/minigames/casino.svg">
+                    <div id="casino-delta-bal">0</div>
                     <div id="casino-cur-bal">0</div>
                 </div>
                 <div>

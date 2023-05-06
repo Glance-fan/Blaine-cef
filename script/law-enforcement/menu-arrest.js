@@ -20,7 +20,7 @@ var MenuArrest = class MenuArrest {
             <div style="width:125px;" id="${id}-arrests-0">${date}</div>
             <div style="width:290px; margin-right:2px;" id="${id}-arrests-1">${name_1}</div>
             <div style="width:275px; margin-right:3px;" id="${id}-arrests-2">${name_2}</div>
-            <div class="menu-arrest-img-anim" style="height:15px" onclick="MenuArrest.moreRequest(${id})"><img src="libs/svgs/law-enforcement/more.svg"></div>`;
+            <div class="menu-arrest-img-anim" style="height:15px" onclick="MenuArrest.moreRequest(${id})"><img src="libs/svgs/law-enforcement/inspect.svg"></div>`;
         parent.append(elem);
     }
 

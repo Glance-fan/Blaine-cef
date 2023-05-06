@@ -696,7 +696,7 @@ var Menu = class Menu {
 
     /*help*/
     static sendHelp(which) {
-        var help_text = document.getElementsByTagName('textarea')[which].value;
+        var help_text = menu_tmpl.getElementsByTagName('textarea')[which].value;
         help_text = help_text.replace(/\s+/g, ' ').trim();
         if (help_text == '') return;
         this.updateHelpMessage('');
@@ -742,7 +742,7 @@ var Menu = class Menu {
     }
 
     static updateHelpMessage(value){
-        var messages = document.querySelectorAll('textarea');
+        var messages = menu_tmpl.querySelectorAll('textarea');
         messages[0].value = value;
         messages[1].value = value;
     }

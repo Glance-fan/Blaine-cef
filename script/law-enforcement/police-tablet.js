@@ -58,7 +58,7 @@ var PoliceTablet = class PoliceTablet {
             }
             parent.lastElementChild.innerHTML += /*html*/ `
                 <button class="police-tablet-action grey-button" onclick="PoliceTablet.actionRequest(${index})">
-                    <img src="libs/svgs/law-enforcement/${index}.svg">
+                    <img src="libs/svgs/law-enforcement/tablet/${index}.svg">
                     ${static_info[index]}
                 </button>`;
         }

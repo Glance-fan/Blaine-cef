@@ -14,7 +14,6 @@ vue_app.component('inventory-template', {
         onRenderFinished('full_inventory');
     },
     beforeUnmount: function () {
-        if (Inventory.realDragItem) Inventory.destroyItem();
         remove_source(scripts.inventory);
         switchTemplate(false, 'inventory');
         switchTemplate(false, 'crates_inventory');

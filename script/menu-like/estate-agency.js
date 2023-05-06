@@ -14,7 +14,7 @@ var EstAgency = class Real_Estate_Agency {
     static defaultFilters = {
         'Дома': [0, 999999999, 0, 99, 0, 99],
         'Квартиры': [0, 999999999, 0, 99],
-        'Гаражи': [0, 999999999, 0, 99, 0, 99],
+        'Гаражи': [0, 999999999, 0, 99, 1],
     }
 
     static curFilters = {}
@@ -93,27 +93,18 @@ var EstAgency = class Real_Estate_Agency {
     }
 
     static container = document.getElementById('estagency-container')
-    static fillContainer(data) {
+    static async fillContainer(data) {
         this.container.innerHTML = '';
         this.stored_elems = [];
         this.output.innerHTML = '';
         this.container.style = '';
-        for (var index = 0; index < data.length; index++)
-            this.storeElems(...data[index]);
+      
+        await load();
 
-        if (data.length > 10) {
-            this.container.style.height = `${this.container.parentElement.scrollHeight}px`;
-            this.drawElems(11);
-            this.container.parentElement.onscroll = (e) => {
-                var el = e.target;
-                if (el.scrollHeight - el.clientHeight - el.scrollTop - 1 < 1) {
-                    EstAgency.drawElems(EstAgency.stored_elems.length > 10 ? 10 : EstAgency.stored_elems.length);
-                    if (EstAgency.stored_elems.length == 0) EstAgency.container.parentElement.onscroll = null;
-                }
-            };
-        } else {
-            this.drawElems(data.length);
+        async function load() {
+            data.forEach(el => EstAgency.drawElem(...el));
         }
+
 
         var elem = this.lastChoices[this.curOpen];
         if (elem != null) {
@@ -128,16 +119,17 @@ var EstAgency = class Real_Estate_Agency {
         }
     }
 
-    static stored_elems = [];
-    static storeElems(uid, name, cost, tax, param_3, param_4) {
-        this.stored_elems.push(/*html*/ `
-            <div uid="${typeof uid == 'number' ? `${uid}-estagelem` : uid}" onclick="EstAgency.onEstate(this)" param_1="${prettyUSD(cost)}" param_2="${prettyUSD(tax, true)}" param_3="${param_3}" param_4="${param_4}" class="estagency-elem">${name}</div>`);
-    }
-
-    static drawElems(amount) {
-        for (var index = 0; index < amount; index++) 
-            this.container.innerHTML += this.stored_elems[index];
-        this.stored_elems.splice(0, amount);
+    static drawElem(uid, name, cost, tax, param_3, param_4) {
+        var elem = document.createElement('div');
+        elem.setAttribute('uid', typeof uid == 'number' ? `${uid}-estagelem` : uid);
+        elem.setAttribute('param_1', prettyUSD(cost));
+        elem.setAttribute('param_2', prettyUSD(tax, true));
+        elem.setAttribute('param_3', param_3);
+        elem.setAttribute('param_4', param_4);
+        elem.setAttribute('onclick', 'EstAgency.onEstate(this)')
+        elem.className = 'estagency-elem';
+        elem.innerHTML = name;
+        this.container.append(elem);
     }
 
     static lastChoices = {};
@@ -159,17 +151,16 @@ var EstAgency = class Real_Estate_Agency {
                     <div style="font-weight:500">${data[index][0]}</div>
                     ${this.getFilterElem(data[index][1], data[index][2])}
                 </div>`;
-            if (index > 1) this.checkSmallInput(filters.lastElementChild.querySelector('input'));
+            if (data[index][1] == 1) this.checkSmallInput(filters.lastElementChild.querySelector('input'));
         }
     }
 
     static getFilterElem(type, id) {
-        EstAgency.curFilters[this.curOpen][id]
         switch (type) {
             case 0:
                 return /*html*/ `
                 <div class="estagency-filter-type-0">
-                    $
+                    ${this.curOpen == 'Гаражи' && id.includes(4) ? '#' : '$'}
                     <input oninput="EstAgency.onAnyInput(this, ${EstAgency.defaultFilters[EstAgency.curOpen][1]})" onfocus="EstAgency.onCostFocus(this)" onblur="this.parentElement.style.animation = '';" value="${EstAgency.curFilters[EstAgency.curOpen][parseInt(id)]}" id="${id}" maxlength="10" autocomplete="false" spellcheck="false" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
                 </div>`;
             case 1:
@@ -194,10 +185,11 @@ var EstAgency = class Real_Estate_Agency {
         search_arr = search_arr.filter(elem => elem[2] <= filters[1]);
         search_arr = search_arr.filter(elem => elem[4] >= filters[2]);
         search_arr = search_arr.filter(elem => elem[4] <= filters[3]);
-        if (['Дома', 'Гаражи'].includes(this.curOpen)) {
+        if (this.curOpen == 'Дома') {
             search_arr = search_arr.filter(elem => elem[5] >= filters[4]);
             search_arr = search_arr.filter(elem => elem[5] <= filters[5]);
         }
+        if (this.curOpen == 'Гаражи') search_arr = search_arr.filter(elem => elem[5] == filters[4]);
         this.fillContainer(search_arr);
     }
 
@@ -262,7 +254,7 @@ var EstAgency = class Real_Estate_Agency {
             output.lastElementChild.innerHTML += /*html*/
                 `<div style="font-weight:700">${elem.getAttribute(`param_${index + 1}`)}</div>`;
         }
-        var gps_id = Array.from(document.querySelector('.current').parentElement.children).indexOf(document.querySelector('.current')) - 1;
+        var gps_id = Array.from(estagency_tmpl.querySelector('.current').parentElement.children).indexOf(estagency_tmpl.querySelector('.current')) - 1;
         this.output.innerHTML += /*html*/ `<div>
             GPS-метка
             <button onclick="EstAgency.gpsRequest()" class="red-button">${prettyUSD(this.full_data['gps'][gps_id])}</button>
