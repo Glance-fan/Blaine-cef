@@ -219,7 +219,7 @@ function resizeAll() {
     if (mplayer_tmpl) resizeBigger(mplayer_tmpl);
     if (pt_tmpl) resizeBigger(pt_tmpl);
     if (crec_tmpl) resizeBigger(crec_tmpl);
-    if (casino_tmpl) resizeBigger(casino_tmpl);
+    if (casino_tmpl) resizeSmaller(casino_tmpl);
     if (dm_tmpl) resizeBigger(dm_tmpl);
     if (actionbox) resizeBigger(actionbox);
     if (inv_tmpl) {

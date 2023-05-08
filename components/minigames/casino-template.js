@@ -14,7 +14,7 @@ vue_app.component('casino-template', {
         <div id="casino">
             <div id="casino-last-numbers"></div>
             <div id="casino-container">
-                <div>
+                <div style="margin-left: 80px">
                     <div style="font-size: 20px;">Ваша ставка</div>
                     <div class="casino-input-block">
                         <div onclick="Casino.onminus()"><img src="libs/svgs/misc/minus.svg"></div>
@@ -24,12 +24,24 @@ vue_app.component('casino-template', {
                 </div>
                 <div class="casino-balance">
                     <img src="libs/svgs/minigames/casino.svg">
-                    <div id="casino-delta-bal">0</div>
+                    <div id="casino-delta-wrapper"><div id="casino-delta-bal">0</div></div>
                     <div id="casino-cur-bal">0</div>
                 </div>
-                <div>
+                <div style="min-width: 250px">
                     <div style="font-size: 20px;white-space:nowrap">Статус игры</div>
                     <div id="casino-game-status">0</div>
+                </div>
+                <div id="casino-slots">
+                    <button class="red-button" onclick="mp.trigger('CasinoSlots::Spin')">Крутить</button>
+                    <div onclick="Casino.soundRequest(this)">
+                        <img id="casino-sound" src="libs/svgs/minigames/sound_on.svg">
+                    </div>
+                </div>
+                <div id="casino-blackjack">
+                    <div>
+                    <button class="red-button" onclick="mp.trigger('CasinoBlackjack::More')">Еще</button>
+                    <button class="grey-button" onclick="mp.trigger('CasinoBlackjack::Enough')">Хватит</button>
+                    </div>
                 </div>
             </div>
         </div>`

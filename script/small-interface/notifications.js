@@ -13,7 +13,7 @@ var Notific = class Notification {
                 <div class="notific-gray-text notification-message">${text}</div>
             </div>
         </div>`;
-        if (choice) this.addChoice(notific)
+        if (choice) this.addChoice(notific);
 
         if (this.notifications.length >= maxAmount) this.clearOne(this.notifications.shift())
         this.notifications.push(notific);
@@ -25,6 +25,12 @@ var Notific = class Notification {
         }, 0);
 
         setTimeout(this.clearOne, interval, notific);
+    }
+
+    static switchPos(to_top) {
+        var cont = document.querySelector('.notification-container');
+        cont.style = '';
+        cont.style = to_top ? 'top: 34px' : 'bottom:34px';
     }
 
     static addChoice(notific) {

@@ -1,10 +1,34 @@
 var Casino = class Casino {
-    static draw(numbers, status, balance, max_bet, cur_bet) {
-        this.fillLastNums(numbers);
-        this.updateGameStatus(status);
+    //type = 0 - casino_roulette, 1 - casino_slots, 2 - casino_blackjack
+    static ret_type; 
+    static draw(type, status, balance, max_bet, cur_bet, numbers) {
         this.updateCurBal(balance, true);
+        this.updateGameStatus(status);
+        document.getElementById('casino-delta-wrapper').style.display = 'block';
         this.setMaxBet(max_bet);
         this.setBet(cur_bet);
+        switch (type) {
+            case 0: 
+                this.fillLastNums(numbers);
+                this.ret_type = 'Roulette';
+                break;
+            case 1: 
+                this.showSlots();
+                this.ret_type = 'Slots';
+                break;
+            case 2:
+                this.ret_type = 'Blackjack';
+                break;
+        }
+    }
+
+    static showSlots() {
+        document.getElementById('casino-game-status').parentElement.firstChild.innerHTML = 'Джекпот';
+        document.getElementById('casino-slots').style.display = 'flex';
+    }
+
+    static showBJButton(idx, status) {
+        document.getElementById('casino-blackjack').querySelectorAll('button')[idx].style.display = status ? 'unset' : 'none';
     }
 
     static fillLastNums(numbers) {
@@ -32,16 +56,16 @@ var Casino = class Casino {
             bal_val = parseInt(bal_el.innerText),
             delta = value - bal_val;
         
-        if (hide_delta) delta_el.style.visibility = 'hidden';
+        if (hide_delta) delta_el.parentElement.style.opacity = '0';
         else {
-            delta_el.style.visibility = 'visible';
+            delta_el.parentElement.style.opacity = '1';
             delta_el.innerHTML = delta >= 0 ? `+${delta}` : delta; 
             delta_el.className = delta >= 0 ? 'casino-win' : 'casino-lose';
         }
 
         bal_el.innerHTML = value;
         clearTimeout(this.hide_delta_timer);
-        this.hide_delta_timer = setTimeout(()=>{delta_el.style.visibility = 'hidden'}, 5000);
+        this.hide_delta_timer = setTimeout(()=>{delta_el.parentElement.style.opacity = '0'}, 5000);
     }
 
     static max_bet;
@@ -81,6 +105,14 @@ var Casino = class Casino {
         else parent[0].firstElementChild.style.opacity = 1;
         if (input.value == this.max_bet) parent[2].firstElementChild.style.opacity = 0;
         else parent[2].firstElementChild.style.opacity = 1;
-        mp.trigger('CasinoRoulette::SetBet', input.value);
+        mp.trigger(`Casino${this.ret_type}::SetBet`, input.value);
+    }
+
+    static switchSound(status) {
+        document.getElementById('casino-sound').src = `libs/svgs/minigames/sound_${status ? 'on' : 'off'}.svg`; 
+    }
+
+    static soundRequest(el) {
+        mp.trigger('CasinoSlots::Sound', el.firstChild.src.includes('on') ? false : true)
     }
 }
