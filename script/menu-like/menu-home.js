@@ -162,7 +162,7 @@ var MenuHome = class MenuHome {
         var layout = document.createElement('div');
         layout.id = id;
         layout.setAttribute('cost', prettyUSD(cost));
-        layout.style.background = `url(${layouts_bg[id]})`;
+        layout.style.background = `url('libs/img/house_layouts/${id}.png')`;
         layout.innerHTML = /*html*/ `<div class="menuhome-layout-bg"><p>${name}</p></div>`;
         parent.append(layout);
         layout.setAttribute('onclick', `MenuHome.onlayout(this)`);

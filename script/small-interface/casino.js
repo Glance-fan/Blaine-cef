@@ -1,6 +1,5 @@
 var Casino = class Casino {
     //type = 0 - casino_roulette, 1 - casino_slots, 2 - casino_blackjack
-    static ret_type; 
     static draw(type, status, balance, max_bet, cur_bet, numbers) {
         this.updateCurBal(balance, true);
         this.updateGameStatus(status);
@@ -10,14 +9,11 @@ var Casino = class Casino {
         switch (type) {
             case 0: 
                 this.fillLastNums(numbers);
-                this.ret_type = 'Roulette';
                 break;
             case 1: 
                 this.showSlots();
-                this.ret_type = 'Slots';
                 break;
             case 2:
-                this.ret_type = 'Blackjack';
                 break;
         }
     }
@@ -105,7 +101,7 @@ var Casino = class Casino {
         else parent[0].firstElementChild.style.opacity = 1;
         if (input.value == this.max_bet) parent[2].firstElementChild.style.opacity = 0;
         else parent[2].firstElementChild.style.opacity = 1;
-        mp.trigger(`Casino${this.ret_type}::SetBet`, input.value);
+        mp.trigger(`Casino::SetBet`, input.value);
     }
 
     static switchSound(status) {

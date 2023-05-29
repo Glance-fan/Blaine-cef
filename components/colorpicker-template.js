@@ -20,6 +20,7 @@ vue_app.component('colorpicker-template', {
         if (picker_tmpl.getAttribute('alive') == 'false') renderTemplate(false, 'colorpicker');
     },
     unmounted: function () {
+        MenuHome.onLight(document.querySelector(`[light-id='${whoInvoked.getAttribute('source-id')}']`));
         whoInvoked = null;
     },
     methods: {

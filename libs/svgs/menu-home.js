@@ -31,12 +31,6 @@ var menuhome_static = {
 	],
 }
 
-var layouts_bg = {
-	'layout-1': 'libs/img/layouts/test-layout.png',
-	'layout-2': 'libs/img/layouts/test-layout.png',
-	'layout-3': 'libs/img/layouts/test-layout.png',
-}
-
 var furnitureItems = {
 	'bed': 'libs/img/furniture/bed.png',
 	'armchair': 'libs/img/furniture/armchair.png',

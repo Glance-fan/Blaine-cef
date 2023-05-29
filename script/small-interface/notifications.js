@@ -31,6 +31,7 @@ var Notific = class Notification {
         var cont = document.querySelector('.notification-container');
         cont.style = '';
         cont.style = to_top ? 'top: 34px' : 'bottom:34px';
+        resizeBigger(notific_tmpl)
     }
 
     static addChoice(notific) {

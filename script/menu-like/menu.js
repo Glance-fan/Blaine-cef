@@ -249,7 +249,7 @@ var Menu = class Menu {
                 <span class="menu-extra-elem-text">${quest[2]}</span>
             </p>
         </h1>
-        <div class="quest-middle menu-elem-text" style="margin-top: 0">
+        <div class="quest-middle menu-elem-text" style="margin-top: 5px">
             <span class="menu-headline-elem-text">Цель</span>
             </br>
             <div style="display: flex; margin-top: 3px;">
@@ -365,15 +365,12 @@ var Menu = class Menu {
         }
 
         elem.innerHTML = /*html*/ `
-        <h1 class="menu-elem-top">
-            <p>${menu_svgs.gift}</p>
-            <p style="display:flex; flex-direction: column">
-                <span class="menu-elem-text">Подарок</span>
-                <span class="menu-extra-elem-text">${gift[1]}</span>
-            </p>
+        <h1 class="menu-elem-top" style="margin: 5px 0">
+            <div style="height: 20px;width: 40px;position: relative;">${menu_svgs.gift}</div>
+            <p style="display:flex; flex-direction: column" class="menu-extra-elem-text">${gift[1]}</p>
         </h1>
         <p class="gift-middle menu-elem-text"><span>${gift[2]}</span></p>
-        <p style="text-align: center; margin-top:10px;"><button class="collect red-button" onclick="Menu.requestCollectGift(this)" id="${elem.id}-btn">Забрать</button></p>`;
+        <p style="position: absolute;bottom: 5px;left: 40px;"><button class="collect red-button" onclick="Menu.requestCollectGift(this)" id="${elem.id}-btn">Забрать</button></p>`;
     }
 
     static removeGift(id) {

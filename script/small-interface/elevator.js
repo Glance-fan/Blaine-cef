@@ -10,10 +10,15 @@ var Elevator = class Elevator {
     }
 
     static setCurrentFloor(value) {
-        if (value <= 0) value = 1;
-        else if (value > this.maxFloor) value = this.maxFloor;
-        this.curfloor.innerText = value;
-        this.btn.style.visibility = 'visible';
+        if (value == null) {
+            this.curfloor.innerText = '';
+            this.btn.style.visibility = 'hidden';
+        } else {
+            if (value <= 0) value = 1;
+            else if (value > this.maxFloor) value = this.maxFloor;
+            this.curfloor.innerText = value;
+            this.btn.style.visibility = 'visible';	
+        }
     }
 
     static draw() {

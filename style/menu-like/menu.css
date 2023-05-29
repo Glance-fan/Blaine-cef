@@ -559,11 +559,12 @@
     width: 160px;
     height: 105px;
     margin-right: 30px;
+    position: relative;
 }
 
 .gifts-elem svg {
-    margin-left: 10px;
-    margin-right: 10px;
+    position: absolute;
+    left: 10px;
 }
 
 .gift-middle {

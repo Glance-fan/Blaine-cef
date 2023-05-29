@@ -24,7 +24,6 @@ var AuthReg = class Registration {
     static rulesChecked(btn) {
         if (!btn.classList.contains('auth-checked')) {
             btn.classList.add('auth-checked');
-            //console.log(this.login)
             this.ready = setInterval(this.ready2Reg, 100);
         } else {
             btn.classList.remove('auth-checked');

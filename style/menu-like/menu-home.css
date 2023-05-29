@@ -254,11 +254,11 @@
     width: 300px;
     height: 200px;
     border-radius: 5px;
-    background: linear-gradient(250.85deg, rgba(48, 48, 48, 0.5) 5.14%, rgba(65, 65, 65, 0.5) 52.26%, rgba(48, 48, 48, 0.5) 92.13%) 0% 0% / 300% 100%;
+    background: linear-gradient(250.85deg, rgba(48, 48, 48, 0.25) 5.14%, rgba(65, 65, 65, 0.25) 52.26%, rgba(48, 48, 48, 0.25) 92.13%) 0% 0% / 300% 100%;
 }
 
 .menuhome-selected-layout {
-    background: linear-gradient(268.24deg, rgba(240, 48, 48, 0.5) 0.37%, rgba(255, 0, 0, 0.5) 53.3%, rgba(243, 9, 9, 0.5) 100%) 0% 0% / 300% 100%;
+    background: linear-gradient(268.24deg, rgba(240, 48, 48, 0.25) 0.37%, rgba(255, 0, 0, 0.25) 53.3%, rgba(243, 9, 9, 0.25) 100%) 0% 0% / 300% 100%;
     animation: 5s ease 0s infinite normal none running selected;
 }
 

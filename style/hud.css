@@ -109,7 +109,7 @@
 
 .hud-quest-middle {
     text-align: left;
-    margin-left: 10px;
+    margin: 5px 0 5px 10px;
     max-height: 80px;
     min-height: 35px;
     display: flex;
