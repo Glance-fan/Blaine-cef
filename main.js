@@ -156,15 +156,15 @@ const vue_app = Vue.createApp({
 })
 vue_app.use(VueColor);
 
-class mp {
-    static args_str;
-    static trigger(...args) {
-        this.args_str = '';
-        for (var index = 0; index < args.length; index++)
-            this.args_str += args[index] + ' '
-        console.log(this.args_str);
-    }
-}
+// class mp {
+//     static args_str;
+//     static trigger(...args) {
+//         this.args_str = '';
+//         for (var index = 0; index < args.length; index++)
+//             this.args_str += args[index] + ' '
+//         console.log(this.args_str);
+//     }
+// }
 
 function renderTemplate(isRender, template) {
     mountedApp.render[`${template}`] = isRender;
