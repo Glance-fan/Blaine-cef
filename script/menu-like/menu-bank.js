@@ -336,7 +336,7 @@ var MenuBank = class MenuBank {
         this.setDebetInfo(2, limit == -1 ? limit : this.tariffTypes[this.cur_tarrif][5]);
     }
 
-    static setSavingsBal(){
+    static setSavingsBal(val){
         this.setSavingsInfo(1, val);
     }
 }

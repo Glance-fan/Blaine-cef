@@ -48,7 +48,6 @@ var CRecords = class CriminalRecords {
 
     static fillCRecords(data) {
         document.getElementById('crec-wrapper').innerHTML = '';
-        console.log(data)
 
         load(data);
 

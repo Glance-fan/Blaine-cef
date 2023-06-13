@@ -567,8 +567,9 @@ var Inventory = class Inventory {
             this.curTTP = false;
             return;
         }
-        Inventory.clickSlot(event, slot)
-        Inventory.showTooltip(slot)
+        Inventory.clickSlot(event, slot);
+        Inventory.showTooltip(slot);
+        Inventory.realDragItem = null;
     }
 
     static defaultSlot(slot) {

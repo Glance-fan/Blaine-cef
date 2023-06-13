@@ -37,12 +37,12 @@ var Retail = class Retail {
         }
     }
 
-    //data[index] = [['unique_id', id] || id, 'name', 'price'(str|int), 'amount'(str|int), 'weight'(str|int), wearable(t|f)]
+    //data[index] = [['unique_id', id] || id, 'name', 'price'(str|int), 'amount'(str|int), 'weight'(str|int), has_btn(null|'string), [price, amount]]
     static fillAssortment(data) {
         document.querySelector('.scrollable-assortment').innerHTML = '';
         var assortment_row = this.createRow();
         for (var index = 0; index < data.length; index++) {
-            var assortment_elem = this.createElem(data[index][0], data[index][1], data[index][2], data[index][3], data[index][4], data[index][5], data[index][6]);
+            var assortment_elem = this.createElem(...data[index]);
             if (assortment_row.childElementCount < 4) assortment_row.append(assortment_elem);
             else {
                 assortment_row = this.createRow();
@@ -62,7 +62,7 @@ var Retail = class Retail {
         return row;
     }
 
-    static createElem(id, name, cost, instock, weight, wearable) {
+    static createElem(id, name, cost, instock, weight, has_btn, on_sell) {
         var elem = document.createElement('div');
         elem.classList.add('assortment-elem');
         if (Array.isArray(id)) {
@@ -72,18 +72,32 @@ var Retail = class Retail {
         elem.instock = instock;
         elem.weight = weight;
         elem.cost = parseInt((cost * this.coef).toFixed(2));
-        elem.wearable = wearable;
+        elem.has_btn = has_btn;
         elem.descr = itemDescriptions[id];
         elem.innerHTML = /*html*/ `
             <span style="font-size:12px">${name}</span>${id in inventoryItems ? inventoryItems[id] : inventoryItems["NotAssigned"]}
             <span>${this.isCreation ? `${elem.cost} ед. мат.` : prettyUSD(elem.cost)}</span>`;
-        if (this.isPersonal) elem.lastElementChild.innerHTML = ``;
-        setTimeout(Retail.setTextSize, 0, elem);
-        if (this.isPersonal) elem.setAttribute('onclick', `Retail.clickPersonalElem(this)`);
-        else elem.setAttribute('onclick', `Retail.clickElem(this)`);
-        elem.setAttribute('oncontextmenu', `mp.trigger('Retail::Action', '${id}')`)
+        if (this.isPersonal) {
+            elem.setAttribute('onclick', `Retail.clickLeftPersonal(this)`);
+            elem.setAttribute('oncontextmenu', `Retail.clickRightPersonal(event, this)`);
+        }
+        else {
+            elem.setAttribute('onclick', `Retail.clickElem(this)`);
+            elem.setAttribute('oncontextmenu', `mp.trigger('Retail::Action', '${id}')`)
+        }
         elem.setAttribute('onmouseover', `Retail.onmouseover(this)`);
         elem.setAttribute('onmouseout', `Retail.onmouseout()`);
+        if (this.isPersonal) {
+            elem.lastElementChild.innerHTML = Array.isArray(on_sell) ? `${prettyUSD(on_sell[0])} x[${on_sell[1]}]` : ``;
+            if (Array.isArray(on_sell)) {
+                elem.classList.add('assortment-clicked');
+                this.selectedElems.push(elem);
+                this.prices.push(on_sell[0]);
+                this.amounts.push(on_sell[1]);
+            }
+        }
+        setTimeout(Retail.setTextSize, 0, elem);
+        
         return elem;
     }
 
@@ -116,58 +130,64 @@ var Retail = class Retail {
     static selectedElems = [];
     static prices = [];
     static amounts = []
-    static clickPersonalElem(elem) {
-        for (let index = 0; index < this.selectedElems.length; index++) {
-            if (this.selectedElems[index] == elem) {
-                this.selectedElems[index].classList.remove('assortment-clicked');
-                this.selectedElems[index].lastElementChild.innerHTML = '';
-                this.selectedElems.splice(index, 1);
-                this.prices.splice(index, 1);
-                this.amounts.splice(index, 1)
-                this.lastElem = this.selectedElems.at(-1);
-                if (Retail.selectedElems.length == 0)
-                    document.querySelector('.bottom-assortment').style.display = 'none';
-                else {
-                    document.getElementById('retail-personal-cost').value = this.prices.at(-1);
-                    this.assortment_amount[1].value = this.amounts.at(-1);
-                    if (Retail.assortment_amount[1].value == 1) Retail.assortment_amount[0].style.opacity = 0;
-                    else Retail.assortment_amount[0].style.opacity = 1;
-                    Retail.assortment_amount[1].max = this.lastElem.instock;
-                    if (Retail.assortment_amount[1].value == Retail.assortment_amount[1].max) Retail.assortment_amount[2].style.opacity = 0;
-                    else Retail.assortment_amount[2].style.opacity = 1;
-                }
-                return;
-            }
+    static clickLeftPersonal(elem) {
+        if (this.lastElem != null) {
+            this.lastElem.classList.remove('assortment-editing');
+            this.lastElem.classList.add('assortment-clicked');
         }
-        this.selectedElems.push(elem);
-        this.prices.push(1);
-        this.amounts.push(1);
         this.lastElem = elem;
-        elem.classList.add('assortment-clicked');
+        var index = Retail.selectedElems.indexOf(elem);
+        if (index == -1) {
+            this.selectedElems.push(elem);
+            this.prices.push(1);
+            this.amounts.push(1);
+        }
+        
+        elem.classList.add('assortment-editing');
+        elem.classList.remove('assortment-clicked');
+
         Retail.assortment_amount[1].max = elem.instock;
-        Retail.assortment_amount[0].style.opacity = '0';
-        Retail.assortment_amount[1].value = 1;
-        Retail.assortment_amount[2].style = '';
-        document.getElementById('retail-personal-cost').value = 1;
-        elem.lastElementChild.innerHTML = '$1 [x1]';
+        Retail.assortment_amount[1].value = index == -1 ? 1 : this.amounts[index];
+        document.getElementById('retail-personal-cost').value = index == -1 ? 1 : this.prices[index];
+        elem.lastElementChild.innerHTML = `${prettyUSD(this.prices.at(index))} [x${this.amounts.at(index)}]`;
         document.querySelector('.bottom-assortment').style.display = 'flex';
-        this.updateBottom(elem);
+        this.onAmount(Retail.assortment_amount[1]);
+    }
+
+    static clickRightPersonal(event, elem) {
+        event.preventDefault();
+        var index = Retail.selectedElems.indexOf(elem);
+        if (index == -1) return;
+        this.selectedElems[index].classList.remove('assortment-clicked', 'assortment-editing');
+        this.selectedElems[index].lastElementChild.innerHTML = '';
+        this.selectedElems.splice(index, 1);
+        this.prices.splice(index, 1);
+        this.amounts.splice(index, 1)
+        try {
+            this.lastElem = null;
+            Retail.selectedElems.at(-1).click();            
+        } catch (error) {
+            document.querySelector('.bottom-assortment').style.display = 'none';
+        }
     }
 
     static setPrice(input) {
-        const chars = input.value.split('');
-        const char = chars.pop();
-        if (!/[0-9]/.test(char)) input.value = chars.join('');
         if (input.value.length > 9) input.value = 999999999;
-        var elem = this.selectedElems.at(-1);
-        if (input.value == '') elem.lastElementChild.innerHTML = '';
-        else elem.lastElementChild.innerHTML = `$${parseInt(input.value).toLocaleString('ru')} [x${this.selectedElems.at(-1).lastElementChild.innerHTML.split(' [x')[1].replace(']','')}]`;
-        this.prices[this.prices.length - 1] = input.value;
+        
+        var idx = this.selectedElems.indexOf(this.lastElem);
+
+        if (input.value == '' || input.value < 1) {
+            input.value = 1;
+            input.select();
+            this.lastElem.lastElementChild.innerHTML = `${prettyUSD(input.value)} [x${this.selectedElems.at(idx).lastElementChild.innerHTML.split(' [x')[1].replace(']','')}]`;
+        }
+        else this.lastElem.lastElementChild.innerHTML = `${prettyUSD(input.value)} [x${this.selectedElems.at(idx).lastElementChild.innerHTML.split(' [x')[1].replace(']','')}]`;
+        this.prices[idx] = input.value;
     }
 
     static leaveInput(input) {
         if (input.value == 0 || input.value == '') {
-            Retail.clickPersonalElem(Retail.selectedElems.at(-1))
+            Retail.clickLeftPersonal(Retail.selectedElems.at(-1))
             if (Retail.selectedElems.length == 0)
                 document.querySelector('.bottom-assortment').style.display = 'none';
             else input.value = this.prices.at(-1);
@@ -247,7 +267,6 @@ var Retail = class Retail {
     }
 
     static onAmount(elem) {
-        console.log(elem.value)
         if (elem.value == 0 || elem.value == '') {
             elem.value = 1;
             elem.select();
@@ -302,13 +321,17 @@ var Retail = class Retail {
             bottom.children[0].style.display = 'flex';
             bottom.children[5].style.display = 'flex';
             bottom.children[6].style.display = 'flex';
-            this.selectedElems.at(-1).lastElementChild.innerHTML = `${this.selectedElems.at(-1).lastElementChild.innerHTML.split(' [x')[0]} [x${Retail.assortment_amount[1].value}]`;
-            this.amounts[this.amounts.length - 1] = Retail.assortment_amount[1].value;
+
+            var idx = this.selectedElems.indexOf(this.lastElem);
+            console.log(idx);
+            this.selectedElems.at(idx).lastElementChild.innerHTML = `${this.selectedElems.at(idx).lastElementChild.innerHTML.split(' [x')[0]} [x${Retail.assortment_amount[1].value}]`;
+            this.amounts[idx] = Retail.assortment_amount[1].value;
 
         }
-        if (elem.wearable) {
+        if (elem.has_btn) {
             bottom.children[0].style.display = 'none';
             bottom.children[1].style.display = 'flex';
+            document.querySelector('.retail-elem-btn').innerText = elem.has_btn;
         } else {
             bottom.children[0].style.display = 'flex';
             bottom.children[1].style.display = 'none';
@@ -330,8 +353,8 @@ var Retail = class Retail {
         mp.trigger('Shop::Create', Retail.lastElem.id.replace('-retail', ''), parseInt(Retail.assortment_amount[1].value));
     }
 
-    static requestTry() {
-        mp.trigger('Shop::Try', this.lastElem.id.replace('-retail', ''))
+    static requestButton() {
+        mp.trigger('Shop::ElemButton', this.lastElem.id.replace('-retail', ''))
     }
 
     static confirmRequest() {
@@ -342,9 +365,8 @@ var Retail = class Retail {
             sellitems[index].push(Retail.selectedElems[index].id.replace('-retail', ''));
             sellitems[index].push(Retail.amounts[index]);
             sellitems[index].push(Retail.prices[index])
-
         }
-        mp.trigger('Shop::Confirm', sellitems);
+        mp.trigger('Shop::Confirm', JSON.stringify(sellitems));
     }
 
     static coef = 1;

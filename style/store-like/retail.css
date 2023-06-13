@@ -201,6 +201,11 @@
     animation: 5s ease 0s infinite normal none running selected;
 }
 
+.assortment-editing {
+    background: linear-gradient(86.42deg, rgba(36,193,15,1) 0%, rgba(61,80,46,1) 100%) 0% 0% / 300% 100%;
+    animation: 5s ease 0s infinite normal none running selected;
+}
+
 .retail-tooltip {
     position: absolute;
     display: flex;
@@ -272,7 +277,7 @@
     max-height: 50px;
 }
 
-.retail-wear {
+.retail-elem-btn {
     width: 90px;
     height: 30px;
     font-weight: 700;
@@ -285,7 +290,7 @@
     background: linear-gradient(250.85deg, #303030 5.14%, #414141 52.26%, #303030 92.13%) 0% 0% / 300% 100%;
 }
 
-.retail-wear:hover {
+.retail-elem-btn:hover {
     animation: 5s ease 0s infinite normal none running selected;
 }
 

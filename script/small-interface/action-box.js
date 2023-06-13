@@ -35,6 +35,7 @@ var ActionBox = class ActionBox {
                 break;
             case 1: //input
                 this.container.innerHTML = /*html*/ `<textarea autocomplete="off" spellcheck="false" oninput="ActionBox.curData = this.value" maxlength="${data[0] || 250}" class="action-box-textarea" placeholder="Введите текст..."></textarea>`;
+                ActionBox.curData = data[1];
                 if (data[1])
                     setTimeout(() => {
                         this.container.firstElementChild.focus();
@@ -65,9 +66,10 @@ var ActionBox = class ActionBox {
                 this.container.innerHTML = /*html*/ `<div class="actionbox-text">${data[0]}</div> `;
                 break;
             case 5: //input-with-text
-                this.container.innerHTML = /*html*/ 
+                this.container.innerHTML = /*html*/
                     `<div class="actionbox-text">${data[0]}</div>
                     <input autocomplete="off" spellcheck="false" oninput="ActionBox.curData = this.value" maxlength="${data[1] || 250}" id="action-box-input" placeholder="Введите текст...">`;
+                ActionBox.curData = data[2];
                 if (data[2] != null)
                     setTimeout(() => {
                         this.container.lastElementChild.focus();

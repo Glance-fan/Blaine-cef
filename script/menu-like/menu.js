@@ -325,7 +325,7 @@ var Menu = class Menu {
 
     /*gifts*/
     static requestCollectGift(btn) {
-        mp.trigger("Menu::GetGift", parseInt(btn.id));
+        mp.trigger("Menu::GetGift", btn.id);
     }
 
     //gift = [id, 'source', 'name'];

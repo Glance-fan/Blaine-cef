@@ -31,7 +31,7 @@ vue_app.component('retail-template', {
                            <div style="display: flex;align-items: center;"><input/></div>
                        </div>
                        <div style="justify-content:center">
-                           <button class="retail-wear" onclick="Retail.requestTry()">Примерить</button>
+                           <button class="retail-elem-btn" onclick="Retail.requestButton()"></button>
                        </div>
                        <div>
                            Общий вес
@@ -49,7 +49,7 @@ vue_app.component('retail-template', {
                            Стоимость (1 ед.)
                            <div style="display: flex;height: 25px;">
                                <span class="retail-usd">$</span>
-                               <input id="retail-personal-cost" maxlength="10" onfocus="this.value = ''" oninput="Retail.setPrice(this)" onblur="Retail.leaveInput(this)"/>
+                               <input id="retail-personal-cost" maxlength="10" onfocus="this.value = ''" oninput="Retail.setPrice(this)" onblur="Retail.leaveInput(this)" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/>
                            </div> 
                        </div>
                        <div style="display:none;justify-content:center">

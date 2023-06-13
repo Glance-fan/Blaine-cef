@@ -258,7 +258,6 @@ var Docs = class Documents {
         var isDisabled = data[0] ? `` : `disabled`;
         var texts = data[5];
         if (!Array.isArray(texts)) texts = Array(3).fill('');  
-        //console.log(texts)       
         doc.innerHTML = /*html*/ `
         <div>blaine county<br>${data[1]}</div>
         <div>
