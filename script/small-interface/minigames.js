@@ -170,13 +170,20 @@ var MG = class MiniGames {
         static need_deg;
         static lockpick_dur;
 
+        static curUpFunc;
+
         static draw(durability, deg, max_deviation, pin_deg) {
+            document.removeEventListener('mousemove', MG.LP.rotatePin);
+            document.removeEventListener('mousedown', MG.LP.tryUnlock);
+            document.removeEventListener('mouseup', MG.LP.curUpFunc);
+
             this.lock = document.getElementById('lock-picking-wrapper');
             document.getElementById('lock-elem').style = '';
             this.need_deg = deg ?? Math.floor(Math.random() * (450 - 90 + 1) + 90);
             this.lockpick_dur = durability ?? 20;
             this.max_deviation = max_deviation ?? 5;
             this.rotatePin(pin_deg ?? -90);
+
             document.addEventListener('mousemove', MG.LP.rotatePin);
             document.addEventListener('mousedown', MG.LP.tryUnlock);
         }
@@ -191,15 +198,18 @@ var MG = class MiniGames {
             document.getElementById('lockpick-elem').style.setProperty('transform', `rotate(${deg + 90}deg)`)
         }
 
-        static async tryUnlock() {
-            document.removeEventListener('mousemove', MG.OP.rotatePin);
+        static tryUnlock(event) {
+            if (event.which != 1)
+                return;
+
+            document.removeEventListener('mousemove', MG.LP.rotatePin);
             var lock = document.getElementById('lock-elem');
 
             var mirrored_angle = MG.LP.need_deg > MG.LP.cur_angle ? 2 * MG.LP.need_deg - MG.LP.cur_angle : MG.LP.cur_angle;
             var rotate_angle = 90 * MG.LP.need_deg / mirrored_angle;
             rotate_angle = rotate_angle > 90 * MG.LP.need_deg / (MG.LP.need_deg + MG.LP.max_deviation) ? 90 : rotate_angle;
             if (rotate_angle != 90) {
-                await addShake( /*css*/
+                addShake( /*css*/
                     `@keyframes shake-pin {
                         0% { transform: rotate(${MG.LP.cur_angle}deg); }
                         85% { transform: rotate(${MG.LP.cur_angle - 2}deg); }
@@ -211,7 +221,7 @@ var MG = class MiniGames {
                     MG.LP.lockpick_dur--;
                     if (MG.LP.lockpick_dur < 1) {
                         MG.LP.lockRequest(false, MG.LP.need_deg);
-                        up();
+                        up({ which: 1, });
                     }
                 }, 500);
                 var shake_anim = setTimeout(() => {
@@ -226,9 +236,14 @@ var MG = class MiniGames {
                 document.removeEventListener('mousedown', MG.LP.tryUnlock);
             }, 1500);
 
+            MG.LP.curUpFunc = up;
+
             document.addEventListener('mouseup', up);
 
-            function up() {
+            function up(event) {
+                if (event.which != 1)
+                    return;
+
                 lock.style.removeProperty('transform');
                 document.getElementById('lockpick-elem').style.animation = ``;
                 clearTimeout(shake_anim);
@@ -239,7 +254,7 @@ var MG = class MiniGames {
                 if (css_shake) css_shake.remove();
             }
 
-            async function addShake(css) {
+            function addShake(css) {
                 var elem = document.createElement('style');
                 elem.id = 'shake-pin';
                 document.head.appendChild(elem).innerHTML = css;

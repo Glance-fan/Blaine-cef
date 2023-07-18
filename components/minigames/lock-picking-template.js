@@ -6,7 +6,7 @@ vue_app.component('lock-picking-template', {
         onRenderFinished('lock_picking');
     },
     unmounted: function () {
-        document.removeEventListener('mouseup', up);
+        document.removeEventListener('mouseup', MG.LP.curUpFunc);
         document.removeEventListener('mousedown', MG.LP.tryUnlock);
         document.removeEventListener('mousemove', MG.LP.rotatePin);
         remove_source(scripts.mg);
