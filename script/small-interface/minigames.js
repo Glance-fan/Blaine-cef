@@ -170,17 +170,19 @@ var MG = class MiniGames {
         static need_deg;
         static lockpick_dur;
 
-        static draw(durability, deg) {
+        static draw(durability, deg, max_deviation, pin_deg) {
             this.lock = document.getElementById('lock-picking-wrapper');
             document.getElementById('lock-elem').style = '';
-            this.need_deg = deg || Math.floor(Math.random() * (450 - 90 + 1) + 90);
-            this.lockpick_dur = durability || 20;
-            document.onmousemove = this.rotatePin;
-            document.onmousedown = this.tryUnlock;
+            this.need_deg = deg ?? Math.floor(Math.random() * (450 - 90 + 1) + 90);
+            this.lockpick_dur = durability ?? 20;
+            this.max_deviation = max_deviation ?? 5;
+            this.rotatePin(pin_deg ?? -90);
+            document.addEventListener('mousemove', MG.LP.rotatePin);
+            document.addEventListener('mousedown', MG.LP.tryUnlock);
         }
 
-        static rotatePin() {
-            var deg = MG.LP.angle(
+        static rotatePin(rotate_deg) {
+            var deg = typeof rotate_deg == "number" ? rotate_deg : MG.LP.angle(
                 (MG.LP.lock.offsetLeft + MG.LP.lock.offsetWidth / 2) * MG.LP.zoom,
                 (MG.LP.lock.offsetTop + MG.LP.lock.offsetHeight / 2) * MG.LP.zoom,
                 mousePos.x, mousePos.y
@@ -190,7 +192,7 @@ var MG = class MiniGames {
         }
 
         static async tryUnlock() {
-            document.onmousemove = null;
+            document.removeEventListener('mousemove', MG.OP.rotatePin);
             var lock = document.getElementById('lock-elem');
 
             var mirrored_angle = MG.LP.need_deg > MG.LP.cur_angle ? 2 * MG.LP.need_deg - MG.LP.cur_angle : MG.LP.cur_angle;
@@ -220,11 +222,11 @@ var MG = class MiniGames {
 
             var unlock_time = setTimeout(() => {
                 if (MG.LP.need_deg + MG.LP.max_deviation > MG.LP.cur_angle && MG.LP.need_deg - MG.LP.max_deviation < MG.LP.cur_angle) MG.LP.lockRequest(true);
-                document.onmouseup = null;
-                document.onmousedown = null;
+                document.removeEventListener('mouseup', up);
+                document.removeEventListener('mousedown', MG.LP.tryUnlock);
             }, 1500);
 
-            document.onmouseup = up;
+            document.addEventListener('mouseup', up);
 
             function up() {
                 lock.style.removeProperty('transform');
@@ -232,8 +234,9 @@ var MG = class MiniGames {
                 clearTimeout(shake_anim);
                 clearInterval(decrease_dur);
                 clearTimeout(unlock_time);
-                document.onmousemove = MG.LP.rotatePin;
-                document.getElementById('shake-pin').remove();
+                document.addEventListener('mousemove', MG.LP.rotatePin);
+                var css_shake = document.getElementById('shake-pin') 
+                if (css_shake) css_shake.remove();
             }
 
             async function addShake(css) {

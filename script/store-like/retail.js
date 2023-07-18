@@ -88,7 +88,7 @@ var Retail = class Retail {
         elem.setAttribute('onmouseover', `Retail.onmouseover(this)`);
         elem.setAttribute('onmouseout', `Retail.onmouseout()`);
         if (this.isPersonal) {
-            elem.lastElementChild.innerHTML = Array.isArray(on_sell) ? `${prettyUSD(on_sell[0])} x[${on_sell[1]}]` : ``;
+            elem.lastElementChild.innerHTML = Array.isArray(on_sell) ? `${prettyUSD(on_sell[0])} [x${on_sell[1]}]` : ``;
             if (Array.isArray(on_sell)) {
                 elem.classList.add('assortment-clicked');
                 this.selectedElems.push(elem);

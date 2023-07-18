@@ -257,13 +257,13 @@ var Docs = class Documents {
         doc.style.display = 'block';
         var isDisabled = data[0] ? `` : `disabled`;
         var texts = data[5];
-        if (!Array.isArray(texts)) texts = Array(3).fill('');  
+        if (!Array.isArray(texts)) texts = Array(4).fill('');  
         doc.innerHTML = /*html*/ `
         <div>blaine county<br>${data[1]}</div>
         <div>
             <div><p>Преступник:</p><p>${data[2]}</p></div>
             <div style="padding-top:15px"><p>Нарушена статья:</p><input value="${texts[0]}" ${isDisabled} autocomplete="off" spellcheck="false"/></div>
-            <div style="padding-top:15px"><p>Срок ареста:</p><input value="${texts[1]}" ${isDisabled} autocomplete="off" spellcheck="false"/></div>
+            <div style="padding-top:15px"><p>Срок ареста:</p><input value="${texts[1]}" ${isDisabled} placeholder="${texts[3]}" autocomplete="off" spellcheck="false" onkeydown="javascript: return [8,46,37,39].includes(event.keyCode) ? true : !isNaN(Number(event.key)) && event.keyCode!=32"/></div>
             <div style="padding:65px 0"><p>Комментарий<br>сотрудника:</p><textarea style="height: 85px;" maxlength="125" ${isDisabled}>${texts[2]}</textarea></div>
             <div><p>Сотрудник:</p><p>${data[3]}</p></div>
             <div style="padding-top:15px"><p>Подпись:</p><p style="color: #2537DB" class="doc-signature">${data[3].split(' ')[1]}</p></div>

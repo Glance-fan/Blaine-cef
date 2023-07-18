@@ -156,7 +156,10 @@ var Chat = class Chat {
     }
 
     if (event.which == 40 && this.curChatMessageIndex > -1) { //arrow up - вверх по массиву
-      if (this.curChatMessageIndex + 1 == this.userMessages.length || this.curChatMessageIndex == this.userMessages.length) this.message.value = "";
+      if (this.curChatMessageIndex + 1 == this.userMessages.length || this.curChatMessageIndex == this.userMessages.length) {
+        this.message.value = "";
+        Messages.onChange('say')
+      } 
       else {
         Messages.updateChannel(this.userChatMessages[this.curChatMessageIndex + 1]);
         this.message.value = this.userMessages[this.curChatMessageIndex + 1];

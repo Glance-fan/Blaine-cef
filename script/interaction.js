@@ -114,6 +114,7 @@ var Interaction = class Interaction {
             var idx = event.target.id.at(-1),
                 label_vals = Interaction.extra_labels[idx];
 
+            if (Interaction.selected_idx > Interaction.main_wheel.navItems.length) Interaction.selected_idx = 0;
             Interaction.main_wheel.navItems[Interaction.selected_idx].selected = false;
             Interaction.main_wheel.navItems[idx].selected = true;
             Interaction.selected_idx = idx;
@@ -154,7 +155,8 @@ var Interaction = class Interaction {
     }
 
     static setClicks(wheel, ids) {
-        wheel.navItems.forEach((i, idx) => i.navSlice.mousedown(() => {
+        wheel.navItems.forEach((i, idx) => i.navSlice.mousedown((event) => {
+            if (event.which == 3) return;
             var id = ids[idx];
             if (!this.main_labels.includes(id)) {
                 if (this.sub_wheel) this.removeWheel('sub-inter-wheel');
@@ -218,7 +220,7 @@ const CHAR_INTERACTION = {
         ['none', 'none', 'none', 'sell_house', 'sell_car', 'sell_buis', 'settle', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none'],
         ['none', 'none', 'none', 'none', 'none', 'money_50', 'money_150', 'money_300', 'money_1000', 'none', 'none', 'none', 'none', 'none', 'none', 'none'],
         ['none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'pulse', 'bandage', 'cure', 'none', 'none', 'none', 'none', 'none'],
-        null,
+        ['take_license', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'fraction_invite', 'police_search', 'cuffs', 'police_escort', 'prison', 'fine'],
         ['none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'char_veh', 'medbook', 'resume', 'license', 'passport']
     ]
 };

@@ -2,8 +2,8 @@ var Messages = class ChatMessages {
     static specialCount = 0;
     static channels = [
         ['me', 'do', 'todo', 'try', 'fraction', 'general', 'organisation', 'NonRP'],
-        ['/say ', '/s ', '/w ', '/n ', '/me ', '/do ', '/todo ', '/try ', '/f ', '/r ', '/o ', '/d ', '/gov ', '/amsg '],
-        ['say', 'shout', 'whisper', 'nonrp', 'me', 'do', 'todo', 'try', 'fraction', 'fraction', 'organisation', 'department', 'goverment', 'admin'],
+        ['/say ', '/s ', '/w ', '/n ', '/me ', '/do ', '/todo ', '/try ', '/f ', '/o ', '/d ', '/gov ', '/amsg ', '/r '],
+        ['say', 'shout', 'whisper', 'nonrp', 'me', 'do', 'todo', 'try', 'fraction', 'organisation', 'department', 'goverment', 'admin', 'fraction'],
         ['сказал', 'крикнул', 'шепнул']
     ];
     static types = {
@@ -29,11 +29,6 @@ var Messages = class ChatMessages {
     }
 
     static send(type, message) {
-        if (type == this.types['todo'][0] && !/^[\sa-zA-ZА-Яа-я0-9_\-\.]*\*[\sa-zA-ZА-Яа-я0-9_\-\.]*$/.test(message)) {
-            this.printToDoHelp();
-            return;
-        }
-        message = message.replace(/\s+/g, ' ').trim();
         mp.trigger('Chat::Send', type, message);
     }
 
@@ -123,7 +118,7 @@ var Messages = class ChatMessages {
         var msg = this.emptyMessage(message);
         msg.el.innerHTML = /*html*/
             `<span class="action-text">${time} ${fullname} (${id}) ${msg.text} |</span>`
-        msg.innerHTML += result ? /*html*/ `<span class="success-text">Удачно</span>` : /*html*/ `<span class="defeat-text">Неудачно</span>`;
+        msg.el.innerHTML += result ? /*html*/ `<span class="success-text">Удачно</span>` : /*html*/ `<span class="defeat-text">Неудачно</span>`;
     }
 
     static showFraction(time, position, fullname, id, message) {
@@ -132,7 +127,7 @@ var Messages = class ChatMessages {
             `<span class="fraction-text">${time} [R] ${position} ${fullname} (${id}): ${msg.text}</span>`;
     }
 
-    static showGoverment(time, department, position, fullname, id, message) {
+    static showDepartment(time, department, position, fullname, id, message) {
         var msg = this.emptyMessage(message);
         msg.el.innerHTML = /*html*/
             `<span class="goverment-text">${time} [D] ${department} | ${position} ${fullname} (${id}): ${msg.text}</span>`;

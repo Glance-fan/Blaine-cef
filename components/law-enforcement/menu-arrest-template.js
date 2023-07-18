@@ -21,7 +21,7 @@ vue_app.component('menu-arrest-template', {
             <div class="close-template" onclick="mp.trigger('MenuArrest::Close')">${close_svg}</div>
             <div id="menuarrest-0-container">
                 <h2>
-                    <div>Список всех задержанных</div>
+                    <div id="menu-arrest-name">Список всех задержанных</div>
                     <div id="menu-arrest-search" onclick="this.lastElementChild.focus()">
                         <img src="libs/svgs/law-enforcement/search.svg">
                         <input placeholder="Поиск" oninput="MenuArrest.onsearch(this.value)" onfocus="MenuArrest.onfocus(this.parentElement)" onblur="MenuArrest.onblur(this.parentElement)">

@@ -1,7 +1,8 @@
 var MenuArrest = class MenuArrest {
     static all_arrests = [];
     static fillArrests(title, arrests) {
-        document.getElementById('menu-arrest-arrests').innerHTML = 'Список всех ' + (title ? 'задержанных' : 'заключенных');
+        document.getElementById('menu-arrest-name').innerHTML = 'Список всех ' + (title ? 'задержанных' : 'заключенных');
+        document.getElementById('menu-arrest-arrests').innerHTML = '';
         this.all_arrests = [];
         load(arrests);
 
