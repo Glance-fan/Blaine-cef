@@ -261,3 +261,173 @@
 .ban-bottom-text p {
     margin-top: 10px;
 }
+
+
+.char-select-settings {
+    height: 375px;
+    width: 710px;
+    position: absolute;
+    top: 100px;
+    left: 30px;
+    display: none;
+    padding: 35px 130px 25px 30px;
+    background: linear-gradient(243deg, #282828 0%, rgba(44, 44, 44, 0.52) 48.44%, #282828 100%);
+}
+
+.char-select-settings-block {
+    width: 100%;
+    height: 185px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+}
+
+.char-select-settings-block>div {
+    height: 35px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+    position: relative;
+}
+
+.char-select-settings-block>div>div:first-child {
+    width: 300px;
+    font-weight: 700;
+}
+
+.settings-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-right: 6px
+}
+
+#cs-settings-otp>div {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: 12px;
+    color: white;
+}
+
+#cs-settings-info {
+    color: #858585;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    width: 810px;
+    line-height: 17px;
+    margin: 60px 0 48px;
+}
+
+.char-select-settings button,
+.settings-info-panel button {
+    width: 125px;
+    height: 35px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.char-select-settings-block button {
+    display: none;
+    position: absolute;
+    right: 0;
+}
+
+.settings-info-panel {
+    display: none;
+    position: relative;
+    padding: 30px 24px 40px 21px;
+    height: 510px;
+    width: 355px;
+}
+
+.settings-info-block {
+    height: 450px;
+    color: white;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 17px;
+}
+
+
+.settings-input-block {
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    transition: 0.3s;
+}
+
+.settings-input-wrapper>div:not(:first-child) {
+    margin-top: 35px;
+}
+
+.settings-input-icon {
+    width: 43px;
+    height: 43px;
+    border: 1px white solid;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.30);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.settings-input-static {
+    height: 45px;
+    position: relative;
+}
+
+.settings-input-text {
+    position: absolute;
+    font-weight: 500;
+    font-size: 14px;
+    color: #FFF;
+    top: -8px;
+    left: 20px;
+}
+
+.settings-input-block input {
+    position: absolute;
+    left: 15px;
+    height: 45px;
+    width: 280px;
+    padding: 0;
+    background: none;
+    outline: 0;
+    border: 0px;
+    font-weight: 400;
+    font-size: 14px;
+    color: white;
+}
+
+.settings-input-block input::placeholder {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    color: white;
+}
+
+.settings-ena-secure {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+#settings-qrcode {
+    width: 100px;
+    height: 100px;
+    margin: 30px 0 18px;
+    border-radius: 10px;
+}
+
+#settings-qr-secret {
+    margin-top: 17px;
+    font-weight: 700;
+}

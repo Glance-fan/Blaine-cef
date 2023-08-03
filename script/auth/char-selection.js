@@ -4,8 +4,8 @@ var AuthSelect = class CharSelection {
 
     static fillPanel(login, regDate, bCoins, lastChar, newData) {
         document.querySelector('.char-line').style.height = document.querySelector('.info').offsetHeight + 'px';
-        this.data = JSON.parse(newData);
-        //this.data = newData;
+        // this.data = JSON.parse(newData);
+        this.data = newData;
         document.getElementById('rs-name').innerText = login.toUpperCase();
         document.getElementById('char-reg-date').innerText = regDate;
         document.getElementById('char-bcoins').innerText = bCoins + ' BC';
@@ -140,8 +140,105 @@ var AuthSelect = class CharSelection {
         mp.trigger("Auth::CharacterChooseAttempt", this.active_char);
     }
 
-    static settings() {
-        //TBD
+    static settings(state) {
+        if (state) {
+            // elem.setAttribute('onclick', 'AuthSelect.settings(false, this)');
+            document.querySelector('.char-select-settings').style = 'display: block';
+            document.querySelector('.select-option').style = 'display: none';
+            document.querySelector('.settings-info-panel').style = 'display: block';
+            document.querySelector('.char-info-panel').style = 'display: none';
+        } else {
+            // elem.setAttribute('onclick', 'AuthSelect.settings(true, this)');
+            document.querySelector('.char-select-settings').style = 'display: none';
+            document.querySelector('.select-option').style = 'display: flex';
+            document.querySelector('.settings-info-panel').style = 'display: none';
+            document.querySelector('.char-info-panel').style = 'display: block';
+        }
     }
 
+    static fillSettings(email, date, ip, has_otp, sc_name, ) {
+        ['mail', 'date', 'ip', 'otp', 'scname'].forEach((field, idx) => this.changeSettingsField(field, arguments[idx]));
+        this.showSettingsBlock('nothing');
+    }
+
+    //field = 'mail', 'date', 'ip', 'otp', 'scname' 
+    static changeSettingsField(field, state) {
+        if (field == 'otp') {
+            var color = state ? `#9CDE48` : `#C81212`;
+            document.getElementById('cs-settings-otp').innerHTML = /*html*/ `<div style="color: ${color}"><div class="settings-dot" style="background: ${color}"></div>${state ? `Подключено` : `Не подключено`}</div>`;
+        } else {
+            document.getElementById(`cs-settings-${field}`).innerText = state;
+        }
+    }
+
+    //which = 'mail', 'otp' / option = 0, 1
+    static showButton(which, state, option) {
+        document.getElementById(`cs-settings-btn-${which}`).style.display = state ? 'block' : 'none';
+        if (which == 'otp') document.getElementById(`cs-settings-btn-${which}`).innerText = option == 0 ? 'Подключить' : 'Отключить';
+    }
+
+    static settings_type = {
+        'nothing': ['Нажмите на шестеренку (вверху справа)<br>еще раз, чтобы вернуться<br>к выбору персонажа', 'display: flex;justify-content: center;align-items: center;'],
+        'dis_secure': [/*html*/ `<div style="margin-bottom: 70px;">Для отключения данной защиты<br>введите код, отправленный на Вашу почту<br>и код из приложения <span style="font-weight:600;">Google Authenticator</span></div>`, '', ['mail-code', 'app-code'], 45],
+        'ena_secure': [/*html*/ `<div class="settings-ena-secure">Для подключения данной защиты скачайте<br>следующее приложений на ваш смартфон<div style="font-weight:700;margin:17px 0;">Google Authenticator</div>Далее, войдите в приложение и<br>отсканируйте QR-код или введите вручную<div id="settings-qr-secret">111</div><img id="settings-qrcode">В завершение, введите сгенерированный<br>в приложении код</div>`, '', ['app-code'], 15],
+        'mail_change': [/*html*/ `<div style="margin-bottom: 50px">Для смены почты<br>введите код, отправленный<br>на Вашу текущую почту</div>`, '', ['mail-code', 'new-mail'], 45],
+        'otp_mail_change': [/*html*/ `<div style="margin-bottom: 50px">Для смены почты<br>введите код, отправленный<br>на Вашу текущую почту<br>и код из приложения <span style="font-weight:600;">Google Authenticator</span></div>`, '', ['mail-code', 'app-code', 'new-mail'], 40]
+    };
+
+    static input_types = {
+        'mail-code': ['password', 'mail-code-static', 'Код из почты'],
+        'app-code': ['password', 'app-code-static', 'Код из приложения'],
+        'new-mail': ['mail', 'new-mail-static', 'Новая почта'],
+    }
+
+    //type = 'nothing', 'dis_secure', 'ena_secure', 'mail_change', 'otp_mail_change'
+    static showSettingsBlock(type, secret, qr) {
+        var setting = this.settings_type[type];
+        var parent = document.querySelector('.settings-info-block');
+        parent.innerHTML = setting[0];
+        parent.style = setting[1];
+        if (type != 'nothing') {
+            parent.innerHTML += /*html*/ `<div class="settings-input-wrapper" style="margin-bottom: ${setting[3]}px"></div>`;
+            this.drawInputs(parent.lastChild, setting[2]);
+            parent.innerHTML += /*html*/ `<button class="red-button" onclick="AuthSelect.settingsButton('${type}', this.parentElement)">Продолжить</button>`
+        }
+        if (type == 'ena_secure') {
+            document.getElementById('settings-qr-secret').innerText = secret;
+            document.getElementById('settings-qrcode').src = qr;
+        }
+    }
+
+    static drawInputs(parent, data) {
+        data.forEach(input => {
+            this.drawInput(parent, input)
+        })
+    }
+
+    static drawInput(parent, id) {
+        var type = this.input_types[id];
+        var input = /*html*/ `
+        <div class="settings-input-block" id="settings-${id}-input-block" style="opacity:0.3">
+            <div class="settings-input-icon"><img src="libs/svgs/auth/${type[0]}.svg"></div>
+            <div class="settings-input-static">
+                <div class="settings-input-text">${type[2]}</div>
+                <input type="${type[3]}" placeholder="Ввод..." onfocus="AuthSelect.onfocus(this.id)" onblur="AuthSelect.onblur(this.id)" autocomplete="off" spellcheck="off" id="settings-${id}">
+                <img src="libs/svgs/auth/${type[1]}.svg">
+            </div>
+        </div>`;
+        parent.innerHTML += input;
+    }
+
+    static onfocus(id) {
+        document.getElementById(`${id}-input-block`).style.opacity = 1;
+    }
+
+    static onblur(id) {
+        document.getElementById(`${id}-input-block`).style.opacity = 0.3;
+    }
+
+    static settingsButton(type, container) {
+        var values = [];
+        container.querySelector('.settings-input-wrapper').querySelectorAll('input').forEach(i => values.push(i.value));
+        mp.trigger('Auth::SettingsNext', type, ...values);
+    }
 }
