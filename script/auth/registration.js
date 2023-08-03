@@ -7,12 +7,35 @@ var AuthReg = class Registration {
     static rules = document.querySelector('.rules-text');
     static ready;
 
+    static switchStep(step) {
+        if (step == 0) {
+            document.querySelector('.registration-block').style = 'display: block';
+            document.querySelector('#registration-complete').style = 'display: none';
+        } else { 
+            document.querySelector('.registration-block').style = 'display: none';
+            document.querySelector('#registration-complete').style = 'display: block';
+        }
+    }
+
+
     static fillPanel(server, rsName) {
+        this.switchStep(0);
         document.getElementById('reg-logo').src = `libs/img/logotypes/${server}.png`;
         this.reg_btn.style.pointerEvents = 'none';
         this.reg_btn.style.opacity = 0.5;
         document.getElementById("rg-hello").innerHTML = `<span>Добро пожаловать, ${rsName}!</span><br><span>Зарегистрируйтесь</span>`;
         this.rules.innerHTML = rules_text;
+    }
+
+    static showRegComplete(server, login, email) {
+        this.switchStep(1);
+        document.getElementById('registration-logotype').innerHTML = /*html*/ `<img src="libs/img/logotypes/${server}.png">`;
+        document.getElementById('login-output').innerText = login;
+        document.getElementById('email-output').innerText = email;
+    }
+
+    static regComplete(state) {
+        mp.trigger('Auth::RegistrationComplete', state);
     }
 
     static showTooltip(id, status) {

@@ -145,26 +145,3 @@
     background-image: linear-gradient(264.65deg, rgba(63, 63, 63, 0.5) 12.34%, rgba(44, 44, 44, 0.5) 53.29%, rgba(63, 63, 63, 0.5) 96.87%);
     transform: rotate(-90deg);
 }
-
-/*login-block*/
-.login-block {
-    width: 480px;
-    height: 460px;
-    position: absolute;
-    left: calc(50% - 240px);
-    top: calc(50% - 230px);
-    background: linear-gradient(268.24deg, #222222 0.37%, #292929 53.3%, #222222 100%);
-    border-radius: 11px;
-}
-
-.forget {
-    font-family: 'Montserrat';
-    font-style: normal;
-    font-weight: 300;
-    font-size: 14px;
-    line-height: 17px;
-    color: #858585;
-    position: absolute;
-    left: 35px;
-    bottom: 128px;
-}

@@ -231,9 +231,11 @@ var MG = class MiniGames {
             lock.style.setProperty('transform', `rotate(${rotate_angle}deg)`)
 
             var unlock_time = setTimeout(() => {
-                if (MG.LP.need_deg + MG.LP.max_deviation > MG.LP.cur_angle && MG.LP.need_deg - MG.LP.max_deviation < MG.LP.cur_angle) MG.LP.lockRequest(true);
-                document.removeEventListener('mouseup', up);
-                document.removeEventListener('mousedown', MG.LP.tryUnlock);
+                if (MG.LP.need_deg + MG.LP.max_deviation > MG.LP.cur_angle && MG.LP.need_deg - MG.LP.max_deviation < MG.LP.cur_angle) {
+                    MG.LP.lockRequest(true);
+                    document.removeEventListener('mouseup', up);
+                    document.removeEventListener('mousedown', MG.LP.tryUnlock);
+                }
             }, 1500);
 
             MG.LP.curUpFunc = up;

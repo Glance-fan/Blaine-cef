@@ -4,7 +4,7 @@ var clHeight, clWidth;
 
 var scripts = {
     /*auth*/
-    login: ['script/auth/login.js', 'style/auth/auth.css'],
+    login: ['script/auth/login.js', 'style/auth/auth.css', 'style/auth/login.css'],
     reg: ['libs/rules-text.js', 'script/auth/registration.js', 'style/auth/auth.css', 'style/auth/registration.css'],
     char_selection: ['script/auth/char-selection.js', 'style/auth/auth.css', 'style/auth/char-selection.css'],
     start_place: ['libs/svgs/start-place.js', 'script/auth/start-place.js', 'style/auth/start-place.css'],

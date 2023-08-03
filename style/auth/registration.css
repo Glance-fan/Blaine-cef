@@ -116,3 +116,63 @@
     font-size: 12px;
     margin: 0;
 }
+
+
+#registration-complete {
+    width: 410px;
+    height: 425px;
+    position: absolute;
+    left: calc(50% - 240px);
+    top: calc(50% - 230px);
+    background: linear-gradient(268.24deg, #222222 0.37%, #292929 53.3%, #222222 100%);
+    border-radius: 11px;
+    padding: 10px 35px 25px;
+    display: none;
+    color: white;
+}
+
+#registration-complete-text-1,
+#registration-complete-text-2 {
+    text-align: center;
+    font-weight: 500;
+    line-height: 24px;
+    font-size: 15px;
+}
+
+#registration-complete-text-1 {
+    margin: 15px 0 20px;
+}
+
+#registration-complete-text-3 {
+    color: #858585;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 300;
+}
+
+#registration-complete-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 40px 0;
+}
+
+#registration-complete-buttons button {
+    font-weight: 600;
+    font-size: 18px;
+    border-radius: 4px;
+    width: 150px;
+    height: 50px;
+}
+
+#registration-logotype {
+    text-align: center;
+    height: 65px;
+    padding-bottom: 15px;
+}
+
+#login-output,
+#email-output {
+    font-weight: 600;
+    font-size: 15px;
+}
